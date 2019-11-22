@@ -18,10 +18,8 @@ class CreateAttendances extends Migration
             $table->unsignedBigInteger('users_id');
             $table->date('date');
             $table->string('status');
-            $table->unsignedBigInteger('status_id');
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->integer('status_id')->nullable();
             $table->timestamps();
-
         });
     }
 

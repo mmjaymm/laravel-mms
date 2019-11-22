@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use App\Hris;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -32,35 +33,46 @@ class AttendanceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  $request->dt_start_date
-     * @param  $request->dt_end_date
      * @param  $request->slc_section
      * @return response TRUE/FALSE
      */
     public function store(Request $request)
     {
-        $attendances = new Attendance;
+        $validatedData = $request->validate([
+            'txt_start_date' => 'required|date_format:Y/m/d',
+            'slc_section' => 'required',
+        ]);
 
-        $where = (object) array(
-            'start_date' => date("Y-m-d", strtotime($request->dt_start_date)),
-            'end_date' => date("Y-m-d", strtotime($request->dt_start_date)),
-            'section' => $request->slc_section
-        );
+        // $attendances = new Attendance;
 
-        $hris_attendances = $this->get_attendances($where);
-        $attendances_data = array();
+        // $where = (object) array(
+        //     'start_date' => date("Y-m-d", strtotime($request->txt_start_date)),
+        //     'end_date' => date("Y-m-d", strtotime($request->txt_start_date)),
+        //     'section' => $request->slc_section
+        // );
 
-        foreach ($hris_attendances as $key => $employee) {
-            $attendance_status = ($employee->emp_pms_id === null)? 'ABSENT' : 'PRESENT';
+        // $hris_attendances = $this->get_attendances($where);
+        // $attendances_data = array();
 
-            array_push($attendances_data, [
-                'users_id' => $employee->emp_pms_id,
-                'date' => date("Y/m/d", strtotime($employee->WORKDATE)),
-                'status' => $attendance_status,
-            ]);
-        }
-        
-        // $result = $attendances->insert_data($attendances_data);
-        return response()->json($attendances_data);
+        // if(count($hris_attendances) > 0)
+        // {
+        //     foreach ($hris_attendances as $key => $employee) {
+        //         $attendance_status = ($employee->WORKDATE === null)? 'ABSENT' : 'PRESENT';
+
+        //         array_push($attendances_data, [
+        //             'users_id' => $employee->emp_pms_id,
+        //             'date' => date("Y-m-d", strtotime($request->dt_start_date)),
+        //             'status' => $attendance_status,
+        //             'created_at' => Carbon::now(),
+        //             'updated_at'=> Carbon::now(),
+        //         ]);
+        //     }
+            
+        //     $result = $attendances->insert_data($attendances_data);
+        // }
+
+
+        return response()->json($result);
     }
 
     /**
