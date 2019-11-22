@@ -31,9 +31,9 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  $request->start_date
-     * @param  $request->end_date
-     * @param  $request->section
+     * @param  $request->dt_start_date
+     * @param  $request->dt_end_date
+     * @param  $request->slc_section
      * @return response TRUE/FALSE
      */
     public function store(Request $request)
@@ -41,9 +41,9 @@ class AttendanceController extends Controller
         $attendances = new Attendance;
 
         $where = (object) array(
-            'start_date' => date("Y-m-d", strtotime($request->start_date)),
-            'end_date' => date("Y-m-d", strtotime($request->end_date)),
-            'section' => $request->section
+            'start_date' => date("Y-m-d", strtotime($request->dt_start_date)),
+            'end_date' => date("Y-m-d", strtotime($request->dt_start_date)),
+            'section' => $request->slc_section
         );
 
         $hris_attendances = $this->get_attendances($where);
@@ -59,8 +59,8 @@ class AttendanceController extends Controller
             ]);
         }
         
-        $result = $attendances->insert_data($attendances_data);
-        return response()->json($result);
+        // $result = $attendances->insert_data($attendances_data);
+        return response()->json($attendances_data);
     }
 
     /**
