@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
+
 use App\Hris;
 use App\User;
 
@@ -45,11 +47,13 @@ class CreateUsersTable extends Migration
                 'employee_number' => $user->emp_pms_id,
                 'email' => "{$first_name}.{$last_name}@ph.fujitsu.com",
                 'password' => Hash::make('fp'.$user->emp_pms_id),
-                'roles_id' => 1
+                'roles_id' => 1,
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now(),
             ]);
         }
-
-        DB::table('users')->insert($users);
+        
+        User::insert($users);
     }
 
     /**
