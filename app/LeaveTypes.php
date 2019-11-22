@@ -21,6 +21,14 @@ class LeaveTypes extends Model
         return $leave_types;
     }
 
+    public function retrieve_one($id)
+    {
+        return LeaveTypes::where('id',$id)->first();
+
+    }
+
+    
+
   
 
 }
