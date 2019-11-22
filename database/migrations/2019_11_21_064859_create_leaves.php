@@ -26,6 +26,8 @@ class CreateLeaves extends Migration
             $table->dateTime('reviewed_datetime');
             $table->date('date_filed');
             $table->string('remarks');
+            $table->timestamps();
+
         });
     }
 

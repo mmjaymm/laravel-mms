@@ -18,6 +18,8 @@ class CreateToDoReasons extends Migration
             $table->unsignedBigInteger('to_dos_id');
             $table->string('reason');
             $table->foreign('to_dos_id')->references('id')->on('to_dos');
+            $table->timestamps();
+
         });
     }
 
