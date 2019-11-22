@@ -20,6 +20,8 @@ class CreateLeaveCredits extends Migration
             $table->integer('credits');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 

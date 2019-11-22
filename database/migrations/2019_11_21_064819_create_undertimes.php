@@ -15,8 +15,8 @@ class CreateUndertimes extends Migration
     {
         Schema::create('undertimes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
             $table->string('reason');
+            $table->timestamps();
         });
     }
 

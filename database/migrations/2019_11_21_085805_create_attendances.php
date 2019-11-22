@@ -20,6 +20,8 @@ class CreateAttendances extends Migration
             $table->string('status');
             $table->unsignedBigInteger('status_id');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 

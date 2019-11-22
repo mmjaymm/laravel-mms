@@ -16,8 +16,10 @@ class CreateSystems extends Migration
         Schema::create('systems', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('systems_id');
-            $table->string('module_name');
+            $table->string('system_name');
             $table->foreign('systems_id')->references('id')->on('systems');
+            $table->timestamps();
+
         });
     }
 

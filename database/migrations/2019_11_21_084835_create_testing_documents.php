@@ -23,6 +23,8 @@ class CreateTestingDocuments extends Migration
             $table->string('status');
             $table->string('type');
             $table->foreign('systems_id')->references('id')->on('systems');
+            $table->timestamps();
+
         });
     }
 

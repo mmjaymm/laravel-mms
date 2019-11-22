@@ -19,6 +19,8 @@ class CreateUserShuttles extends Migration
             $table->foreign('users_id')->references('id')->on('users');
             $table->unsignedBigInteger('shuttle_location_id');
             $table->foreign('shuttle_location_id')->references('id')->on('shuttle_locations');
+            $table->timestamps();
+
         });
     }
 
