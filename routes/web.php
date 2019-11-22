@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('attendances', 'AttendanceController@show');
+Route::get('attendances/insert', 'AttendanceController@store');
