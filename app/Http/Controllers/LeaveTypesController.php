@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\LeaveTypes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LeaveTypesController extends Controller
 {
@@ -24,9 +25,25 @@ class LeaveTypesController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
+
+        $validator = Validator::make($request->all(),[
+            'leave_type' => 'required',
+            'leave_type_code' => 'required',
+        ]);
+            
+        
+
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_types = new LeaveTypes();
+            return $leave_types->insert_leave_type($data);  
+        }
        
-        $leave_types = new LeaveTypes();
-        return $leave_types->insert_leave_type($data);   
+ 
     }
 
 
