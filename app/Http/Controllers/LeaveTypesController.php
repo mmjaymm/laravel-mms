@@ -10,8 +10,10 @@ class LeaveTypesController extends Controller
 
     public function index()
     {
-        // 
-        return csrf_token();
+        // return csrf_token();
+        $leave_types = new LeaveTypes();
+        return $leave_types->retrieve_all(); 
+
     }
 
     public function create()

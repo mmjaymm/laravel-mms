@@ -27,6 +27,11 @@ class LeaveTypes extends Model
 
     }
 
+    public function retrieve_all()
+    {
+        return LeaveTypes::where('is_active',1)->get();
+    }
+
     
 
   
