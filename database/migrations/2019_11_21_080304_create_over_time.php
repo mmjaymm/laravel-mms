@@ -27,6 +27,8 @@ class CreateOverTime extends Migration
             $table->integer('reviewer_4');
             $table->string('remarks');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
 
         });
     }

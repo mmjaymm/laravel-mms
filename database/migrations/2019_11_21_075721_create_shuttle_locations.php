@@ -16,6 +16,8 @@ class CreateShuttleLocations extends Migration
         Schema::create('shuttle_locations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('shuttle_location');
+            $table->timestamps();
+
         });
     }
 

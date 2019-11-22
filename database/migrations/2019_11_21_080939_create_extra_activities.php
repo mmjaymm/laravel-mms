@@ -20,6 +20,8 @@ class CreateExtraActivities extends Migration
             $table->dateTime('datetime_end');
             $table->longText('description');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 

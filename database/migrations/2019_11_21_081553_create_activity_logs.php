@@ -21,6 +21,8 @@ class CreateActivityLogs extends Migration
             $table->longText('description');
             $table->integer('is_cancelled');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 

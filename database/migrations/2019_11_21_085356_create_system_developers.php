@@ -20,6 +20,8 @@ class CreateSystemDevelopers extends Migration
             $table->string('users_role');
             $table->foreign('users_id')->references('id')->on('users');
             $table->foreign('systems_id')->references('id')->on('systems');
+            $table->timestamps();
+
         });
     }
 
