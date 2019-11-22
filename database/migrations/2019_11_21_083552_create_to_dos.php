@@ -26,6 +26,8 @@ class CreateToDos extends Migration
             $table->unsignedBigInteger('users_id');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+
             
         });
     }

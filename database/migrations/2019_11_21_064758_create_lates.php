@@ -17,6 +17,8 @@ class CreateLates extends Migration
             $table->bigIncrements('id');
             $table->dateTime('datetime_in');
             $table->string('reason');
+            $table->timestamps();
+
         });
     }
 

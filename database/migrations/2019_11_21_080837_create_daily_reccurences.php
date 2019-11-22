@@ -21,6 +21,8 @@ class CreateDailyReccurences extends Migration
             $table->time('time_end');
             $table->integer('is_active');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 

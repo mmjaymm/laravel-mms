@@ -20,6 +20,8 @@ class CreateTestingContents extends Migration
             $table->string('incedent_number');
             $table->unsignedBigInteger('testing_docs_id');
             $table->foreign('testing_docs_id')->references('id')->on('testing_documents');
+            $table->timestamps();
+
         });
     }
 

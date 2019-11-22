@@ -21,6 +21,8 @@ class CreateSystemTestingResults extends Migration
             $table->unsignedBigInteger('users_id');
             $table->foreign('testing_contents_id')->references('id')->on('testing_contents');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 

@@ -17,6 +17,8 @@ class CreateRoles extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('level');
+            $table->timestamps();
+
         });
 
         Role::insert(['level' => 'USER']);

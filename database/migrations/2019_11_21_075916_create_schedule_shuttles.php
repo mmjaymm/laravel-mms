@@ -22,6 +22,8 @@ class CreateScheduleShuttles extends Migration
             $table->unsignedBigInteger('shuttle_location_id');
             $table->foreign('shuttle_location_id')->references('id')->on('shuttle_locations');
             $table->string('control_number');
+            $table->timestamps();
+
         });
     }
 

@@ -22,6 +22,8 @@ class CreateWeeklyReccurences extends Migration
             $table->string('reccurence_day');
             $table->integer('is_active');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->timestamps();
+
         });
     }
 
