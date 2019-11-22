@@ -22,6 +22,8 @@ class CreatePhases extends Migration
             $table->date('date_actual_start');
             $table->date('date_actual_end');
             $table->foreign('systems_id')->references('id')->on('systems');
+            $table->timestamps();
+
         });
     }
 
