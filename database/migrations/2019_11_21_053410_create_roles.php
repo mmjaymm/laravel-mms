@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Role;
 
 class CreateRoles extends Migration
 {
@@ -17,6 +18,8 @@ class CreateRoles extends Migration
             $table->bigIncrements('id');
             $table->string('level');
         });
+
+        Role::insert(['level' => 'USER']);
     }
 
     /**
