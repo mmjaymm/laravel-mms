@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('leave-credits','LeaveCreditsController');
+Route::resource('leave-types','LeaveTypesController');
