@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
                 'employee_number' => $user->emp_pms_id,
                 'email' => "{$first_name}.{$last_name}@ph.fujitsu.com",
                 'password' => Hash::make('fp'.$user->emp_pms_id),
+                'roles_id' => 1
             ]);
         }
 
