@@ -73,6 +73,9 @@ class LeaveTypesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->except('_token','_method');
+        $leave_types = new LeaveTypes();
+        return $leave_types->update_leave_type($data,$id);
        
         
     }

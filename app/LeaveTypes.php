@@ -14,6 +14,13 @@ class LeaveTypes extends Model
         return LeaveTypes::create($data);
     }
 
+    public function update_leave_type($data,$id)
+    {
+        $leave_types = LeaveTypes::where('id',$id)
+                                ->update($data);
+        return $leave_types;
+    }
+
   
 
 }
