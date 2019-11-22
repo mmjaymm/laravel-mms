@@ -15,7 +15,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //
+        return csrf_token();
     }
 
     /**
@@ -31,15 +31,19 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  $request->start_date
+     * @param  $request->end_date
+     * @param  $request->section
+     * @return response TRUE/FALSE
      */
     public function store(Request $request)
     {
+        $attendances = new Attendance;
+
         $where = (object) array(
-            'start_date' => '2019-11-21',
-            'end_date' => '2019-11-21',
-            'section' => 'MANUFACTURING INFORMATION TECHNOLOGY'
+            'start_date' => date("Y-m-d", strtotime($request->start_date)),
+            'end_date' => date("Y-m-d", strtotime($request->end_date)),
+            'section' => $request->section
         );
 
         $hris_attendances = $this->get_attendances($where);
@@ -50,12 +54,13 @@ class AttendanceController extends Controller
 
             array_push($attendances_data, [
                 'users_id' => $employee->emp_pms_id,
-                'date' => $employee->WORKDATE,
+                'date' => date("Y/m/d", strtotime($employee->WORKDATE)),
                 'status' => $attendance_status,
             ]);
         }
         
-        return response()->json($attendances_data);
+        $result = $attendances->insert_data($attendances_data);
+        return response()->json($result);
     }
 
     /**

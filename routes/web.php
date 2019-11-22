@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('attendances', 'AttendanceController@show');
-Route::get('attendances/insert', 'AttendanceController@store');
+Route::get('attendances', 'AttendanceController@index');
+Route::post('attendances/insert', 'AttendanceController@store');
