@@ -27,8 +27,8 @@ class LeaveTypesController extends Controller
         $data = $request->except('_token');
 
         $validator = Validator::make($request->all(),[
-            'leave_type' => 'required',
-            'leave_type_code' => 'required',
+            'leave_type' => 'required|unique:leave_types',
+            'leave_type_code' => 'required|unique:leave_types',
         ]);
             
         
