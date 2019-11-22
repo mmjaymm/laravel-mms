@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Attendance;
+use App\Hris;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -35,7 +36,26 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $where = (object) array(
+            'start_date' => '2019-11-21',
+            'end_date' => '2019-11-21',
+            'section' => 'MANUFACTURING INFORMATION TECHNOLOGY'
+        );
+
+        $hris_attendances = $this->get_attendances($where);
+        $attendances_data = array();
+
+        foreach ($hris_attendances as $key => $employee) {
+            $attendance_status = ($employee->emp_pms_id === null)? 'ABSENT' : 'PRESENT';
+
+            array_push($attendances_data, [
+                'users_id' => $employee->emp_pms_id,
+                'date' => $employee->WORKDATE,
+                'status' => $attendance_status,
+            ]);
+        }
+        
+        return response()->json($attendances_data);
     }
 
     /**
@@ -46,7 +66,6 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-        //
     }
 
     /**
@@ -81,5 +100,13 @@ class AttendanceController extends Controller
     public function destroy(Attendance $attendance)
     {
         //
+    }
+
+    public function get_attendances($where) : array
+    {
+        $hris = new Hris;
+        $result = $hris->attendances($where);
+
+        return $result;
     }
 }
