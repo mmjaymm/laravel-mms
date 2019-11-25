@@ -14,4 +14,9 @@ class Attendance extends Model
     {
         return Attendance::insert($datas);
     }
+
+    public function update_data($id, $data)
+    {
+         return Attendance::where('id', $id)->update($data);
+    }
 }

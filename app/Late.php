@@ -9,9 +9,9 @@ class Late extends Model
 {
     protected $fillable = ['datetime_in', 'reason'];
 
-    public function insert_data($datas)
+    public function insert_data($data)
     {
-        return Late::create($data)->save();
+        return Late::create($data)->id;
     }
 
     public function update_data($id, $where)

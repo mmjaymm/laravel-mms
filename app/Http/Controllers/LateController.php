@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Late;
+use App\Attendance;
 use Illuminate\Http\Request;
 use App\Http\Requests\LatePost;
+use Illuminate\Support\Facades\DB;
 
 class LateController extends Controller
 {
@@ -22,7 +24,8 @@ class LateController extends Controller
     }
 
     public function store(LatePost $input_request, Late $lates)
-    {
+    {   
+        $attendances = new Attendance;
         $return = [];
 
         if ($input_request->validator->fails()) {
@@ -32,19 +35,29 @@ class LateController extends Controller
             return response()->json($return);
         }
 
+        DB::beginTransaction(); 
 
-        $result = $late->insert_data($this->datas($input_request));       
-        if($result)
-        {
+        try {
+            //insert late
+            $late_id = $lates->insert_data($this->datas($input_request));   
+            $attendance_data = [
+                'status_id' => $late_id,
+                'status' => 'LATE'
+            ];
+            //update status in attendance
+            $attendances->update_data($input_request->attendances_id, $attendance_data) ;
+            DB::commit();
+
             $return['result'] = TRUE;
             $return['messages'] = 'Inserted Successfully.';
-        }
-        else
-        {
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+
             $return['result'] = FALSE;
             $return['messages'] = 'Unable to Insert';
         }
         
-        return response()->json($result);
+        return response()->json($return);
     }
 }
