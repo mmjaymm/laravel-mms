@@ -78,7 +78,7 @@ class FailureController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $attendance_data = $request->except('_token');
+        $attendance_data = $request->except('_token','_method');
         $attendance_data = array(
             'attendance_date'              =>$request->attendance_date,
             'attendance_status'            =>$request->attendance_status
