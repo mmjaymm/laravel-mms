@@ -23,7 +23,7 @@ class LeaveCredits extends Model
 
     public function retrieve_all()
     {
-        return LeaveCredits::where('credits','>','0')->get();
+        return LeaveCredits::all();
     }
 
     public function retrieve_one($id)
