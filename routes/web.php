@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//failure login section
+Route::post('failure','FailureController@failure_insert');
+Route::get('failure-attendance','FailureController@failure_login_data');
+Route::put('update-attendance','FailureController@update_attendance');
+
+Route::get('token','FailureController@index');
