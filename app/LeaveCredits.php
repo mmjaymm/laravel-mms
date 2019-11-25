@@ -14,5 +14,12 @@ class LeaveCredits extends Model
         return LeaveCredits::create($data);
     }
 
+    public function update_leave_credits($data,$id)
+    {
+        $leave_credits = LeaveCredits::where('id',$id)
+                                    ->update($data);
+        return $leave_credits;
+    }
+
  
 }
