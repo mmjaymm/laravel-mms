@@ -7,13 +7,14 @@ use App\Attendance;
 use Illuminate\Http\Request;
 use App\Http\Requests\LatePost;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class LateController extends Controller
 {
     private function datas($data)
-    {
+    {   
         return [
-            'datetime_in' => date("Y-m-d H:m:s", strtotime($data->datetime_in)),
+            'datetime_in' => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
             'reason' => $data->reason
         ];
     }
@@ -23,6 +24,10 @@ class LateController extends Controller
         return csrf_token();
     }
 
+    /*
+    * return @array
+    * request data required [ id, datetime_in, reason, attendances_id]
+    */
     public function store(LatePost $input_request, Late $lates)
     {   
         $attendances = new Attendance;
@@ -61,6 +66,10 @@ class LateController extends Controller
         return response()->json($return);
     }
 
+    /*
+    * return @array
+    * request data required [ id]
+    */
     public function edit($id, Late $lates)
     {
         $late_data = $lates->edit_data($id);
@@ -77,6 +86,37 @@ class LateController extends Controller
             $return['data'] = [];
             $return['messages'] = 'No Data Found.';   
         }
+        
+        return response()->json($return);
+    }
+
+    /*
+    * return @array
+    * _method PUT
+    * request data required [ id, datetime_in, reason, attendances_id]
+    */
+    public function update($id, LatePost $input_request, Late $lates)
+    {
+        if ($input_request->validator->fails()) {
+            $return['result'] = FALSE;
+            $return['messages'] = $input_request->validator->errors();
+
+            return response()->json($return);
+        }
+
+        $update_result = $lates->update_data($id, $this->datas($input_request));
+
+        if($update_result)
+        {
+            $return['result'] = TRUE;
+            $return['messages'] = 'Updated Successfully';
+        }
+        else
+        {
+            $return['result'] = FALSE;
+            $return['messages'] = 'Unabled to Update.';   
+        }
+        
         return response()->json($return);
     }
 }

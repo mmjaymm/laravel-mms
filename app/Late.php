@@ -14,7 +14,7 @@ class Late extends Model
         return Late::create($data)->id;
     }
 
-    public function update_data($id, $where)
+    public function update_data($id, $data)
     {
         return Late::where('id', $id)->update($data);
     }
