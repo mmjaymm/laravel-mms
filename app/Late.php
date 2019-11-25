@@ -31,4 +31,9 @@ class Late extends Model
             ->where($where)
             ->get();
     }
+
+    public function attendance()
+    {
+        return $this->hasOne('App\Attendance','status_id');
+    }
 }

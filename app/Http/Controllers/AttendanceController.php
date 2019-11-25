@@ -21,7 +21,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        return csrf_token();
+        
     }
 
     /**
@@ -85,12 +85,31 @@ class AttendanceController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     * @param  Request input [start_date, end_date, section]
      * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance)
+    public function show(AttendancePost $input_request, Attendance $attendance)
     {
+        if ($input_request->validator->fails()) {
+            $return['result'] = FALSE;
+            $return['messages'] = $input_request->validator->errors();
+
+            return response()->json($return);
+        }
+
+        $attendances = new Attendance;
+        $hris = new Hris;
+
+        $where = (object) array(
+            'start_date' => date("Y-m-d", strtotime($input_request->start_date)),
+            'end_date' => date("Y-m-d", strtotime($input_request->start_date)),
+            'section' => $input_request->section
+        );
+
+        $hris_attendances = $hris->attendances($where);
+
+        return response()->json($hris_attendances);
     }
 
     /**
@@ -127,17 +146,19 @@ class AttendanceController extends Controller
         //
     }
 
-    public function get_attendances($where) : array
+    public function get_data(Attendance $attendance)
     {
-        $hris = new Hris;
-        $result = $hris->attendances($where);
+        $mit_attendances = $attendance->today();
 
-        return $result;
+        return $mit_attendances;
+        // dd($mit_attendances->late);
+        // return response()->json($mit_attendances);
     }
 
-    public function auto_mit_attendance()
+    public function today_mit()
     {
         $attendances = new Attendance;
+        $hris = new Hris;
 
         $where = (object) array(
             'start_date' => date("Y-m-d"),
@@ -145,7 +166,7 @@ class AttendanceController extends Controller
             'section' => "MANUFACTURING INFORMATION TECHNOLOGY"
         );
 
-        $hris_attendances = $this->get_attendances($where);
+        $hris_attendances = $hris->attendances($where);
         $attendances_data = array();
 
         if (count($hris_attendances) > 0) {
