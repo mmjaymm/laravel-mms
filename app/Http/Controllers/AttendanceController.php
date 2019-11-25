@@ -132,4 +132,42 @@ class AttendanceController extends Controller
 
         return $result;
     }
+
+    public function auto_mit_attendance()
+    {
+        $attendances = new Attendance;
+
+        $where = (object) array(
+            'start_date' => date("Y-m-d"),
+            'end_date' => date("Y-m-d"),
+            'section' => "MANUFACTURING INFORMATION TECHNOLOGY"
+        );
+
+        $hris_attendances = $this->get_attendances($where);
+        $attendances_data = array();
+
+        if (count($hris_attendances) > 0) {
+            foreach ($hris_attendances as $key => $employee) {
+                $attendance_status = ($employee->WORKDATE === null)? 'ABSENT' : 'PRESENT';
+
+                array_push($attendances_data, [
+                    'users_id' => $employee->emp_pms_id,
+                    'date' => date("Y-m-d"),
+                    'status' => $attendance_status,
+                    'created_at' => Carbon::now(),
+                    'updated_at'=> Carbon::now(),
+                ]);
+            }
+            
+            $result = $attendances->insert_data($attendances_data);
+
+            if ($result) {
+                return response()->json(['result' => true, 'message' => 'Attendance successfully inserted.']);
+            } else {
+                return response()->json(['result' => false, 'message' => 'Unable to insert the Attendance.']);
+            }
+        } else {
+            return response()->json(['result' => false, 'message' => 'Unable to get the Attendance.']);
+        }
+    }
 }

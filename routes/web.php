@@ -21,3 +21,5 @@ Route::resource('lates', 'LateController');
 Route::get('token', 'LateController@index');
 Route::get('attendances', 'AttendanceController@index');
 Route::post('attendances/insert', 'AttendanceController@store');
+
+Route::get('attendances/auto_mit_attendance', 'AttendanceController@auto_mit_attendance');
