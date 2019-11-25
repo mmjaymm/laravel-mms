@@ -19,12 +19,14 @@ class FailureController extends Controller
 
     public function failure_insert(Request $request)
     {
+
+       
         
         $rules = array(
-            'txt_datetime_in'       => 'required',
-            'txt_datetime_out'      => 'required',
-            'txt_reason'            => 'required',
-            'txt_date_filed'        => 'required'
+            'datetime_in'       => 'required',
+            'datetime_out'      => 'required',
+            'reason'            => 'required',
+            'date_filed'        => 'required'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -37,12 +39,14 @@ class FailureController extends Controller
         $failure_data = $request->except('_token');
         $failure_data = array(
             
-            'txt_datetime_in'       =>$request->txt_datetime_in,
-            'txt_datetime_out'      =>$request->txt_datetime_out,
-            'txt_reason'            =>$request->txt_reason,
-            'file_date_filed'       =>$request->txt_date_filed
+            'datetime_in'       =>$request->datetime_in,
+            'datetime_out'      =>$request->datetime_out,
+            'reason'            =>$request->reason,
+            'date_filed'        =>$request->date_filed
 
         );
+
+       
 
         $data = new Failure();
         return $data->insert_failure_login($failure_data);
@@ -63,8 +67,8 @@ class FailureController extends Controller
     {
 
         $rules = array(
-            'txt_date'              => 'required',
-            'txt_status'            => 'required',
+            'attendance_date'              => 'required',
+            'attendance_status'            => 'required',
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -76,8 +80,8 @@ class FailureController extends Controller
 
         $attendance_data = $request->except('_token');
         $attendance_data = array(
-            'txt_date'              =>$request->txt_date,
-            'txt_status'            =>$request->txt_status
+            'attendance_date'              =>$request->attendance_date,
+            'attendance_status'            =>$request->attendance_status
 
         );
 

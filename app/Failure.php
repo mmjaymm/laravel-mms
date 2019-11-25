@@ -17,13 +17,14 @@ class Failure extends Model
     public function insert_failure_login($failure_data)
     {
 
+
        return DB::connection('pgsql')
                     ->table('failures')
                     ->insert([
-                        'datetime_in'   => $failure_data('txt_datetime_in'),
-                        'datetime_out'  => $failure_data('txt_datetime_out'),
-                        'reason'        => $failure_data('txt_reason'),
-                        'date_filed'    => $failure_data('txt_date_filed')
+                        'datetime_in'   => $failure_data('datetime_in'),
+                        'datetime_out'  => $failure_data('datetime_out'),
+                        'reason'        => $failure_data('reason'),
+                        'date_filed'    => $failure_data('date_filed')
                     ]);        
     }
 
