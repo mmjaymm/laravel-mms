@@ -16,5 +16,6 @@ Route::get('/', function () {
 });
 
 Route::resource('lates', 'LateController');
-
 Route::get('token', 'LateController@index');
+Route::get('attendances', 'AttendanceController@index');
+Route::post('attendances/insert', 'AttendanceController@store');
