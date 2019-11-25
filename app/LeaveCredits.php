@@ -20,10 +20,18 @@ class LeaveCredits extends Model
                                     ->update($data);
         return $leave_credits;
     }
+
     public function retrieve_all()
     {
         return LeaveCredits::where('credits','>','0')->get();
     }
+
+    public function retrieve_one($id)
+    {
+        return LeaveCredits::where('id',$id)->first();
+    }
+
+
 
 
  

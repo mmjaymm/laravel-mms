@@ -48,9 +48,10 @@ class LeaveCreditsController extends Controller
         
     }
 
-    public function edit(LeaveCredits $leaveCredits)
+    public function edit($id)
     {
-        
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve_one($id);  
     }
 
  
