@@ -25,9 +25,20 @@ class LeaveCreditsController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
-       
-        $leave_credits = new LeaveCredits();
-        return $leave_credits->insert_leave_credits($data);   
+        $validator = Validator::make($request->all(),[
+            'leave_type_id' => 'required',
+            'credits' => 'required',
+            'users_id' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_credits = new LeaveCredits();
+            return $leave_credits->insert_leave_credits($data); 
+        } 
     }
 
 
