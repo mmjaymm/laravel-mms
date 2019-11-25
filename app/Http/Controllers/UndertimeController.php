@@ -11,25 +11,19 @@ use Validator;
 class UndertimeController extends Controller
 {
 
-    public function validate()
+    public function insert_undertime(Request $request)
     {
+
         $rules = array(
             'datetime_out'          => 'required',
             'undertime_reason'      => 'required'
         );
-
-        $error = Validator::make(request()->all(), $rules);
-        return $error;
-    }
-    
-    public function insert_undertime(Request $request)
-    {
         
-        $error_validate = $this->validate();
+        $error = Validator::make($request->all(), $rules);
 
-        if($error_validate->fails())
+        if($error->fails())
         {
-            return response()->json(['errors' => $error_validate->errors()->all()]);
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
         $undertime_data = $request->except('_token');
