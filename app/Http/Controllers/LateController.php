@@ -120,6 +120,10 @@ class LateController extends Controller
         return response()->json($return);
     }
 
+    /*
+    * return @array
+    * request data required [ id]
+    */
     public function destroy($id, Late $lates)
     {
         $delete_result = $lates->update_data($id, ['is_deleted' => 1]);
