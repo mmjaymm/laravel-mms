@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('home', function () {
+    return view('pages.home');
 });
+Route::resource('leave-credits','LeaveCreditsController');
+Route::resource('leave-types','LeaveTypesController');
 
 Route::resource('lates', 'LateController');
 Route::get('token', 'LateController@index');
