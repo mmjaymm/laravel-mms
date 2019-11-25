@@ -25,6 +25,7 @@ class LatePost extends FormRequest
     public function rules()
     {
         return [
+            'attendances_id' => 'required',
             'datetime_in' => 'required|date_format:Y/m/d H:i:s',
             'reason' => 'required',
         ];
@@ -33,6 +34,7 @@ class LatePost extends FormRequest
     public function messages()
     {
         return [
+            'attendances_id.required' => 'Attendance record is required!',
             'datetime_in.required' => 'Time in is required!',
             'datetime_in.date' => 'Please insert valid time in format!',
             'reason.required' => 'Reason is required!',
