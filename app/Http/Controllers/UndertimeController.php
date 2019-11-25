@@ -63,7 +63,7 @@ class UndertimeController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $undertime_data = $request->except('_token');
+        $undertime_data = $request->except('_token','_method');
         $undertime_data = array(
             'datetime_out'              =>$request->datetime_out,
             'undertime_reason'          =>$request->undertime_reason
