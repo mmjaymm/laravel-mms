@@ -21,10 +21,10 @@ class Failure extends Model
        return DB::connection('pgsql')
                     ->table('failures')
                     ->insert([
-                        'datetime_in'   => $failure_data('datetime_in'),
-                        'datetime_out'  => $failure_data('datetime_out'),
-                        'reason'        => $failure_data('reason'),
-                        'date_filed'    => $failure_data('date_filed')
+                        'datetime_in'   => $failure_data['datetime_in'],
+                        'datetime_out'  => $failure_data['datetime_out'],
+                        'reason'        => $failure_data['reason'],
+                        'date_filed'    => $failure_data['date_filed']
                     ]);        
     }
 
