@@ -51,11 +51,16 @@ class UndertimeController extends Controller
     public function update_undertime(Request $request, $id)
     {
 
-        $error_validate = $this->validate();
+        $rules = array(
+            'datetime_out'          => 'required',
+            'undertime_reason'      => 'required'
+        );
+        
+        $error = Validator::make($request->all(), $rules);
 
-        if($error_validate->fails())
+        if($error->fails())
         {
-            return response()->json(['errors' => $error_validate->errors()->all()]);
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
         $undertime_data = $request->except('_token');
