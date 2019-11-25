@@ -119,4 +119,22 @@ class LateController extends Controller
         
         return response()->json($return);
     }
+
+    public function destroy($id, Late $lates)
+    {
+        $delete_result = $lates->update_data($id, ['is_deleted' => 1]);
+
+        if($delete_result)
+        {
+            $return['result'] = TRUE;
+            $return['messages'] = 'Deleted Successfully';
+        }
+        else
+        {
+            $return['result'] = FALSE;
+            $return['messages'] = 'Unabled to Delete.';   
+        }
+        
+        return response()->json($return);
+    }
 }
