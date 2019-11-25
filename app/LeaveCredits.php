@@ -23,12 +23,14 @@ class LeaveCredits extends Model
 
     public function retrieve_all()
     {
-        return LeaveCredits::all();
+        return LeaveCredits::where('is_deleted','0')->get();
     }
 
     public function retrieve_one($id)
     {
-        return LeaveCredits::where('id',$id)->first();
+        return LeaveCredits::where('id',$id)
+                             ->where('is_deleted','0')
+                             ->first();
     }
 
 
