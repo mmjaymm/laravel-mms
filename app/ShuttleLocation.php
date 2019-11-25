@@ -28,13 +28,24 @@ class ShuttleLocation extends Model
 
     public function load_shuttle_location()
     {
-
+        return DB::connection('pgsql')
+                    ->table('shuttle_locations')
+                    ->distinct()
+                    ->get();
 
     }
 
-    public function update_shuttle_location()
+    public function update_shuttle_location($shuttle_data,$id)
     {
 
+        return DB::connection('pgsql')
+                    ->table('shuttle_locations')
+                    ->where('id',1)
+                    ->update([
+                    'shuttle_location'   =>$shuttle_data['shuttle_location'],
+                    'created_at'         =>Carbon::now(),   
+                    'updated_at'         =>Carbon::now()   
+                    ]);
 
     }
 }

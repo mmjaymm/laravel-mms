@@ -10,22 +10,28 @@ use Validator;
 
 class ShuttleLocationController extends Controller
 {
-    
-    public function add_shuttle_location(Request $request)
+
+
+    public function validate_input()
     {
-
-        return $request;
-
         $rules = array(
             'shuttle_location'  => 'required'
             
         );
 
-        $error = Validator::make($request->all(), $rules);
+        $error = Validator::make(request()->all(), $rules);
+        return $error;
+    }
+    
+    public function add_shuttle_location(Request $request)
+    {
 
-        if($error->fails())
+
+        $error_validate = $this->validate_input();
+
+        if($error_validate->fails())
         {
-            return response()->json(['errors' => $error->errors()->all()]);
+            return response()->json(['errors' => $error_validate->errors()->all()]);
         }
 
         $shuttle_data = array(
@@ -45,12 +51,31 @@ class ShuttleLocationController extends Controller
     public function show_shuttle_location()
     {
 
+        $shuttle_output = new ShuttleLocation();
+        return $shuttle_output->load_shuttle_location();
 
     }
 
-    public function edit_shuttle_location()
+    public function edit_shuttle_location(Request $request,$id)
     {
 
+        return $request;
+
+        $error_validate = $this->validate_input();
+
+        if($error_validate->fails())
+        {
+            return response()->json(['errors' => $error_validate->errors()->all()]);
+        }
+
+        $shuttle_data = array(
+            
+            'shuttle_location'   =>$request->shuttle_location
+        );
+
+        $shuttle_data = $request->except('_token','_method');
+        $data = new ShuttleLocation();
+        return $data->update_shuttle_location($shuttle_data,$id);
 
     }
 }
