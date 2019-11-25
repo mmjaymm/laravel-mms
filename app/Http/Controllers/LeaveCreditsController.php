@@ -12,7 +12,8 @@ class LeaveCreditsController extends Controller
   
     public function index()
     {
-        
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve_all();
     }
 
 
