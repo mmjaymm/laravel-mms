@@ -19,8 +19,8 @@ class Undertime extends Model
        return DB::connection('pgsql')
                     ->table('undertimes')
                     ->insert([
-                        'datetime_out'  => $undertime_data('datetime_out'),
-                        'reason'        => $undertime_data('undertime_reason')
+                        'datetime_out'  => $undertime_data['datetime_out'],
+                        'reason'        => $undertime_data['undertime_reason']
 
                     ]);        
     }
