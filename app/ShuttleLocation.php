@@ -42,9 +42,9 @@ class ShuttleLocation extends Model
                     ->table('shuttle_locations')
                     ->where('id',1)
                     ->update([
-                    'shuttle_location'   =>$shuttle_data['shuttle_location'],
-                    'created_at'         =>Carbon::now(),   
-                    'updated_at'         =>Carbon::now()   
+                        'shuttle_location'   =>$shuttle_data['shuttle_location'],
+                        'created_at'         =>Carbon::now(),   
+                        'updated_at'         =>Carbon::now()   
                     ]);
 
     }
