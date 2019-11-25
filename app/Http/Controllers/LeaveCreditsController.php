@@ -4,85 +4,80 @@ namespace App\Http\Controllers;
 
 use App\LeaveCredits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class LeaveCreditsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function index()
     {
-        //
+    
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve_all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+    
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
         $data = $request->except('_token');
-       
-        $leave_credits = new LeaveCredits();
-        return $leave_credits->insert_leave_credits($data);   
+        $validator = Validator::make($request->all(),[
+            'leave_type_id' => 'required',
+            'credits' => 'required',
+            'users_id' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_credits = new LeaveCredits();
+            return $leave_credits->insert_leave_credits($data); 
+        } 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\LeaveCredits  $leaveCredits
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(LeaveCredits $leaveCredits)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\LeaveCredits  $leaveCredits
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(LeaveCredits $leaveCredits)
+    public function edit($id)
     {
-        //
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve_one($id);  
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LeaveCredits  $leaveCredits
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, LeaveCredits $leaveCredits)
+ 
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token','_method');
+        $validator = Validator::make($request->all(),[
+            'leave_type_id' => 'required',
+            'credits' => 'required',
+            'users_id' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_credits = new LeaveCredits();
+            return $leave_credits->update_leave_credits($data,$id);  
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\LeaveCredits  $leaveCredits
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function destroy(LeaveCredits $leaveCredits)
     {
-        //
+    
     }
 }

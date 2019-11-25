@@ -11,7 +11,7 @@ class LeaveTypesController extends Controller
 
     public function index()
     {
-        // return csrf_token();
+        return csrf_token();
         $leave_types = new LeaveTypes();
         return $leave_types->retrieve_all(); 
 
@@ -60,9 +60,21 @@ class LeaveTypesController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $data = $request->except('_token','_method');
-        $leave_types = new LeaveTypes();
-        return $leave_types->update_leave_type($data,$id);  
+        $validator = Validator::make($request->all(),[
+            'leave_type' => 'required',
+            'leave_type_code' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_types = new LeaveTypes();
+             return $leave_types->update_leave_type($data,$id);  
+        }
     }
 
     public function destroy(LeaveTypes $leaveTypes)
