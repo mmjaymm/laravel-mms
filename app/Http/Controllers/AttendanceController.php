@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use App\Hris;
 use App\Http\Requests\AttendancePost;
+use App\Mail\Attendance as AttendanceEmail;
+use Mail;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -169,5 +171,13 @@ class AttendanceController extends Controller
         } else {
             return response()->json(['result' => false, 'message' => 'Unable to get the Attendance.']);
         }
+    }
+
+    public function email_sent()
+    {
+        $subject = "MIT ATTENDANCE";
+        $message = "Mag Email Ka Hayop ka wag kn mag error!";
+
+        Mail::to('markjay.mercado@ph.fujitsu.com')->send(new AttendanceEmail($subject, $message));
     }
 }

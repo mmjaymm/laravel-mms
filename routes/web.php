@@ -23,3 +23,4 @@ Route::get('attendances', 'AttendanceController@index');
 Route::post('attendances/insert', 'AttendanceController@store');
 
 Route::get('attendances/auto_mit_attendance', 'AttendanceController@auto_mit_attendance');
+Route::get('attendances/email_sent', 'AttendanceController@email_sent');
