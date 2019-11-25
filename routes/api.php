@@ -25,3 +25,6 @@ Route::put('update-attendance','FailureController@update_attendance');
 Route::post('undertime','UndertimeController@insert_undertime');
 Route::get('undertime-details','UndertimeController@get_undertime_data');
 
+//SHUTTLE SECTION
+Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
+

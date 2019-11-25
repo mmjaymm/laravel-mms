@@ -33,3 +33,7 @@ Route::get('token', 'LateController@index');
 Route::get('attendances', 'AttendanceController@index');
 Route::post('attendances/insert', 'AttendanceController@store');
 
+//shuttle sections
+Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
+
+
