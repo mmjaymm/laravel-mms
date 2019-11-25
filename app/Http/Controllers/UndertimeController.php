@@ -14,8 +14,8 @@ class UndertimeController extends Controller
     public function validate()
     {
         $rules = array(
-            'txt_datetime_out'      => 'required',
-            'txt_reason'            => 'required'
+            'datetime_out'          => 'required',
+            'undertime_reason'      => 'required'
         );
 
         $error = Validator::make(request()->all(), $rules);
@@ -35,8 +35,8 @@ class UndertimeController extends Controller
         $undertime_data = $request->except('_token');
         $undertime_data = array(
             
-            'txt_datetime_out'      =>$request->txt_datetime_out,
-            'txt_reason'            =>$request->txt_reason,
+            'datetime_out'          =>$request->datetime_out,
+            'undertime_reason'      =>$request->undertime_reason,
 
         );
 
@@ -66,8 +66,8 @@ class UndertimeController extends Controller
 
         $undertime_data = $request->except('_token');
         $undertime_data = array(
-            'txt_date'              =>$request->txt_date,
-            'txt_status'            =>$request->txt_status
+            'datetime_out'              =>$request->datetime_out,
+            'undertime_reason'          =>$request->undertime_reason
 
         );
 
