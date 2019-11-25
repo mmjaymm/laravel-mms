@@ -17,6 +17,7 @@ class CreateLates extends Migration
             $table->bigIncrements('id');
             $table->dateTime('datetime_in');
             $table->string('reason');
+            $table->integer('is_deleted')->default(0);
             $table->timestamps();
 
         });

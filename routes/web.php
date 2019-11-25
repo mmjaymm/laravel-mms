@@ -11,13 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('home', function () {
+    return view('pages.home');
 });
-
 //failure login section
 Route::post('failure','FailureController@failure_insert');
 Route::get('failure-attendance','FailureController@failure_login_data');
 Route::put('update-attendance','FailureController@update_attendance');
 
 Route::get('token','FailureController@index');
+
+Route::resource('leave-credits','LeaveCreditsController');
+Route::resource('leave-types','LeaveTypesController');
+
+Route::resource('lates', 'LateController');
+Route::get('token', 'LateController@index');
+Route::get('attendances', 'AttendanceController@index');
+Route::post('attendances/insert', 'AttendanceController@store');
+
