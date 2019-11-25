@@ -53,9 +53,23 @@ class LeaveCreditsController extends Controller
     }
 
  
-    public function update(Request $request, LeaveCredits $leaveCredits)
+    public function update(Request $request, $id)
     {
-        
+        $data = $request->except('_token','_method');
+        $validator = Validator::make($request->all(),[
+            'leave_type_id' => 'required',
+            'credits' => 'required',
+            'users_id' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_credits = new LeaveCredits();
+            return $leave_credits->update_leave_credits($data,$id);  
+        }
     }
 
  
