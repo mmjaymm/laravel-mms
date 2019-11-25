@@ -19,6 +19,11 @@ class Late extends Model
         return Late::where('id', $id)->update($data);
     }
 
+    public function edit_data($id)
+    {
+        return Late::where('id', $id)->get();
+    }
+
     public function select_data()
     {
         return DB::table('lates')

@@ -13,7 +13,7 @@ class LateController extends Controller
     private function datas($data)
     {
         return [
-            'datetime_in' => $data->datetime_in,
+            'datetime_in' => date("Y-m-d H:m:s", strtotime($data->datetime_in)),
             'reason' => $data->reason
         ];
     }
@@ -58,6 +58,25 @@ class LateController extends Controller
             $return['messages'] = 'Unable to Insert';
         }
         
+        return response()->json($return);
+    }
+
+    public function edit($id, Late $lates)
+    {
+        $late_data = $lates->edit_data($id);
+
+        if(count($late_data) > 0)
+        {
+            $return['result'] = TRUE;
+            $return['data'] = $late_data[0];
+            $return['messages'] = 'Data Found.';
+        }
+        else
+        {
+            $return['result'] = FALSE;
+            $return['data'] = [];
+            $return['messages'] = 'No Data Found.';   
+        }
         return response()->json($return);
     }
 }
