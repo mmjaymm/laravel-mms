@@ -41,5 +41,9 @@ Route::post('attendances/insert', 'AttendanceController@store');
 Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
 
-//overtime section
+//shuttle sections
+Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
+Route::get('all-location','ShuttleLocationController@show_shuttle_location');
+Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
+
 Route::resource('overtime', 'OvertimeController');
