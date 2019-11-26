@@ -103,7 +103,7 @@ class AttendanceController extends Controller
 
         $where = (object) array(
             'start_date' => date("Y-m-d", strtotime($input_request->start_date)),
-            'end_date' => date("Y-m-d", strtotime($input_request->start_date)),
+            'end_date' => date("Y-m-d", strtotime($input_request->end_date)),
             'section' => $input_request->section
         );
 
@@ -144,15 +144,6 @@ class AttendanceController extends Controller
     public function destroy(Attendance $attendance)
     {
         //
-    }
-
-    public function get_data(Attendance $attendance)
-    {
-        $mit_attendances = $attendance->today();
-
-        return $mit_attendances;
-        // dd($mit_attendances->late);
-        // return response()->json($mit_attendances);
     }
 
     public function today_mit()
