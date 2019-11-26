@@ -15,8 +15,8 @@ class UndertimeController extends Controller
     {
 
         $rules = array(
-            'datetime_out'          => 'required',
-            'undertime_reason'      => 'required'
+            'datetime_out'      => 'required',
+            'reason'            => 'required'
         );
         
         $error = Validator::make($request->all(), $rules);
@@ -30,7 +30,7 @@ class UndertimeController extends Controller
         $undertime_data = array(
             
             'datetime_out'          =>$request->datetime_out,
-            'undertime_reason'      =>$request->undertime_reason,
+            'undertime_reason'      =>$request->reason
 
         );
 

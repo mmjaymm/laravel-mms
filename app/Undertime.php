@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Undertime extends Model
 {
 
-    protected $fillable = ['created_at','reason'];
+    protected $fillable = ['datetime_out','reason'];
     protected $guarded  = ['id'];
 
     public function insert_undertime_data($undertime_data)
