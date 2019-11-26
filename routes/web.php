@@ -30,6 +30,7 @@ Route::get('token','FailureController@index');
 
 Route::resource('leave-credits','LeaveCreditsController');
 Route::resource('leave-types','LeaveTypesController');
+<<<<<<< HEAD
 
 //late section
 Route::resource('lates', 'LateController');
@@ -47,3 +48,8 @@ Route::get('all-location','ShuttleLocationController@show_shuttle_location');
 Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
 
 Route::resource('overtime', 'OvertimeController');
+=======
+Route::resource('leave','LeaveController');
+
+
+>>>>>>> leave_insert
