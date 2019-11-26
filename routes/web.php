@@ -20,3 +20,6 @@ Route::get('home', function () {
 });
 Route::resource('leave-credits','LeaveCreditsController');
 Route::resource('leave-types','LeaveTypesController');
+Route::resource('leave','LeaveController');
+
+
