@@ -19,7 +19,10 @@ Route::resource('leave-types','LeaveTypesController');
 
 Route::resource('lates', 'LateController');
 Route::get('token', 'LateController@index');
-Route::get('attendances', 'AttendanceController@index');
+
+Route::get('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
+Route::get('attendances/today_mit', 'AttendanceController@today_mit');
+Route::get('attendances/get_data', 'AttendanceController@get_data');
 
 Route::resource('overtime', 'OvertimeController');

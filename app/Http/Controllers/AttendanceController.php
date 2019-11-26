@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use App\Hris;
 use App\Http\Requests\AttendancePost;
+use App\Mail\Attendance as AttendanceEmail;
+use Mail;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,7 +21,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        return csrf_token();
+        
     }
 
     /**
@@ -83,12 +85,31 @@ class AttendanceController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     * @param  Request input [start_date, end_date, section]
      * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance)
+    public function show(AttendancePost $input_request, Attendance $attendance)
     {
+        if ($input_request->validator->fails()) {
+            $return['result'] = FALSE;
+            $return['messages'] = $input_request->validator->errors();
+
+            return response()->json($return);
+        }
+
+        $attendances = new Attendance;
+        $hris = new Hris;
+
+        $where = (object) array(
+            'start_date' => date("Y-m-d", strtotime($input_request->start_date)),
+            'end_date' => date("Y-m-d", strtotime($input_request->start_date)),
+            'section' => $input_request->section
+        );
+
+        $hris_attendances = $hris->attendances($where);
+
+        return response()->json($hris_attendances);
     }
 
     /**
@@ -125,11 +146,59 @@ class AttendanceController extends Controller
         //
     }
 
-    public function get_attendances($where) : array
+    public function get_data(Attendance $attendance)
     {
-        $hris = new Hris;
-        $result = $hris->attendances($where);
+        $mit_attendances = $attendance->today();
 
-        return $result;
+        return $mit_attendances;
+        // dd($mit_attendances->late);
+        // return response()->json($mit_attendances);
+    }
+
+    public function today_mit()
+    {
+        $attendances = new Attendance;
+        $hris = new Hris;
+
+        $where = (object) array(
+            'start_date' => date("Y-m-d"),
+            'end_date' => date("Y-m-d"),
+            'section' => "MANUFACTURING INFORMATION TECHNOLOGY"
+        );
+
+        $hris_attendances = $hris->attendances($where);
+        $attendances_data = array();
+
+        if (count($hris_attendances) > 0) {
+            foreach ($hris_attendances as $key => $employee) {
+                $attendance_status = ($employee->WORKDATE === null)? 'ABSENT' : 'PRESENT';
+
+                array_push($attendances_data, [
+                    'users_id' => $employee->emp_pms_id,
+                    'date' => date("Y-m-d"),
+                    'status' => $attendance_status,
+                    'created_at' => Carbon::now(),
+                    'updated_at'=> Carbon::now(),
+                ]);
+            }
+            
+            $result = $attendances->insert_data($attendances_data);
+
+            if ($result) {
+                return response()->json(['result' => true, 'message' => 'Attendance successfully inserted.']);
+            } else {
+                return response()->json(['result' => false, 'message' => 'Unable to insert the Attendance.']);
+            }
+        } else {
+            return response()->json(['result' => false, 'message' => 'Unable to get the Attendance.']);
+        }
+    }
+
+    public function email_sent()
+    {
+        $subject = "MIT ATTENDANCE";
+        $message = "Mag Email Ka Hayop ka wag kn mag error!";
+
+        Mail::to('markjay.mercado@ph.fujitsu.com')->send(new AttendanceEmail($subject, $message));
     }
 }
