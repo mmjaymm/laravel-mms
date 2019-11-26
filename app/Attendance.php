@@ -40,8 +40,22 @@ class Attendance extends Model
         // return $this->belongsTo('App\Late', 'status_id');
     }
 
-    public function select_data($select, $where)
+    public function select_with_users_data($select, $where)
     {
-        return Attendance::select($select)->where($where)->get();
+        return DB::connection('pgsql')->table('attendances as a')
+            ->leftJoin('users as b', 'b.employee_number', '=', 'a.users_id')
+            ->select($select)
+            ->where($where)
+            ->get();
+    }
+
+    public function retrieve_users_present_leave($user_ids)
+    {
+        return DB::table('leaves')->whereIn('id', $user_ids)->select('*')->get();
+    }
+
+    public function cancelled_leave($leave_ids, $updated_data)
+    {
+        return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
     }
 }
