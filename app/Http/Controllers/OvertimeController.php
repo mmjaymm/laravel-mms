@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Overtime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
-
+use App\Mail\OtAuthorization;
 
 class OvertimeController extends Controller
 {   
@@ -42,9 +42,16 @@ class OvertimeController extends Controller
         $insert_data = $this->datas($input_request);
         $insert_data = array_merge($insert_data, $this->ot_status($input_request));
 
-        $insert_result = $overtime->insert_data($insert_data); 
+        $insert_id = $overtime->insert_data($insert_data); 
 
-        if($insert_result)
+        if($insert_data['ot_status'] === "LATE")
+        {
+            //change email send to
+            $email_to = "markjay.mercado@ph.fujitsu.com";
+            $this->email_authorization($email_to, $insert_id);
+        }
+
+        if($insert_id > 0)
         {
             $return['result'] = TRUE;
             $return['messages'] = 'Inserted Successfully';
@@ -75,5 +82,10 @@ class OvertimeController extends Controller
             'ot_status' => $ot_status,
             'datetime_in' => $datetime_in
         ];
+    }
+    
+    private function email_authorization($email_to, $id)
+    {
+        Mail::to($email_to)->send(new OtAuthorization($id));
     }
 }

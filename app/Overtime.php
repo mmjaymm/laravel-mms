@@ -13,7 +13,7 @@ class Overtime extends Model
     ];
 
     public function insert_data($data)
-    {
-        return Overtime::create($data)->save();
+    {   
+        return Overtime::create($data)->id;
     }
 }
