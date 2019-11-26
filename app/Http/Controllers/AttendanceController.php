@@ -21,19 +21,46 @@ class AttendanceController extends Controller
      */
     public function index()
     {
+        $attendances = new Attendance;
+        $hris = new Hris;
         
-    }
+        $where = (object) array(
+            'start_date' => date("Y-m-d"),
+            'end_date' => date("Y-m-d"),
+            'section' => "MANUFACTURING INFORMATION TECHNOLOGY"
+        );
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        $hris_attendances = $hris->attendances($where);
+        $mms_attendances = $attendances->today(date("Y-m-d"));
+        $result = array();
 
+        foreach ($mms_attendances as $mss_key => $mss_value) 
+        {
+            
+            foreach ($hris_attendances as $hris_key => $hris_value) 
+            {
+                if($mss_value->users_id == $hris_value->emp_pms_id)
+                {
+                    $hris_data = [
+                        'last_name' => $hris_value->emp_last_name,
+                        'first_name' => $hris_value->emp_first_name,
+                        'middle_name' => $hris_value->emp_middle_name,
+                        'emp_pms_id' => $hris_value->emp_pms_id,
+                        'position' => $hris_value->position,
+                        'sh_destination' => $hris_value->sh_destination,
+                        'employment_type' => $hris_value->employment_type,
+                        'time_in' => $hris_value->TIME_IN,
+                        'time_out' => $hris_value->TIME_OUT,
+                        'work_date' => $hris_value->WORKDATE,
+                    ];
+                    array_push($result, array_merge((array) $mss_value, $hris_data));
+                }
+            }
+        }
+
+        return response()->json($result);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -48,14 +75,16 @@ class AttendanceController extends Controller
         }
 
         $attendances = new Attendance;
-
+        $hris = new Hris;
+        
         $where = (object) array(
             'start_date' => date("Y-m-d", strtotime($input_request->start_date)),
             'end_date' => date("Y-m-d", strtotime($input_request->start_date)),
             'section' => $input_request->section
         );
 
-        $hris_attendances = $this->get_attendances($where);
+        
+        $hris_attendances = $hris->attendances($where);
         $attendances_data = array();
 
         if (count($hris_attendances) > 0) {
@@ -112,41 +141,7 @@ class AttendanceController extends Controller
         return response()->json($hris_attendances);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Attendance $attendance)
-    {
-        //
-    }
-
-    public function today_mit()
+    public function store_today_mit()
     {
         $attendances = new Attendance;
         $hris = new Hris;
@@ -184,12 +179,66 @@ class AttendanceController extends Controller
             return response()->json(['result' => false, 'message' => 'Unable to get the Attendance.']);
         }
     }
+    
+    private function today_mit()
+    {
+        $attendances = new Attendance;
+        $hris = new Hris;
+        
+        $where = (object) array(
+            'start_date' => date("Y-m-d"),
+            'end_date' => date("Y-m-d"),
+            'section' => "MANUFACTURING INFORMATION TECHNOLOGY"
+        );
+
+        $hris_attendances = $hris->attendances($where);
+        $mms_attendances = $attendances->today(date("Y-m-d"));
+        $result = array();
+
+        if(count($mms_attendances) == 0)
+        {
+            return ['result' => FALSE];
+        }
+
+
+        foreach ($mms_attendances as $mss_key => $mss_value) 
+        {
+            
+            foreach ($hris_attendances as $hris_key => $hris_value) 
+            {
+                if($mss_value->users_id == $hris_value->emp_pms_id)
+                {
+                    $hris_data = [
+                        'last_name' => $hris_value->emp_last_name,
+                        'first_name' => $hris_value->emp_first_name,
+                        'middle_name' => $hris_value->emp_middle_name,
+                        'emp_pms_id' => $hris_value->emp_pms_id,
+                        'position' => $hris_value->position,
+                        'sh_destination' => $hris_value->sh_destination,
+                        'employment_type' => $hris_value->employment_type,
+                        'time_in' => $hris_value->TIME_IN,
+                        'time_out' => $hris_value->TIME_OUT,
+                        'work_date' => $hris_value->WORKDATE,
+                    ];
+                    array_push($result, array_merge((array) $mss_value, $hris_data));
+                }
+            }
+        }
+
+        return ['result' => TRUE, 'data' => $result];
+    }
 
     public function email_sent()
     {
-        $subject = "MIT ATTENDANCE";
-        $message = "Mag Email Ka Hayop ka wag kn mag error!";
-
-        Mail::to('markjay.mercado@ph.fujitsu.com')->send(new AttendanceEmail($subject, $message));
+        $attendances = $this->today_mit();
+        if($attendances['result'])
+        {
+            Mail::to('markjay.mercado@ph.fujitsu.com')->send(new AttendanceEmail($attendances['data']));
+            return "Attendance email sent!";
+        }
+        else
+        {
+            return "Attendance email not send, No Data Found!";
+        }
     }
 }

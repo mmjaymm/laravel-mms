@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Hris;
 
 class Attendance extends Model
 {
@@ -21,16 +22,12 @@ class Attendance extends Model
          return Attendance::where('id', $id)->update($data);
     }
 
-    public function today()
+    public function today($today_date)
     {
-        // $attendance = DB::connection('pgsql')->table('attendances')
-        //     ->select('*')->where('date', '2019-11-25');
+        $attendance = DB::connection('pgsql')->table('attendances')
+            ->select('*')->where('date', $today_date);
 
-
-        // return $attendance->get();
-        
-
-        return Attendance::with('late')->get();
+        return $attendance->get();
     }
 
     public function late()

@@ -31,11 +31,14 @@ Route::get('token','FailureController@index');
 Route::resource('leave-credits','LeaveCreditsController');
 Route::resource('leave-types','LeaveTypesController');
 
+//late section
 Route::resource('lates', 'LateController');
 Route::get('token', 'LateController@index');
 
+//attendance section
 Route::get('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
-Route::get('attendances/today_mit', 'AttendanceController@today_mit');
+Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 
+//overtime section
 Route::resource('overtime', 'OvertimeController');
