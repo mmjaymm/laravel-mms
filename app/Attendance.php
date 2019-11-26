@@ -39,4 +39,9 @@ class Attendance extends Model
     {
         // return $this->belongsTo('App\Late', 'status_id');
     }
+
+    public function select_data($select, $where)
+    {
+        return Attendance::select($select)->where($where)->get();
+    }
 }

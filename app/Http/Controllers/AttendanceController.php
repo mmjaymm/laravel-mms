@@ -241,4 +241,21 @@ class AttendanceController extends Controller
             return "Attendance email not send, No Data Found!";
         }
     }
+
+    public function validation_leaves(Attendance $attendances)
+    {
+        $where = ['date' => '2019-11-26', 'status' => 'PRESENT'];
+        $select = "*";
+        $result = $attendances->select_data($select, $where)->pluck('id')->toArray();
+
+        // foreach ($result as $key => $attendance) 
+        // {
+        //     if($attendance->status == "PRESENT")
+        //     {
+                
+        //     }
+        // }
+
+        return response()->json($result);
+    }
 }

@@ -42,3 +42,6 @@ Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');
+
+
+Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
