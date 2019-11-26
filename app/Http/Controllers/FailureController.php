@@ -19,8 +19,6 @@ class FailureController extends Controller
 
     public function failure_insert(Request $request)
     {
-
-       
         
         $rules = array(
             'datetime_in'       => 'required',

@@ -40,10 +40,9 @@ class ShuttleLocation extends Model
 
         return DB::connection('pgsql')
                     ->table('shuttle_locations')
-                    ->where('id',1)
+                    ->where('id',$id)
                     ->update([
-                        'shuttle_location'   =>$shuttle_data['shuttle_location'],
-                        'created_at'         =>Carbon::now(),   
+                        'shuttle_location'   =>$shuttle_data['shuttle_location'],  
                         'updated_at'         =>Carbon::now()   
                     ]);
 

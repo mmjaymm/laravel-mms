@@ -10,11 +10,7 @@ use Validator;
 
 class ShuttleLocationController extends Controller
 {
-
-    public $shuttle_data = ['BALIBAGO','STA.ROSA PROPER','CABUYAO','LOS BAÑOS',
-                    'MAMATID','PARIAN','CROSSING STI','STO.TOMAS','GMA',
-                    'CANLUBANG','IMPERIAL (Staff house)','ALABANG/SOUTHWOODS','CARMONA','OLIVAREZ'
-                   ];
+   
 
     public function validate_input()
     {
@@ -27,10 +23,30 @@ class ShuttleLocationController extends Controller
         return $error;
     }
     
-    public function add_shuttle_location(Request $request,$shuttle_data)
+    public function add_shuttle_location(Request $request)
     {
 
+        $shuttle_location =[
+                             
+                            'BALIBAGO','STA.ROSA PROPER','CABUYAO','LOS BAÑOS',
+                            'MAMATID','PARIAN','CROSSING STI','STO.TOMAS','GMA',
+                            'CANLUBANG','IMPERIAL','ALABANG/SOUTHWOODS','CARMONA','OLIVAREZ'
+                            
+                            ];
 
+        //KINDLY UNCOMMENT THIS PORTION TO INSERT BATCH SHUTTLE LOCATION
+        
+        // $data = new ShuttleLocation();
+
+        // for($a = 0; $a < count($shuttle_location); $a++)
+        // {
+        //     $data->insert_shuttle_location(['shuttle_location' => $shuttle_location[$a]]);
+        // }
+
+        // return $shuttle_location;
+
+
+        //KINDLY COMMENT THIS PORTION IF YOU WANT TO INSERT BATCH SHUTTLE LOCATIO
         $error_validate = $this->validate_input();
 
         if($error_validate->fails())
@@ -47,7 +63,9 @@ class ShuttleLocationController extends Controller
 
         $shuttle_data = $request->except('_token');
         $data = new ShuttleLocation();
-        return $data->insert_shuttle_location($shuttle_data);
+        $data->insert_shuttle_location($shuttle_data);
+
+        return response()->json($shuttle_data);
 
 
     }
@@ -60,26 +78,31 @@ class ShuttleLocationController extends Controller
 
     }
 
-    public function edit_shuttle_location(Request $id,$request = null)
+    public function edit_shuttle_location(Request $request,$id=1)
     {
 
-        return $request;
+        //return $request;
 
-        // $error_validate = $this->validate_input();
+        $error_validate = $this->validate_input();
 
-        // if($error_validate->fails())
-        // {
-        //     return response()->json(['errors' => $error_validate->errors()->all()]);
-        // }
+        if($error_validate->fails())
+        {
+            return response()->json(['errors' => $error_validate->errors()->all()]);
+        }
 
-        // $shuttle_data = array(
+        
+
+        $shuttle_data = $request->except('_token','_method');
+        $shuttle_data = array(
             
-        //     'shuttle_location'   =>$request->shuttle_location
-        // );
+            'shuttle_location'   =>$request->shuttle_location
+        );
 
-        // $shuttle_data = $request->except('_token','_method');
-        // $data = new ShuttleLocation();
-        // return $data->update_shuttle_location($shuttle_data,$id);
+
+        $data = new ShuttleLocation();
+        $data->update_shuttle_location($shuttle_data,$id);
+
+        return response()->json($shuttle_data);
 
     }
 }
