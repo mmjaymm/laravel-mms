@@ -14,5 +14,27 @@ class LeaveCredits extends Model
         return LeaveCredits::create($data);
     }
 
+    public function update_leave_credits($data,$id)
+    {
+        $leave_credits = LeaveCredits::where('id',$id)
+                                    ->update($data);
+        return $leave_credits;
+    }
+
+    public function retrieve_all()
+    {
+        return LeaveCredits::where('is_deleted','0')->get();
+    }
+
+    public function retrieve_one($id)
+    {
+        return LeaveCredits::where('id',$id)
+                             ->where('is_deleted','0')
+                             ->first();
+    }
+
+
+
+
  
 }

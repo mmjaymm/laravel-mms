@@ -12,7 +12,9 @@ class LeaveCreditsController extends Controller
   
     public function index()
     {
-        
+    
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve_all();
     }
 
 
@@ -25,9 +27,20 @@ class LeaveCreditsController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
-       
-        $leave_credits = new LeaveCredits();
-        return $leave_credits->insert_leave_credits($data);   
+        $validator = Validator::make($request->all(),[
+            'leave_type_id' => 'required',
+            'credits' => 'required',
+            'users_id' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_credits = new LeaveCredits();
+            return $leave_credits->insert_leave_credits($data); 
+        } 
     }
 
 
@@ -36,15 +49,30 @@ class LeaveCreditsController extends Controller
         
     }
 
-    public function edit(LeaveCredits $leaveCredits)
+    public function edit($id)
     {
-        
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve_one($id);  
     }
 
  
-    public function update(Request $request, LeaveCredits $leaveCredits)
+    public function update(Request $request, $id)
     {
-        
+        $data = $request->except('_token','_method');
+        $validator = Validator::make($request->all(),[
+            'leave_type_id' => 'required',
+            'credits' => 'required',
+            'users_id' => 'required',
+        ]);
+        if($validator->fails())
+        {
+            return $validator->errors()->all(); 
+        }
+        else
+        {
+            $leave_credits = new LeaveCredits();
+            return $leave_credits->update_leave_credits($data,$id);  
+        }
     }
 
  

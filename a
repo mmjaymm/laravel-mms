@@ -1,0 +1,33 @@
+[33m126fbf3[m[33m ([m[1;36mHEAD -> [m[1;32mleave_credits_retrieve_all[m[33m)[m [LEAVE] Added retrieve one function.
+[33m6edf72f[m[33m ([m[1;32mlocal[m[33m)[m Merge branch 'leave_credits_update' into local
+[33m1d2808e[m [LEAVE] Added update function
+[33md41c0fc[m [LEAVE] Added validation to store function.
+[33mb6a8a89[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m Merge branch 'local' into develop
+[33me79f7df[m Merge branch 'develop' of //10.164.20.176/Repositories/MIT/TRAINING/GROUP/PM/mms-joyson into develop
+[33mcc86681[m [TEMPLATE]Added : all files for template
+[33m419b07d[m Merge branch 'leave_types_validation' into local
+[33m4db06b4[m [LEAVE] Added validator in update function
+[33m76a20ed[m [LEAVE] Added save function.
+[33me699379[m [LEAVE] Added Validator in leave type store
+[33m4c51dd3[m [LEAVE] Added Validator in leave type store
+[33m04ca6be[m [LEAVE] Added: Retrieve all function
+[33mb63be5f[m [LEAVE] Added: select one function
+[33mfb02ad7[m [LEAVE] Added: update function
+[33m6dfffe2[m Merge branch 'leave_types' into local
+[33m9b2fdf5[m [LEAVE] Added: Insert function
+[33m5991311[m [LEAVE] Added:Leave type code migration.
+[33m59aadae[m [MIGRATIONS] Update: Added timestamp column in all tables
+[33m1573683[m Merge branch 'develop' of //10.164.20.176/Repositories/MIT/TRAINING/GROUP/PM/mms-joyson into develop
+[33m24ab2dc[m [USER] *Added : timestamp true in user module *Added : insert users function
+[33mb34a5f0[m [ROLES] *Added : role model class *Added : create function in roles migrations
+[33mecf766b[m [LEAVE TYPE MIGRATION] Update: update table structure, added is_active column
+[33m423e10a[m [ROLES] *Added : model and controler roles
+[33m475efa8[m [HRIS] *Added : roles id in migration *Modify : Hris model connection name
+[33m91a967c[m Merge branch 'local' into hris
+[33m27119f7[m Merge branch 'develop' into local
+[33m4a1b269[m [HRIS] *Added : hris man_power functions in user migrations *Created : model for hris
+[33me95a30a[m [DB CONNECTION]Updated: Set PGSQL as Default DB Connection
+[33m45874c2[m Merge branch 'develop' into local
+[33m72570ea[m [DATABASE] *Modify : database configuration
+[33m9e38c00[m[33m ([m[1;32mmaster[m[33m)[m [TABLE MIGRATION]Added: Migration table for MMS Database
+[33me8534f7[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m [MMS] Added: Initial commit for MMS PM Server Codebase

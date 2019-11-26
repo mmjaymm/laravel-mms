@@ -14,6 +14,20 @@
 Route::get('home', function () {
     return view('pages.home');
 });
+Route::get('mms-login', function () {
+    return view('login.login');
+});
+//failure login section
+Route::post('failure','FailureController@failure_insert');
+Route::get('failure-attendance','FailureController@failure_login_data');
+Route::put('update-attendance','FailureController@update_attendance');
+
+//undertime section
+Route::post('undertime','UndertimeController@insert_undertime');
+Route::get('undertime-details','UndertimeController@get_undertime_data');
+
+Route::get('token','FailureController@index');
+
 Route::resource('leave-credits','LeaveCreditsController');
 Route::resource('leave-types','LeaveTypesController');
 
