@@ -33,12 +33,15 @@ Route::resource('leave-types','LeaveTypesController');
 
 Route::resource('lates', 'LateController');
 Route::get('token', 'LateController@index');
-Route::get('attendances', 'AttendanceController@index');
+
+Route::get('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
+Route::get('attendances/today_mit', 'AttendanceController@today_mit');
 
 //shuttle sections
 Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
 Route::get('all-location','ShuttleLocationController@show_shuttle_location');
 Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
 
+Route::resource('overtime', 'OvertimeController');
 
