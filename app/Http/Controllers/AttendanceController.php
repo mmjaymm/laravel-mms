@@ -6,8 +6,8 @@ use App\Attendance;
 use App\Hris;
 use App\Http\Requests\AttendancePost;
 use App\Mail\Attendance as AttendanceEmail;
-use Mail;
 
+use Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -200,7 +200,6 @@ class AttendanceController extends Controller
             return ['result' => FALSE];
         }
 
-
         foreach ($mms_attendances as $mss_key => $mss_value) 
         {
             
@@ -240,5 +239,58 @@ class AttendanceController extends Controller
         {
             return "Attendance email not send, No Data Found!";
         }
+    }
+
+    public function get_data($from, $to, Request $request)
+    {
+        $attendances = new Attendance;
+        $hris = new Hris;
+
+        $request->request->add(['date_from' => $from, 'date_to' => $to]); 
+        $validator = Validator::make($request->all(), [
+            'date_from' => 'required|date_format:Y-m-d',
+            'date_to' => 'required|date_format:Y-m-d',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        //getting man power of MIT in HRIS
+        $man_power_where = [
+            ['section_code', 'MIT'],
+            ['emp_system_status', 'ACTIVE']
+        ];
+        $man_power_result = $hris->man_power($man_power_where);
+        $mms_attendances = $attendances->select_data($from, $to);
+        $result = array();
+
+        if(count($mms_attendances) == 0)
+        {
+            return response()->json(['result' => FALSE, 'attendances' => []]);
+        }
+
+        foreach ($mms_attendances as $mss_key => $mss_value) 
+        {
+            foreach ($man_power_result as $man_key => $man_value) 
+            {
+                if($mss_value->users_id == $man_value->emp_pms_id)
+                {
+                    $man_data = [
+                        'last_name' => $man_value->emp_last_name,
+                        'first_name' => $man_value->emp_first_name,
+                        'middle_name' => $man_value->emp_middle_name,
+                        'emp_pms_id' => $man_value->emp_pms_id,
+                        'position' => $man_value->position,
+                        'shuttle_destination' => $man_value->sh_destination,
+                        'employment_type' => $man_value->employment_type,
+                        'photo' => $man_value->emp_photo
+                    ];
+                    array_push($result, array_merge((array) $mss_value, $man_data));
+                }
+            }
+        }
+
+        return response()->json(['result' => TRUE, 'attendances' => $result]);
     }
 }

@@ -39,6 +39,7 @@ Route::get('token', 'LateController@index');
 Route::get('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
 Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
+Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');

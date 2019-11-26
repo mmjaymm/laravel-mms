@@ -39,4 +39,12 @@ class Attendance extends Model
     {
         // return $this->belongsTo('App\Late', 'status_id');
     }
+    
+    public function select_data($from, $to)
+    {
+        $attendance = DB::connection('pgsql')->table('attendances')
+            ->select('*')->whereBetween('date', [$from , $to]);
+
+        return $attendance->get();
+    }
 }
