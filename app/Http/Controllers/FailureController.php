@@ -20,13 +20,10 @@ class FailureController extends Controller
     public function failure_insert(Request $request)
     {
 
-       
-        
         $rules = array(
             'datetime_in'       => 'required',
             'datetime_out'      => 'required',
-            'reason'            => 'required',
-            'date_filed'        => 'required'
+            'reason'            => 'required'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -41,8 +38,7 @@ class FailureController extends Controller
             
             'datetime_in'       =>$request->datetime_in,
             'datetime_out'      =>$request->datetime_out,
-            'reason'            =>$request->reason,
-            'date_filed'        =>$request->date_filed
+            'reason'            =>$request->reason
 
         );
 

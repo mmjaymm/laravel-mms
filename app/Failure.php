@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Failure extends Model
@@ -24,7 +24,7 @@ class Failure extends Model
                         'datetime_in'   => $failure_data['datetime_in'],
                         'datetime_out'  => $failure_data['datetime_out'],
                         'reason'        => $failure_data['reason'],
-                        'date_filed'    => $failure_data['date_filed']
+                        'date_filed'    => Carbon::now()
                     ]);        
     }
 
