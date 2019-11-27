@@ -49,3 +49,6 @@ Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');
+
+
+Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
