@@ -36,14 +36,16 @@ Route::resource('lates', 'LateController');
 Route::get('token', 'LateController@index');
 
 //attendance section
-Route::get('attendances/hris_data', 'AttendanceController@show');
+Route::post('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
 Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
+Route::get('attendances', 'AttendanceController@index');
 
 //shuttle sections
 Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
 Route::get('all-location','ShuttleLocationController@show_shuttle_location');
 Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
 
+//overtime section
 Route::resource('overtime', 'OvertimeController');
