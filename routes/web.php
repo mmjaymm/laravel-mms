@@ -16,8 +16,10 @@ Route::get('/', function () {
 });
 
 //failure login section
-Route::post('failure','FailureController@failure_insert');
-Route::get('failure-attendance','FailureController@failure_login_data');
-Route::put('update-attendance','FailureController@update_attendance');
+Route::post('failure','FailureController@create');
+Route::put('failure/{$id}','FailureController@edit');
+Route::post('failure/{$id}','FailureController@update');
+Route::post('failure/{$id}','FailureController@delete');
+
 
 Route::get('token','FailureController@index');

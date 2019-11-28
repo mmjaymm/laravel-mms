@@ -10,22 +10,13 @@ class Failure extends Model
 {
     //
 
-    protected $fillable     = ['datetime_in','datetime_out','reason','date_filed'];
+    protected $fillable     = ['datetime_in','datetime_out','reason'];
     protected $editfillable = ['date','status'];
     protected $guarded      = ['id'];
 
-    public function insert_failure_login($failure_data)
+    public function insert_data($data)
     {
-
-
-       return DB::connection('pgsql')
-                    ->table('failures')
-                    ->insert([
-                        'datetime_in'   => $failure_data['datetime_in'],
-                        'datetime_out'  => $failure_data['datetime_out'],
-                        'reason'        => $failure_data['reason'],
-                        'date_filed'    => Carbon::now()
-                    ]);        
+        return Failure::create($data)->id;
     }
 
     public function select_failure_login()
@@ -40,13 +31,13 @@ class Failure extends Model
                 ->get();
     }
 
-    public function edit_attendance_failure($attendance_data,$id)
+    public function update_data($id, $data)
     {
+        return Failure::where('id', $id)->update($data);
+    }
 
-        return DB::connection('pgsql')
-                        ->table('attendances')
-                        ->where('id',$id)
-                        ->update($attendance_data);
-
+    public function edit_data($id)
+    {
+        return Failure::where('id', $id)->get();
     }
 }
