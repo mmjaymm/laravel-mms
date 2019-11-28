@@ -3,50 +3,28 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Failure extends Model
 {
     //
 
-    protected $fillable     = ['datetime_in','datetime_out','reason','date_filed'];
-    protected $editfillable = ['date','status'];
+    protected $fillable     = ['datetime_in','datetime_out','reason','date_file','attendances_id','users_id'];
     protected $guarded      = ['id'];
 
-    public function insert_failure_login($failure_data)
+    public function insert_failure_data($data)
     {
-
-
-       return DB::connection('pgsql')
-                    ->table('failures')
-                    ->insert([
-                        'datetime_in'   => $failure_data['datetime_in'],
-                        'datetime_out'  => $failure_data['datetime_out'],
-                        'reason'        => $failure_data['reason'],
-                        'date_filed'    => $failure_data['date_filed']
-                    ]);        
+        return DB::connection('pgsql')->table('failures')->insertGetId($data);
     }
 
-    public function select_failure_login()
+    public function update_data($id, $data)
     {
-
-        return DB::connection('pgsql')
-                ->table('users')
-                ->join('roles', 'users.roles_id', '=', 'roles.id')
-                ->join('attendances', 'users.id', '=', 'attendances.users_id')
-                ->join('failures', 'attendances.status_id', '=', 'failures.id')
-                ->select('employee_number','date','status','datetime_in','datetime_out','reason','date_filed')
-                ->get();
+        return DB::connection('pgsql')->table('failures')->where('id', $id)->update($data);
     }
 
-    public function edit_attendance_failure($attendance_data,$id)
+    public function edit_data($id)
     {
-
-        return DB::connection('pgsql')
-                        ->table('attendances')
-                        ->where('id',$id)
-                        ->update($attendance_data);
-
+        return Failure::where('id', $id)->get();
     }
 }
