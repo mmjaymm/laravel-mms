@@ -33,6 +33,8 @@ Route::resource('leave-types', 'LeaveTypesController');
 
 //late section
 Route::post('lates', 'LateController@store');
+Route::get('lates/{id}/edit', 'LateController@edit');
+
 Route::get('token', 'LateController@index');
 
 //attendance section

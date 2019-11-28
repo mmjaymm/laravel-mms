@@ -82,7 +82,7 @@ class LateController extends Controller
             $return['data'] = [];
             $return['messages'] = 'No Data Found.';
         }
-        
+
         return response()->json($return);
     }
 
