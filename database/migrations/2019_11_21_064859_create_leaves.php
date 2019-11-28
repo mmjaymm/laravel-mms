@@ -19,15 +19,15 @@ class CreateLeaves extends Migration
             $table->foreign('users_id')->references('id')->on('users');
             $table->unsignedBigInteger('leave_type_id');
             $table->foreign('leave_type_id')->references('id')->on('leave_types');
-            $table->dateTime('date_leave');
-            $table->integer('status')->nullable();
+            $table->date('date_leave');
+            $table->integer('status')->default(2);
             $table->integer('reviewed_by')->nullable();
             $table->dateTime('reviewed_datetime')->nullable();
             $table->date('date_filed');
-            $table->string('remarks')->nullable();
-            $table->string('is_active')->default(1);
+            $table->string('remarks');
+            $table->integer('attendances_id');
+            $table->integer('is_active')->default(1);
             $table->timestamps();
-
         });
     }
 

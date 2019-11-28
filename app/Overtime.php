@@ -16,4 +16,14 @@ class Overtime extends Model
     {   
         return Overtime::create($data)->id;
     }
+
+    public function update_data($id, $data)
+    {
+        return Overtime::where('id', $id)->update($data);
+    }
+
+    public function select_data($where)
+    {
+        return Overtime::where($where)->get();
+    }
 }

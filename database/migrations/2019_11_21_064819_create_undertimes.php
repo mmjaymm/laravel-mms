@@ -17,7 +17,8 @@ class CreateUndertimes extends Migration
             $table->bigIncrements('id');
             $table->dateTime('datetime_out');
             $table->string('reason');
-            
+            $table->integer('attendances_id');
+            $table->integer('users_id');
         });
     }
 

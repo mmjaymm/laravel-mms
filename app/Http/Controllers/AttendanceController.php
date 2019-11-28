@@ -293,4 +293,24 @@ class AttendanceController extends Controller
 
         return response()->json(['result' => TRUE, 'attendances' => $result]);
     }
+    
+    public function validation_leaves(Attendance $attendances)
+    {
+        $where = ['a.date' => '2019-11-26', 'a.status' => 'PRESENT'];
+        $select = ['b.id', 'a.users_id'];
+
+        $data_with_user = $attendances->select_with_users_data($select, $where);
+        $present_ids = $data_with_user->pluck('id')->toArray();
+
+        //getting filed leave of present user
+        $leave_users_present = $attendances->retrieve_users_present_leave($present_ids);
+        $leave_ids = $leave_users_present->pluck('id')->toArray();
+        
+        //auto cancelled leave if present
+        //ilalagay dito ang cancel leave
+
+        
+
+        return response()->json($present_users_leaves);
+    }
 }
