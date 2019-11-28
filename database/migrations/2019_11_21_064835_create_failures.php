@@ -19,6 +19,8 @@ class CreateFailures extends Migration
             $table->dateTime('datetime_out');
             $table->string('reason');
             $table->date('date_filed');
+            $table->integer('attendances_id');
+            $table->integer('users_id');
         });
     }
 
