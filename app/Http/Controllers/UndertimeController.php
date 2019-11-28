@@ -33,7 +33,9 @@ class UndertimeController extends Controller
     */
     public function store(UndertimePost $input_request, Undertime $undertimes)
     {   
-        $undertimes = new Attendance();
+        $undertimes = new Undertime();
+        $attendances = new Attendance();
+
         $return = [];
 
         if ($input_request->validator->fails()) {
@@ -47,12 +49,12 @@ class UndertimeController extends Controller
 
         try {
             //insert late
-            $undertimes->insert_data($this->datas($input_request));   
+            $undertimes->insert_undertime_data($this->datas($input_request));   
             $attendance_data = [
                 'status' => 'UNDERTIME'
             ];
             //update status in attendance
-            $undertimes->update_data($input_request->attendances_id, $attendance_data) ;
+            $attendances->update_data($input_request->attendances_id, $attendance_data) ;
             DB::commit();
 
             $return['result'] = TRUE;

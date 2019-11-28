@@ -12,7 +12,7 @@ class Undertime extends Model
     protected $fillable = ['datetime_out','reason','attendances_id','users_id'];
     protected $guarded  = ['id'];
 
-    public function insert_data($data)
+    public function insert_undertime_data($data)
     {
         return DB::connection('pgsql')
                 ->table('undertimes')
