@@ -17,7 +17,7 @@ class CreateLeaveCredits extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('leave_type_id');
             $table->foreign('leave_type_id')->references('id')->on('leave_types');
-            $table->integer('credits');
+            $table->float('credits');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
             $table->date('date_from');

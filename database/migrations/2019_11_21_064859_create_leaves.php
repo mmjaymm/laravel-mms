@@ -21,8 +21,8 @@ class CreateLeaves extends Migration
             $table->foreign('leave_type_id')->references('id')->on('leave_types');
             $table->date('date_leave');
             $table->integer('status')->default(2);
-            $table->integer('reviewed_by');
-            $table->dateTime('reviewed_datetime');
+            $table->integer('reviewed_by')->nullable();
+            $table->dateTime('reviewed_datetime')->nullable();
             $table->date('date_filed');
             $table->string('remarks');
             $table->integer('attendances_id');
