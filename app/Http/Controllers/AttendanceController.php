@@ -34,13 +34,9 @@ class AttendanceController extends Controller
         $mms_attendances = $attendances->today(date("Y-m-d"));
         $result = array();
 
-        foreach ($mms_attendances as $mss_key => $mss_value) 
-        {
-            
-            foreach ($hris_attendances as $hris_key => $hris_value) 
-            {
-                if($mss_value->users_id == $hris_value->emp_pms_id)
-                {
+        foreach ($mms_attendances as $mss_key => $mss_value) {
+            foreach ($hris_attendances as $hris_key => $hris_value) {
+                if ($mss_value->users_id == $hris_value->emp_pms_id) {
                     $hris_data = [
                         'last_name' => $hris_value->emp_last_name,
                         'first_name' => $hris_value->emp_first_name,
@@ -121,7 +117,7 @@ class AttendanceController extends Controller
     public function show(AttendancePost $input_request, Attendance $attendance)
     {
         if ($input_request->validator->fails()) {
-            $return['result'] = FALSE;
+            $return['result'] = false;
             $return['messages'] = $input_request->validator->errors();
 
             return response()->json($return);
@@ -195,18 +191,13 @@ class AttendanceController extends Controller
         $mms_attendances = $attendances->today(date("Y-m-d"));
         $result = array();
 
-        if(count($mms_attendances) == 0)
-        {
-            return ['result' => FALSE];
+        if (count($mms_attendances) == 0) {
+            return ['result' => false];
         }
 
-        foreach ($mms_attendances as $mss_key => $mss_value) 
-        {
-            
-            foreach ($hris_attendances as $hris_key => $hris_value) 
-            {
-                if($mss_value->users_id == $hris_value->emp_pms_id)
-                {
+        foreach ($mms_attendances as $mss_key => $mss_value) {
+            foreach ($hris_attendances as $hris_key => $hris_value) {
+                if ($mss_value->users_id == $hris_value->emp_pms_id) {
                     $hris_data = [
                         'last_name' => $hris_value->emp_last_name,
                         'first_name' => $hris_value->emp_first_name,
@@ -224,19 +215,16 @@ class AttendanceController extends Controller
             }
         }
 
-        return ['result' => TRUE, 'data' => $result];
+        return ['result' => true, 'data' => $result];
     }
 
     public function email_sent()
     {
         $attendances = $this->today_mit();
-        if($attendances['result'])
-        {
+        if ($attendances['result']) {
             Mail::to('markjay.mercado@ph.fujitsu.com')->send(new AttendanceEmail($attendances['data']));
             return "Attendance email sent!";
-        }
-        else
-        {
+        } else {
             return "Attendance email not send, No Data Found!";
         }
     }
@@ -246,7 +234,7 @@ class AttendanceController extends Controller
         $attendances = new Attendance;
         $hris = new Hris;
 
-        $request->request->add(['date_from' => $from, 'date_to' => $to]); 
+        $request->request->add(['date_from' => $from, 'date_to' => $to]);
         $validator = Validator::make($request->all(), [
             'date_from' => 'required|date_format:Y-m-d',
             'date_to' => 'required|date_format:Y-m-d',
@@ -265,17 +253,13 @@ class AttendanceController extends Controller
         $mms_attendances = $attendances->select_data($from, $to);
         $result = array();
 
-        if(count($mms_attendances) == 0)
-        {
-            return response()->json(['result' => FALSE, 'attendances' => []]);
+        if (count($mms_attendances) == 0) {
+            return response()->json(['result' => false, 'attendances' => []]);
         }
 
-        foreach ($mms_attendances as $mss_key => $mss_value) 
-        {
-            foreach ($man_power_result as $man_key => $man_value) 
-            {
-                if($mss_value->users_id == $man_value->emp_pms_id)
-                {
+        foreach ($mms_attendances as $mss_key => $mss_value) {
+            foreach ($man_power_result as $man_key => $man_value) {
+                if ($mss_value->users_id == $man_value->emp_pms_id) {
                     $man_data = [
                         'last_name' => $man_value->emp_last_name,
                         'first_name' => $man_value->emp_first_name,
@@ -291,7 +275,7 @@ class AttendanceController extends Controller
             }
         }
 
-        return response()->json(['result' => TRUE, 'attendances' => $result]);
+        return response()->json(['result' => true, 'attendances' => $result]);
     }
     
     public function validation_leaves(Attendance $attendances)

@@ -35,8 +35,13 @@ Route::resource('leave-types', 'LeaveTypesController');
 Route::post('lates', 'LateController@store');
 Route::get('lates/{id}/edit', 'LateController@edit');
 Route::put('lates/{id}', 'LateController@update');
+Route::delete('lates/{id}', 'LateController@destroy');
+Route::post('lates/all', 'LateController@retrieve');
+Route::post('lates/deleted', 'LateController@retrieve');
+Route::post('lates/not-deleted', 'LateController@retrieve');
 
-Route::get('token', 'LateController@index');
+
+Route::get('token', 'LateController@mms_token');
 
 //attendance section
 Route::post('attendances/hris_data', 'AttendanceController@show');

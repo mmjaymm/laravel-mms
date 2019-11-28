@@ -24,12 +24,25 @@ class Late extends Model
         return Late::where('id', $id)->get();
     }
 
-    public function select_data()
+    public function select_data($where)
     {
-        return DB::table('lates')
-            ->select('*')
-            ->where($where)
-            ->get();
+        $late = DB::table('lates')->select('*');
+
+        if ($where['is_deleted'] === 1) {
+            $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59'])
+                ->where('is_deleted', 1);
+        }
+        
+        if ($where['is_deleted'] === 0) {
+            $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59'])
+            ->where('is_deleted', 0);
+        }
+
+        if ($where['is_deleted'] === 'x') {
+            $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59']);
+        }
+
+        return $late->get();
     }
 
     // public function attendance()

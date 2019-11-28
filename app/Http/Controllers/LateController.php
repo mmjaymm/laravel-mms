@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LatePost;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class LateController extends Controller
 {
@@ -21,9 +22,13 @@ class LateController extends Controller
         ];
     }
 
-    public function index()
+    public function mms_token()
     {
         return csrf_token();
+    }
+
+    public function index()
+    {
     }
 
     /*
@@ -130,5 +135,46 @@ class LateController extends Controller
         }
         
         return response()->json($return);
+    }
+
+    public function retrieve(Request $request, Late $lates)
+    {
+        $result = [];
+        $validator = Validator::make($request->all(), [
+            'date_from' => 'required|date_format:Y-m-d',
+            'date_to' => 'required|date_format:Y-m-d',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+ 
+        if (request()->is('lates/deleted')) {
+            $where = [
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
+                'is_deleted' => 1
+            ];
+        }
+
+        if (request()->is('lates/not-deleted')) {
+            $where = [
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
+                'is_deleted' => 0
+            ];
+        }
+
+        if (request()->is('lates/all')) {
+            $where = [
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
+                'is_deleted' => 'x'
+            ];
+        }
+
+        $result = $lates->select_data($where);
+
+        return response()->json($result);
     }
 }
