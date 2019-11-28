@@ -40,7 +40,6 @@ class FailureController extends Controller
     {
 
         $failures = new Attendance();
-        
         $return = [];
 
 

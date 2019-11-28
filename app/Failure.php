@@ -10,18 +10,17 @@ class Failure extends Model
 {
     //
 
-    protected $fillable     = ['datetime_in','datetime_out','reason'];
-    protected $editfillable = ['date','status'];
+    protected $fillable     = ['datetime_in','datetime_out','reason','date_file','attendances_id','users_id'];
     protected $guarded      = ['id'];
 
     public function insert_data($data)
     {
-        return Failure::create($data)->id;
+        return DB::connection('pgsql')->table('failures')->insertGetId($data);
     }
 
     public function update_data($id, $data)
     {
-        return Failure::where('id', $id)->update($data);
+        return DB::connection('pgsql')->table('failures')->where('id', $id)->update($data);
     }
 
     public function edit_data($id)
