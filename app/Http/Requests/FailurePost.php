@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class FailurePost extends FormRequest
 {
+
+    public $validator = null;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +15,7 @@ class FailurePost extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +27,7 @@ class FailurePost extends FormRequest
     {
         return [
             'attendances_id' => 'required',
+            'users_id'       => 'required',
             'datetime_out'   => 'required|date_format:Y/m/d H:i:s',
             'datetime_in'    => 'required|date_format:Y/m/d H:i:s',
             'reason'         => 'required'
@@ -35,6 +38,7 @@ class FailurePost extends FormRequest
     {
         return [
             'attendances_id.required' => 'Attendance record is required!',
+            'users_id.required' => 'Users id is required!',
             'datetime_out.required' => 'Time in is required!',
             'datetime_out.date' => 'Please insert valid time in format!',
             'datetime_in.required' => 'Time in is required!',

@@ -17,10 +17,12 @@ class FailureController extends Controller
     {   
         $data->except('_token');
         return [
-            'datetime_out'  => date("Y-m-d H:i:s", strtotime($data->datetime_out)),
-            'datetime_in'   => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
-            'reason'        => $data->reason,
-            'date_file'     =>Carbon::now()
+            'datetime_in'       => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
+            'datetime_out'      => date("Y-m-d H:i:s", strtotime($data->datetime_out)),
+            'reason'            => $data->reason,
+            'date_file'         => Carbon::now(),
+            'attendances_id'    => $data->attendances_id, 
+            'users_id'          => $data->users_id
         ];
     }
 
@@ -37,7 +39,7 @@ class FailureController extends Controller
     public function create(FailurePost $input_request, Failure $failures)
     {
 
-        $failures = new Failure();
+        $failures = new Attendance();
         
         $return = [];
 
@@ -52,7 +54,7 @@ class FailureController extends Controller
         DB::beginTransaction(); 
 
         try {
-            //insert failure
+            //insert failures
             
             $failure_id = $failures->insert_data($this->datas($input_request));   
             $attendance_data = [
