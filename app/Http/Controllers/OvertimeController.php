@@ -6,6 +6,7 @@ use App\Overtime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
 use App\Mail\OtAuthorization;
+use Illuminate\Support\Facades\Validator;
 
 class OvertimeController extends Controller
 {   
@@ -87,5 +88,61 @@ class OvertimeController extends Controller
     private function email_authorization($email_to, $id)
     {
         Mail::to($email_to)->send(new OtAuthorization($id));
+    }
+
+    public function update($id, Request $request)
+    {
+        $return = [];
+        $ovetimes = new Overtime;
+
+        $request->offsetUnset('_token');
+        $validator = Validator::make($request->all(), [
+            'users_id' => 'required|integer',
+            'overtime_type' => 'required',
+            'datetime_out' => 'required|date_format:Y-m-d',
+            'reason' => 'required',
+            'ot_status' => 'required',
+        ]);
+
+        $is_pending = $this->is_pending_to_approved($id);
+        if(!$is_pending)
+        {
+            $return['result'] = FALSE;
+            $return['messages'] = "Unable to Update. Ang OT request mo ay inaapprove pa";
+
+            return response()->json($return);
+        }
+
+        
+        // $update_ot = $ovetimes->update_data($id, $request);
+        // if($update_ot > 0)
+        // {
+        //     $return['result'] = TRUE;
+        //     $return['messages'] = "Updated Successfully.";
+        // }
+        // else
+        // {
+        //     $return['result'] = FALSE;
+        //     $return['messages'] = "Unable to Update.";
+        // }
+        
+        // dd($request);
+        return response()->json($request);
+    }
+
+    private function is_pending_to_approved($id)
+    {
+        $ovetimes = new Overtime;
+        $where = [
+            ['id', '=', $id],
+            ['reviewer_1', '=', null],
+            ['reviewer_2', '=', null],
+            ['reviewer_3', '=', null],
+            ['reviewer_4', '=', null]
+        ];
+
+        $result = $ovetimes->select_data($where);
+
+        return (count($result) > 0) ? TRUE : FALSE;
     }
 }

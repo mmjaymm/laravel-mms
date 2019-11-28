@@ -11,14 +11,15 @@ class Attendance extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $attendances;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($attendances)
     {
-        //
+        $this->attendances = $attendances;
     }
 
     /**
@@ -28,6 +29,6 @@ class Attendance extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.attendance');
+        return $this->markdown('emails.attendance')->with(['attendances', $this->attendances]);;
     }
 }
