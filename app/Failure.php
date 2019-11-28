@@ -35,4 +35,6 @@ class Failure extends Model
                 ->first();
 
     }
+
+
 }

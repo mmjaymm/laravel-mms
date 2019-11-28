@@ -9,10 +9,8 @@ use App\Http\Requests\FailurePost;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
-
 class FailureController extends Controller
 {
-
     private function datas($data)
     {   
         $data->except('_token');
@@ -25,18 +23,25 @@ class FailureController extends Controller
             'users_id'          => $data->users_id
         ];
     }
-
     public function index()
     {
         return csrf_token();
+
     }
+
+
+    public function create()
+    {
+        
+    }
+
 
     /*
     * return @array
     * request data required [ id,datetime_out, datetime_in, reason, attendances_id]
     */
 
-    public function create(FailurePost $input_request, Failure $failures)
+    public function store(FailurePost $input_request, Failure $failures)
     {
 
         $failures = new Failure();
@@ -56,41 +61,45 @@ class FailureController extends Controller
         $failures->insert_failure_data($this->datas($input_request));   
         DB::commit();
 
-        try {
-            //insert failures
+        // try {
+        //     //insert failures
             
-            $failures->insert_failure_data($this->datas($input_request));   
-            // $attendance_data = [
-            //     'status' => 'FAILURE'
-            // ];
-            // //update status in attendance
-            // $attendances->update_data($input_request->attendances_id, $attendance_data) ;
-            DB::commit();
+ 
+        //     $failures->insert_failure_data($this->datas($input_request));   
+        //     $attendance_data = [
+        //         'status' => 'FAILURE'
+        //     ];
+        //     //update status in attendance
+        //     $attendances->update_data($input_request->attendances_id, $attendance_data) ;
+        //     DB::commit();
 
-            $return['result'] = TRUE;
-            $return['messages'] = 'Inserted Successfully.';
+        //     $return['result'] = TRUE;
+        //     $return['messages'] = 'Inserted Successfully.';
 
-        } catch (\Throwable $th) {
-            DB::rollback();
+        // } catch (\Throwable $th) {
+        //     DB::rollback();
 
-            $return['result'] = FALSE;
-            $return['messages'] = 'Unable to Insert';
-        }
+        //     $return['result'] = FALSE;
+        //     $return['messages'] = 'Unable to Insert';
+        // }
         
         return response()->json($return);
 
 
     }
 
-    /*
-    * return @array
-    * request data required [ id]
-    */
+
+    public function show($id)
+    {
+        
+    }
+
     public function edit($id)
     {
         $failures = new Failure();
         return $failures->retrieve_one($id);      
     }
+
 
     /*
     * return @array
@@ -126,11 +135,8 @@ class FailureController extends Controller
     * return @array
     * request data required [ id]
     */
-
-    public function delete($id, Failure $failures)
+    public function destroy($id)
     {
-        
+        //
     }
-
 }
-  
