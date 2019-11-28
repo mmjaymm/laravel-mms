@@ -147,7 +147,7 @@ class LeaveController extends Controller
         // $select = ['id'];
         $where = ['users_id' => $users_id, 'date' => $date_leave];
         $attendance = new Attendance();
-        $id = $attendance->get_attendance_id($where);
+        $id = $attendance->retrieve_one($where);
         return $id;
 
     }

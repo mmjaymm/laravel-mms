@@ -67,7 +67,7 @@ class Attendance extends Model
         return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
     }
 
-    public function get_attendance_id($where)
+    public function retrieve_one($where)
     {
         // return DB::connection('pgsql')->table('attendances')
         // ->select($select)
