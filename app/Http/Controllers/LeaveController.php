@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Leave;
-use App\LeaveCredits;
-use App\LeaveType;
+use App\Hris;
+use App\LeaveTypes;
+use App\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -21,9 +22,6 @@ class LeaveController extends Controller
     public function index()
     {
       
-        $leave = new Leave();
-                // $leave->insert_leave($input);
-       return $leave->get_leave_credits(5,3);
 
      
     }
@@ -33,7 +31,12 @@ class LeaveController extends Controller
     {
         
     }
-// request = [date_from,date_to,users_id,leave_type_id,date_filed,is_active]
+    
+    /**
+     * Display the specified resource.
+     * @param  Request input [date_from,date_to,users_id,leave_type_id,date_filed,is_active]
+     */
+
     public function store(Request $request)
     {
 
@@ -64,80 +67,92 @@ class LeaveController extends Controller
         }
         else
         {
+            
             $now = Carbon::now();
             $period = CarbonPeriod::create($date_from, $date_to); 
             $date_insert = []; 
+
             foreach ($period as $date) { 
 
                 if($date->format('l') != 'Saturday' && $date->format('l') != 'Sunday') 
                 { 
-                    $date_insert[] = $date->format('Y-m-d');
+                    $date_insert[] = $date->format('Y-m-d'); //pagkuha ng date_leave ng walang weekends
                 } 
             }
+
+            $code = $this->get_leave_code($request->leave_type_id); //pagkuha ng leave code    
+            $days_no = count($date_insert); //no. days ng leave
             
-            $days_no = count($date_insert);
            
             if($days_no > 0)
             {
                 foreach($date_insert as $date_leave)
                 {
-                     $input[] = [
-                         'users_id' => $request->users_id
-                         ,'leave_type_id' => $request->leave_type_id
-                         ,'date_leave' =>$date_leave
-                         ,'date_filed' => $request->date_filed
-                         ,'is_active' => $request->is_active
-                         ,'updated_at' => $now
-                         ,'created_at' => $now 
-
+                    if($code == 'SL' || $code == 'EL')
+                    {
+                        $attendance = $this->get_attendance_id($request->users_id,$date_leave); //get attendance id
+                        $input[] = [
+                            
+                            'users_id' => $request->users_id
+                            ,'leave_type_id' => $request->leave_type_id
+                            ,'date_leave' =>$date_leave
+                            ,'date_filed' => $request->date_filed
+                            ,'is_active' => $request->is_active
+                            ,'attendances_id' => $attendance->id
+                            ,'updated_at' => $now
+                            ,'created_at' => $now 
                         ];
+                        // return $input;
+                       
+                    }
+                    else
+                    {
+                        $input[] = [
+                            'users_id' => $request->users_id
+                            ,'leave_type_id' => $request->leave_type_id
+                            ,'date_leave' =>$date_leave
+                            ,'date_filed' => $request->date_filed
+                            ,'is_active' => $request->is_active
+                            ,'updated_at' => $now
+                            ,'created_at' => $now 
+                        ];
+                    }
                 }           
-               
                 $leave = new Leave();
-                $leave_credits = new LeaveCredits();
-                $leave->insert_leave($input);
-                $leave_data = $leave->get_leave_credits($request->users_id,$request->leave_type_id);
-                
-                $leave_code = $leave_data->leave_type_code;
-                $no_credits = $leave_data->credits;
-                $credits_id = $leave_data->credits_id;
-                
-                if($leave_code == "SL")
+                $insert = $leave->insert_leave($input);
+                if($insert)
                 {
-                    $credits = (float)$no_credits - (float)$days_no;
-                    $credits_data=["credits"=> $credits];
-                    return $leave_credits->update_leave_credits($credits_data, $credits_id);
-                    
+                    return response()->json(['result' => true, 'message' => 'Leave successfully filed. Wait for approval.']);
+                } else {
+                    return response()->json(['result' => false, 'message' => 'Unable to file Leave.']);
                 }
-                else
-                {
-                   
-                }
-                }
+                
+             
+            }
 
         }
  
     }
 
-    public function show(Leave $leave)
+    public function get_leave_code($leave_type_id)
     {
+        $leave_types = new LeaveTypes();
+        $code = $leave_types->retrieve_one($leave_type_id);
+        return $code->leave_type_code;
+
+    }
+
+    public function get_attendance_id($users_id,$date_leave)
+    {
+        // $select = ['id'];
+        $where = ['users_id' => $users_id, 'date' => $date_leave];
+        $attendance = new Attendance();
+        $id = $attendance->get_attendance_id($where);
+        return $id;
 
     }
 
 
-    public function edit(Leave $leave)
-    {
-     
-    }
 
-    public function update(Request $request, Leave $leave)
-    {
-     
-    }
-
-
-    public function destroy(Leave $leave)
-    {
-       
-    }
+ 
 }

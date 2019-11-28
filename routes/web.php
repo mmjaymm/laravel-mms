@@ -28,13 +28,11 @@ Route::get('undertime-details','UndertimeController@get_undertime_data');
 
 Route::get('token','FailureController@index');
 
-//leave credits
+//leave credits section
 Route::get('leave-credits','LeaveCreditsController@index');
 Route::post('leave-credits','LeaveCreditsController@store');
 Route::patch('leave-credits/{id}','LeaveCreditsController@update');
 Route::get('leave-credits/retrieve-user','LeaveCreditsController@retrieve_user');
-
-
 
 Route::resource('leave-types','LeaveTypesController');
 
@@ -60,5 +58,7 @@ Route::resource('overtime', 'OvertimeController');
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 
-//leave
+//leave section
+Route::get('leave','LeaveController@index');
+Route::post('leave','LeaveController@store');
 
