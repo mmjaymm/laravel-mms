@@ -20,7 +20,7 @@ class Attendance extends Model
 
     public function update_data($id, $data)
     {
-         return Attendance::where('id', $id)->update($data);
+        return Attendance::where('id', $id)->update($data);
     }
 
     public function today($today_date)
@@ -66,5 +66,16 @@ class Attendance extends Model
     public function cancelled_leave($leave_ids, $updated_data)
     {
         return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
+    }
+
+    public function retrieve_one($where)
+    {
+        // return DB::connection('pgsql')->table('attendances')
+        // ->select($select)
+        // ->where($where)
+        // ->get();
+        
+        return Attendance::where($where)
+        ->first();
     }
 }

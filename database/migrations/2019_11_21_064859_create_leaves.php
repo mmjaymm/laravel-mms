@@ -24,8 +24,9 @@ class CreateLeaves extends Migration
             $table->integer('reviewed_by')->nullable();
             $table->dateTime('reviewed_datetime')->nullable();
             $table->date('date_filed');
-            $table->string('remarks');
-            $table->integer('attendances_id');
+            $table->string('remarks')->nullable();
+            $table->integer('attendances_id')->nullable();
+            $table->foreign('leave_type_id')->references('id')->on('attendances');
             $table->integer('is_active')->default(1);
             $table->timestamps();
         });
