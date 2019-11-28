@@ -13,7 +13,7 @@ class Failure extends Model
     protected $fillable     = ['datetime_in','datetime_out','reason','date_file','attendances_id','users_id'];
     protected $guarded      = ['id'];
 
-    public function insert_data($data)
+    public function insert_failure_data($data)
     {
         return DB::connection('pgsql')->table('failures')->insertGetId($data);
     }
