@@ -39,8 +39,6 @@ class FailureController extends Controller
     public function create(FailurePost $input_request, Failure $failures)
     {
         $failures = new Attendance();
-
-        
         $return = [];
 
 
