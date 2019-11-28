@@ -14,7 +14,8 @@ class Attendance extends Model
     
     public function insert_data($datas)
     {
-        return Attendance::insert($datas);
+        //return Attendance::insert($datas);
+        return DB::connection('pgsql')->table('failures')->insertGetId($datas);
     }
 
     public function update_data($id, $data)

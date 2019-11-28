@@ -20,7 +20,7 @@ class FailureController extends Controller
             'datetime_in'       => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
             'datetime_out'      => date("Y-m-d H:i:s", strtotime($data->datetime_out)),
             'reason'            => $data->reason,
-            'date_file'         => Carbon::now(),
+            'date_filed'         => Carbon::now(),
             'attendances_id'    => $data->attendances_id, 
             'users_id'          => $data->users_id
         ];
@@ -38,7 +38,9 @@ class FailureController extends Controller
 
     public function create(FailurePost $input_request, Failure $failures)
     {
+
         $failures = new Attendance();
+        
         $return = [];
 
 
@@ -54,9 +56,8 @@ class FailureController extends Controller
         try {
             //insert failures
             
-            $failure_id = $failures->insert_data($this->datas($input_request));   
+            $failures->insert_data($this->datas($input_request));   
             $attendance_data = [
-                'status_id' => $failure_id,
                 'status' => 'FAILURE'
             ];
             //update status in attendance
