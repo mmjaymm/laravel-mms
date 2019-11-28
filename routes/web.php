@@ -32,7 +32,12 @@ Route::put('undertime/{id}', 'UndertimeController@update');
 
 Route::get('token', 'FailureController@index');
 
-Route::resource('leave-credits', 'LeaveCreditsController');
+//leave credits section
+Route::get('leave-credits', 'LeaveCreditsController@index');
+Route::post('leave-credits', 'LeaveCreditsController@store');
+Route::patch('leave-credits/{id}', 'LeaveCreditsController@update');
+Route::get('leave-credits/retrieve-user', 'LeaveCreditsController@retrieve_user');
+
 Route::resource('leave-types', 'LeaveTypesController');
 
 //late section
@@ -70,3 +75,6 @@ Route::post('users/login_auth', 'UserController@login_auth');
 Route::get('users/sign_out', 'UserController@sign_out');
 Route::get('users/administrator', 'UserController@administrator');
 Route::get('users/normal-users', 'UserController@users');
+//leave section
+Route::get('leave', 'LeaveController@index');
+Route::post('leave', 'LeaveController@store');

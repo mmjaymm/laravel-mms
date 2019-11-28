@@ -16,15 +16,15 @@ class Leave extends Model
         return Leave::insert($data);
     } 
 
-    public function get_leave_credits($users_id,$leave_type_id)
-    {
-        return DB::table('leave_types')
-        ->leftjoin('leave_credits','leave_types.id','=','leave_credits.leave_type_id')
-        ->where('leave_credits.leave_type_id',$leave_type_id)
-        ->where('leave_credits.users_id',$users_id)
-        ->select('leave_credits.users_id','leave_types.id as leave_types_id', 'leave_types.leave_type', 'leave_types.leave_type_code',
-        'leave_credits.credits','leave_credits.id as credits_id')
-        ->first();
-    }
+    // public function get_leave_credits($users_id,$leave_type_id)
+    // {
+    //     return DB::table('leave_types')
+    //     ->leftjoin('leave_credits','leave_types.id','=','leave_credits.leave_type_id')
+    //     ->where('leave_credits.leave_type_id',$leave_type_id)
+    //     ->where('leave_credits.users_id',$users_id)
+    //     ->select('leave_credits.users_id','leave_types.id as leave_types_id', 'leave_types.leave_type', 'leave_types.leave_type_code',
+    //     'leave_credits.credits','leave_credits.id as credits_id')
+    //     ->first();
+    // }
 
 }
