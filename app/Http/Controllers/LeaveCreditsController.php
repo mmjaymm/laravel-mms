@@ -12,17 +12,9 @@ class LeaveCreditsController extends Controller
   
     public function index()
     {
-    
         $leave_credits = new LeaveCredits();
-        return $leave_credits->retrieve_all();
+        return response()->json($leave_credits->retrieve_all());
     }
-
-
-    public function create()
-    {
-    
-    }
-
   
     public function store(Request $request)
     {
@@ -34,25 +26,20 @@ class LeaveCreditsController extends Controller
         ]);
         if($validator->fails())
         {
-            return $validator->errors()->all(); 
+            return response()->json($validator->errors()->all()); 
         }
         else
-        {
+        { 
             $leave_credits = new LeaveCredits();
-            return $leave_credits->insert_leave_credits($data); 
+            $insert = $leave_credits->insert_leave_credits($data);     
+            return response()->json($insert);
         } 
-    }
-
-
-    public function show(LeaveCredits $leaveCredits)
-    {
-        
     }
 
     public function edit($id)
     {
         $leave_credits = new LeaveCredits();
-        return $leave_credits->retrieve_one($id);  
+        return response()->json($leave_credits->retrieve_one($id));  
     }
 
  
@@ -66,18 +53,27 @@ class LeaveCreditsController extends Controller
         ]);
         if($validator->fails())
         {
-            return $validator->errors()->all(); 
+            return response()->json($validator->errors()->all()); 
         }
         else
         {
             $leave_credits = new LeaveCredits();
-            return $leave_credits->update_leave_credits($data,$id);  
+            $update = $leave_credits->update_leave_credits($data,$id);  
+            if($update > 0)
+            {
+                $return['result'] = True;
+                $return['messages'] = "Successfully updated";
+
+            }
+            else
+            {
+                $return['result'] = FALSE;
+                $return['messages'] = "Not updated";
+            }
+            return response()->json($return);
+
+
         }
     }
 
- 
-    public function destroy(LeaveCredits $leaveCredits)
-    {
-    
-    }
 }

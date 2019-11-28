@@ -47,17 +47,8 @@ Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location')
 Route::get('all-location','ShuttleLocationController@show_shuttle_location');
 Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
 
-<<<<<<< HEAD
-Route::resource('overtime', 'OvertimeController');
-
-Route::resource('leave','LeaveController');
-
-
-
-=======
 //overtime section
 Route::resource('overtime', 'OvertimeController');
 
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
->>>>>>> 0afb70217829faab9f6350f28342d44497e41249
