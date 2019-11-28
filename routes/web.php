@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 //failure login section
 Route::post('failure/insert','FailureController@create');
-Route::put('failure/{$id}','FailureController@edit');
+Route::get('failure/{$id}','FailureController@edit');
 Route::put('failure/{$id}','FailureController@update');
 Route::put('failure/{$id}','FailureController@delete');
 
