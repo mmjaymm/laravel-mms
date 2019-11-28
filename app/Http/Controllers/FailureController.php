@@ -39,8 +39,8 @@ class FailureController extends Controller
     public function create(FailurePost $input_request, Failure $failures)
     {
 
-        $failures = new Attendance();
-        
+        $failures = new Failure();
+        $attendances = new Attendance();
         $return = [];
 
 
@@ -56,12 +56,13 @@ class FailureController extends Controller
         try {
             //insert failures
             
-            $failures->insert_data($this->datas($input_request));   
+ 
+            $failures->insert_failure_data($this->datas($input_request));   
             $attendance_data = [
                 'status' => 'FAILURE'
             ];
             //update status in attendance
-            $failures->update_data($input_request->attendances_id, $attendance_data) ;
+            $attendances->update_data($input_request->attendances_id, $attendance_data) ;
             DB::commit();
 
             $return['result'] = TRUE;
