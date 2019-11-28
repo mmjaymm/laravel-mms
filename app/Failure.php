@@ -15,16 +15,24 @@ class Failure extends Model
 
     public function insert_failure_data($data)
     {
-        return DB::connection('pgsql')->table('failures')->insertGetId($data);
+        return DB::connection('pgsql')
+                        ->table('failures')
+                        ->insertGetId($data);
     }
 
     public function update_data($id, $data)
     {
-        return DB::connection('pgsql')->table('failures')->where('id', $id)->update($data);
+        return DB::connection('pgsql')
+                        ->table('failures')
+                        ->where('id', $id)->update($data);
     }
 
-    public function edit_data($id)
+    public function retrieve_one($id)
     {
-        return Failure::where('id', $id)->get();
+        return DB::connection('pgsql')
+                ->table('failures')
+                ->where('id',$id)
+                ->first();
+
     }
 }

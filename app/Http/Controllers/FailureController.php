@@ -20,7 +20,7 @@ class FailureController extends Controller
             'datetime_in'       => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
             'datetime_out'      => date("Y-m-d H:i:s", strtotime($data->datetime_out)),
             'reason'            => $data->reason,
-            'date_file'         => Carbon::now(),
+            'date_filed'         => Carbon::now(),
             'attendances_id'    => $data->attendances_id, 
             'users_id'          => $data->users_id
         ];
@@ -40,7 +40,7 @@ class FailureController extends Controller
     {
 
         $failures = new Failure();
-        $attendances = new Attendance();
+        //$attendances = new Attendance();
         $return = [];
 
 
@@ -53,15 +53,18 @@ class FailureController extends Controller
 
         DB::beginTransaction(); 
 
+        $failures->insert_failure_data($this->datas($input_request));   
+        DB::commit();
+
         try {
             //insert failures
             
             $failures->insert_failure_data($this->datas($input_request));   
-            $attendance_data = [
-                'status' => 'FAILURE'
-            ];
-            //update status in attendance
-            $attendances->update_data($input_request->attendances_id, $attendance_data) ;
+            // $attendance_data = [
+            //     'status' => 'FAILURE'
+            // ];
+            // //update status in attendance
+            // $attendances->update_data($input_request->attendances_id, $attendance_data) ;
             DB::commit();
 
             $return['result'] = TRUE;
@@ -83,26 +86,11 @@ class FailureController extends Controller
     * return @array
     * request data required [ id]
     */
-    public function edit($id, Failure $failure)
+    public function edit($id)
     {
-        $failure_data = $failure->edit_data($id);
-
-        if(count($failure_data) > 0)
-        {
-            $return['result'] = TRUE;
-            $return['data'] = $failure_data[0];
-            $return['messages'] = 'Data Found.';
-        }
-        else
-        {
-            $return['result'] = FALSE;
-            $return['data'] = [];
-            $return['messages'] = 'No Data Found.';   
-        }
-        
-        return response()->json($return);
+        $failures = new Failure();
+        return $failures->retrieve_one($id);      
     }
-
 
     /*
     * return @array
@@ -141,20 +129,7 @@ class FailureController extends Controller
 
     public function delete($id, Failure $failures)
     {
-        $delete_result = $failures->update_data($id, ['is_deleted' => 1]);
-
-        if($delete_result)
-        {
-            $return['result'] = TRUE;
-            $return['messages'] = 'Deleted Successfully';
-        }
-        else
-        {
-            $return['result'] = FALSE;
-            $return['messages'] = 'Unabled to Delete.';   
-        }
         
-        return response()->json($return);
     }
 
 }
