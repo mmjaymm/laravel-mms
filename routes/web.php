@@ -15,13 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//failure login section
-Route::post('failure','FailureController@failure_insert');
-Route::get('failure-attendance','FailureController@failure_login_data');
-Route::put('update-attendance','FailureController@update_attendance');
-
 //undertime section
-Route::post('undertime','UndertimeController@insert_undertime');
-Route::get('undertime-details','UndertimeController@get_undertime_data');
+Route::post('undertime/insert','UndertimeController@store');
+Route::put('undertime/{id}','UndertimeController@edit');
+Route::put('undertime/{id}','UndertimeController@update');
+
 
 Route::get('token','FailureController@index');
