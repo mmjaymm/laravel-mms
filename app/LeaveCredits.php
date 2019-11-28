@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LeaveCredits extends Model
 {
-    protected $fillable=['leave_type_id','credits','users_id'];
+    protected $fillable=['leave_type_id','credits','users_id','date_from','date_to'];
     protected $guard = ['id'];
 
     public function insert_leave_credits($data)
@@ -23,14 +23,13 @@ class LeaveCredits extends Model
 
     public function retrieve_all()
     {
-        return LeaveCredits::where('is_deleted','0')->get();
+        return LeaveCredits::all();
     }
 
     public function retrieve_one($id)
     {
         return LeaveCredits::where('id',$id)
-                             ->where('is_deleted','0')
-                             ->first();
+                            ->first();
     }
 
 
