@@ -20,20 +20,28 @@ class Failure extends Model
                         ->insertGetId($data);
     }
 
+    public function edit_data($id)
+    {
+        return DB::connection('pgsql')
+                    ->table('failures')
+                    ->where('id', $id)->get();
+    }
+
     public function update_data($id, $data)
     {
         return DB::connection('pgsql')
-                        ->table('failures')
-                        ->where('id', $id)->update($data);
+                    ->table('failures')
+                    ->where('id', $id)->update($data);
     }
 
-    public function retrieve_one($id)
+    public function select_data($where)
     {
-        return DB::connection('pgsql')
-                ->table('failures')
-                ->where('id',$id)
-                ->first();
+        $failures = DB::connection('pgsql')
+                    ->table('failures')
+                    ->where('is_deleted',0)
+                    ->select('*');
 
+        return $failures->get();
     }
 
 

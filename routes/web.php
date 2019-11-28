@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 //failure login section
-Route::resource('failures', 'FailureController');
-
-
+Route::post('failures/insert','FailureController@create');
+Route::get('failures/{id}/edit','FailureController@edit');
+Route::patch('failures/{id}','FailureController@update');
+Route::delete('failures/{id}', 'FailureController@destroy');
+Route::post('failures/all', 'FailureController@retrieve');
 Route::get('token','FailureController@index');
