@@ -32,7 +32,6 @@ Route::put('undertime/{id}', 'UndertimeController@update');
 
 Route::get('token', 'FailureController@index');
 
-<<<<<<< HEAD
 //leave credits section
 Route::get('leave-credits','LeaveCreditsController@index');
 Route::post('leave-credits','LeaveCreditsController@store');
@@ -40,10 +39,6 @@ Route::patch('leave-credits/{id}','LeaveCreditsController@update');
 Route::get('leave-credits/retrieve-user','LeaveCreditsController@retrieve_user');
 
 Route::resource('leave-types','LeaveTypesController');
-=======
-Route::resource('leave-credits', 'LeaveCreditsController');
-Route::resource('leave-types', 'LeaveTypesController');
->>>>>>> 7d7bdb87639e573fa6c353c699832c77287b8bf8
 
 //late section
 Route::post('lates', 'LateController@store');
@@ -64,22 +59,17 @@ Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
 Route::get('attendances', 'AttendanceController@index');
 
-//shuttle sections
-Route::post('shuttle-location', 'ShuttleLocationController@add_shuttle_location');
-Route::get('all-location', 'ShuttleLocationController@show_shuttle_location');
-Route::put('update-location', 'ShuttleLocationController@edit_shuttle_location');
+//shuttle swq'update-location', 'ShuttleLocationController@edit_shuttle_location');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');
 
 
-<<<<<<< HEAD
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 
 //leave section
 Route::get('leave','LeaveController@index');
+Route::get('leave-load-leave','LeaveController@load_leave');
 Route::post('leave','LeaveController@store');
 
-=======
-Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
->>>>>>> 7d7bdb87639e573fa6c353c699832c77287b8bf8
+

@@ -19,9 +19,10 @@ use Carbon\CarbonPeriod;
 class LeaveController extends Controller
 {
   
+  
     public function index()
     {
-      
+        
 
      
     }
@@ -144,12 +145,53 @@ class LeaveController extends Controller
 
     public function get_attendance_id($users_id,$date_leave)
     {
-        // $select = ['id'];
+       
         $where = ['users_id' => $users_id, 'date' => $date_leave];
         $attendance = new Attendance();
         $id = $attendance->retrieve_one($where);
         return $id;
 
+    }
+
+    public function get_hris_details()
+    {
+        $where = ['section' => 'MANUFACTURING INFORMATION TECHNOLOGY'];
+        $hris = new Hris();
+        return $hris->man_power($where);
+    }
+
+    public function load_leave()
+    {
+        $leave = new Leave();
+        // $users_id = Auth::user()->id;
+        $where=[];
+
+        $load_user_leave = $leave->retrieve($where);
+        $hris_details = $this->get_hris_details();
+   
+
+        foreach ($load_user_leave as $load_key => $load_value) {
+            foreach ($hris_details as $hris_key => $hris_value) {
+                if($load_value->employee_number == $hris_value->emp_pms_id)
+                {
+                    $load_leave[] =[
+                        'employee_number' =>$hris_value->emp_pms_id,
+                        'last_name' => $hris_value->emp_last_name,
+                        'first_name' => $hris_value->emp_first_name,
+                        'middle_name' => $hris_value->emp_middle_name,
+                        'leave_type'=> $load_value->leave_type,
+                        'leave_code'=> $load_value->leave_type_code,
+                        'date_leave' => $load_value->date_leave,
+                        'date_files' => $load_value->date_filed
+
+                    ];
+                }
+            
+            }
+        }
+        return response()->json($load_leave);
+        
+        
     }
 
 
