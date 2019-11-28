@@ -32,6 +32,13 @@ class LeaveCredits extends Model
                             ->first();
     }
 
+    public function retrieve($where = [0])
+    {
+        return LeaveCredits::where($where)
+                            ->get();
+
+    }
+
 
 
 

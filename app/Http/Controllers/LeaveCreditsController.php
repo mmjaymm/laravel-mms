@@ -13,8 +13,9 @@ class LeaveCreditsController extends Controller
   
     public function index()
     {
+        $data = [];
         $leave_credits = new LeaveCredits();
-        return response()->json($leave_credits->retrieve_all());
+        return response()->json($leave_credits->retrieve($data));
     }
   
     public function store(Request $request)
@@ -51,12 +52,6 @@ class LeaveCreditsController extends Controller
         } 
     }
 
-    public function edit($id)
-    {
-        $leave_credits = new LeaveCredits();
-        return response()->json($leave_credits->retrieve_one($id));  
-    }
-
  
     public function update(Request $request, $id)
     {
@@ -89,6 +84,17 @@ class LeaveCreditsController extends Controller
 
 
         }
+    }
+
+
+
+    public function retrieve_user()
+    {
+        // $users_id = Auth::user()->id;
+        $data= ['users_id'=> '5'];
+        $leave_credits = new LeaveCredits();
+        return $leave_credits->retrieve($data);
+
     }
 
 }
