@@ -10,8 +10,8 @@ class Role extends Model
         'level'
     ];
 
-    public function user(Type $var = null)
+    public function user()
     {
-        # code...
+        return $this->hasMany('App\User');
     }
 }

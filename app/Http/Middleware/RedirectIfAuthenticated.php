@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::check()) {
-            if (Auth::user()->roles_id === 1) {
+            if (Auth::user()->roles->level === "ADMIN") {
                 return redirect('users/administrator');
             } else {
                 return redirect('users/normal-users');

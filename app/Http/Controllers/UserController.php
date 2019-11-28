@@ -28,7 +28,7 @@ class UserController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->roles_id === 1) {
+            if (Auth::user()->roles->level === "ADMIN") {
                 return redirect('users/administrator');
             } else {
                 return redirect('users/normal-users');
@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function administrator()
     {
-        // return Auth::user();
+        return Auth::user();
         return "Administrator";
     }
 
