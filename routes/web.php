@@ -19,6 +19,7 @@ Route::get('mms-login', function () {
 });
 
 //failure login section
+<<<<<<< HEAD
 Route::post('failure/insert', 'FailureController@create');
 Route::put('failure/{$id}', 'FailureController@edit');
 Route::put('failure/{$id}', 'FailureController@update');
@@ -64,3 +65,11 @@ Route::resource('overtime', 'OvertimeController');
 
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
+=======
+Route::post('failures/insert','FailureController@create');
+Route::get('failures/{id}/edit','FailureController@edit');
+Route::patch('failures/{id}','FailureController@update');
+Route::delete('failures/{id}', 'FailureController@destroy');
+Route::post('failures/all', 'FailureController@retrieve');
+Route::get('token','FailureController@index');
+>>>>>>> failureinsert
