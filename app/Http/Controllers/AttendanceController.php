@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Attendance;
 use App\Hris;
+use App\User;
 use App\Http\Requests\AttendancePost;
 use App\Mail\Attendance as AttendanceEmail;
 
@@ -87,8 +88,10 @@ class AttendanceController extends Controller
             foreach ($hris_attendances as $key => $employee) {
                 $attendance_status = ($employee->WORKDATE === null)? 'ABSENT' : 'PRESENT';
 
+                $users = User::where('employee_number', $employee->emp_pms_id)->first();
+
                 array_push($attendances_data, [
-                    'users_id' => $employee->emp_pms_id,
+                    'users_id' => $users->id,
                     'date' => date("Y-m-d", strtotime($input_request->start_date)),
                     'status' => $attendance_status,
                     'created_at' => Carbon::now(),
