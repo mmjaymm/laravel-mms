@@ -67,7 +67,7 @@ class LateController extends Controller
 
     /*
     * return @array
-    * request data required [ id]
+    * request data required [id]
     */
     public function edit($id, Late $lates)
     {
@@ -89,7 +89,7 @@ class LateController extends Controller
     /*
     * return @array
     * _method PUT
-    * request data required [ id, datetime_in, reason, attendances_id]
+    * request data required [ id, datetime_in, reason, attendances_id, users_id]
     */
     public function update($id, LatePost $input_request, Late $lates)
     {

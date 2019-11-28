@@ -34,6 +34,7 @@ Route::resource('leave-types', 'LeaveTypesController');
 //late section
 Route::post('lates', 'LateController@store');
 Route::get('lates/{id}/edit', 'LateController@edit');
+Route::put('lates/{id}', 'LateController@update');
 
 Route::get('token', 'LateController@index');
 
