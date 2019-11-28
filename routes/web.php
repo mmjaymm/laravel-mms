@@ -17,6 +17,7 @@ Route::get('home', function () {
 Route::get('mms-login', function () {
     return view('login.login');
 });
+
 //failure login section
 Route::post('failure/insert','FailureController@create');
 Route::put('failure/{$id}','FailureController@edit');
@@ -24,9 +25,12 @@ Route::put('failure/{$id}','FailureController@update');
 Route::put('failure/{$id}','FailureController@delete');
 
 
+
 //undertime section
-Route::post('undertime','UndertimeController@insert_undertime');
-Route::get('undertime-details','UndertimeController@get_undertime_data');
+Route::post('undertime/insert','UndertimeController@store');
+Route::put('undertime/{id}','UndertimeController@edit');
+Route::put('undertime/{id}','UndertimeController@update');
+
 
 Route::get('token','FailureController@index');
 
