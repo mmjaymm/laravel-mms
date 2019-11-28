@@ -16,7 +16,7 @@ Route::get('home', function () {
 });
 Route::get('mms-login', function () {
     return view('login.login');
-});
+})->middleware('guest');
 
 //failure login section
 Route::post('failure/insert', 'FailureController@create');
@@ -64,3 +64,9 @@ Route::resource('overtime', 'OvertimeController');
 
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
+
+//login-logout section
+Route::post('users/login_auth', 'UserController@login_auth');
+Route::get('users/sign_out', 'UserController@sign_out');
+Route::get('users/administrator', 'UserController@administrator');
+Route::get('users/normal-users', 'UserController@users');
