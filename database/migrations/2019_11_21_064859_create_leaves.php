@@ -26,7 +26,6 @@ class CreateLeaves extends Migration
             $table->date('date_filed');
             $table->string('remarks');
             $table->integer('attendances_id');
-            $table->integer('users_id');
             $table->integer('is_active')->default(1);
             $table->timestamps();
         });
