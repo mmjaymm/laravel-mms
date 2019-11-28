@@ -79,6 +79,31 @@ class FailureController extends Controller
     }
 
 
+     /*
+    * return @array
+    * request data required [ id]
+    */
+    public function edit($id, Failure $failure)
+    {
+        $failure_data = $failure->edit_data($id);
+
+        if(count($failure_data) > 0)
+        {
+            $return['result'] = TRUE;
+            $return['data'] = $failure_data[0];
+            $return['messages'] = 'Data Found.';
+        }
+        else
+        {
+            $return['result'] = FALSE;
+            $return['data'] = [];
+            $return['messages'] = 'No Data Found.';   
+        }
+        
+        return response()->json($return);
+    }
+
+
     /*
     * return @array
     * _method PUT
