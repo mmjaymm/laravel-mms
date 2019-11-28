@@ -28,6 +28,7 @@ class LatePost extends FormRequest
             'attendances_id' => 'required',
             'datetime_in' => 'required|date_format:Y/m/d H:i:s',
             'reason' => 'required',
+            'users_id' => 'required',
         ];
     }
 
@@ -38,6 +39,7 @@ class LatePost extends FormRequest
             'datetime_in.required' => 'Time in is required!',
             'datetime_in.date' => 'Please insert valid time in format!',
             'reason.required' => 'Reason is required!',
+            'users_id.required' => 'Users ID is Required!',
         ];
     }
 

@@ -19,7 +19,7 @@ class Attendance extends Model
 
     public function update_data($id, $data)
     {
-         return Attendance::where('id', $id)->update($data);
+        return Attendance::where('id', $id)->update($data);
     }
 
     public function today($today_date)

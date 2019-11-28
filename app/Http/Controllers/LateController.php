@@ -12,10 +12,12 @@ use Illuminate\Support\Carbon;
 class LateController extends Controller
 {
     private function datas($data)
-    {   
+    {
         return [
             'datetime_in' => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
-            'reason' => $data->reason
+            'reason' => $data->reason,
+            'attendances_id' => $data->attendances_id,
+            'users_id' => $data->users_id
         ];
     }
 
@@ -26,40 +28,37 @@ class LateController extends Controller
 
     /*
     * return @array
-    * request data required [ id, datetime_in, reason, attendances_id]
+    * request data required [ id, datetime_in, reason, attendances_id, users_id]
     */
     public function store(LatePost $input_request, Late $lates)
-    {   
+    {
         $attendances = new Attendance;
         $return = [];
 
         if ($input_request->validator->fails()) {
-            $return['result'] = FALSE;
+            $return['result'] = false;
             $return['messages'] = $input_request->validator->errors();
 
             return response()->json($return);
         }
 
-        DB::beginTransaction(); 
+        DB::beginTransaction();
 
         try {
             //insert late
-            $late_id = $lates->insert_data($this->datas($input_request));   
-            $attendance_data = [
-                'status_id' => $late_id,
-                'status' => 'LATE'
-            ];
+            $late_inserted = $lates->insert_data($this->datas($input_request));
+            $attendance_data = ['status' => 'LATE'];
+
             //update status in attendance
             $attendances->update_data($input_request->attendances_id, $attendance_data) ;
             DB::commit();
 
-            $return['result'] = TRUE;
+            $return['result'] = true;
             $return['messages'] = 'Inserted Successfully.';
-
         } catch (\Throwable $th) {
             DB::rollback();
 
-            $return['result'] = FALSE;
+            $return['result'] = false;
             $return['messages'] = 'Unable to Insert';
         }
         
@@ -74,17 +73,14 @@ class LateController extends Controller
     {
         $late_data = $lates->edit_data($id);
 
-        if(count($late_data) > 0)
-        {
-            $return['result'] = TRUE;
+        if (count($late_data) > 0) {
+            $return['result'] = true;
             $return['data'] = $late_data[0];
             $return['messages'] = 'Data Found.';
-        }
-        else
-        {
-            $return['result'] = FALSE;
+        } else {
+            $return['result'] = false;
             $return['data'] = [];
-            $return['messages'] = 'No Data Found.';   
+            $return['messages'] = 'No Data Found.';
         }
         
         return response()->json($return);
@@ -98,7 +94,7 @@ class LateController extends Controller
     public function update($id, LatePost $input_request, Late $lates)
     {
         if ($input_request->validator->fails()) {
-            $return['result'] = FALSE;
+            $return['result'] = false;
             $return['messages'] = $input_request->validator->errors();
 
             return response()->json($return);
@@ -106,15 +102,12 @@ class LateController extends Controller
 
         $update_result = $lates->update_data($id, $this->datas($input_request));
 
-        if($update_result)
-        {
-            $return['result'] = TRUE;
+        if ($update_result) {
+            $return['result'] = true;
             $return['messages'] = 'Updated Successfully';
-        }
-        else
-        {
-            $return['result'] = FALSE;
-            $return['messages'] = 'Unabled to Update.';   
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Update.';
         }
         
         return response()->json($return);
@@ -128,15 +121,12 @@ class LateController extends Controller
     {
         $delete_result = $lates->update_data($id, ['is_deleted' => 1]);
 
-        if($delete_result)
-        {
-            $return['result'] = TRUE;
+        if ($delete_result) {
+            $return['result'] = true;
             $return['messages'] = 'Deleted Successfully';
-        }
-        else
-        {
-            $return['result'] = FALSE;
-            $return['messages'] = 'Unabled to Delete.';   
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Delete.';
         }
         
         return response()->json($return);

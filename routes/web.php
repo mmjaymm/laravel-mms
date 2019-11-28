@@ -18,21 +18,21 @@ Route::get('mms-login', function () {
     return view('login.login');
 });
 //failure login section
-Route::post('failure','FailureController@failure_insert');
-Route::get('failure-attendance','FailureController@failure_login_data');
-Route::put('update-attendance','FailureController@update_attendance');
+Route::post('failure', 'FailureController@failure_insert');
+Route::get('failure-attendance', 'FailureController@failure_login_data');
+Route::put('update-attendance', 'FailureController@update_attendance');
 
 //undertime section
-Route::post('undertime','UndertimeController@insert_undertime');
-Route::get('undertime-details','UndertimeController@get_undertime_data');
+Route::post('undertime', 'UndertimeController@insert_undertime');
+Route::get('undertime-details', 'UndertimeController@get_undertime_data');
 
-Route::get('token','FailureController@index');
+Route::get('token', 'FailureController@index');
 
-Route::resource('leave-credits','LeaveCreditsController');
-Route::resource('leave-types','LeaveTypesController');
+Route::resource('leave-credits', 'LeaveCreditsController');
+Route::resource('leave-types', 'LeaveTypesController');
 
 //late section
-Route::resource('lates', 'LateController');
+Route::post('lates', 'LateController@store');
 Route::get('token', 'LateController@index');
 
 //attendance section
@@ -43,9 +43,9 @@ Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
 Route::get('attendances', 'AttendanceController@index');
 
 //shuttle sections
-Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
-Route::get('all-location','ShuttleLocationController@show_shuttle_location');
-Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
+Route::post('shuttle-location', 'ShuttleLocationController@add_shuttle_location');
+Route::get('all-location', 'ShuttleLocationController@show_shuttle_location');
+Route::put('update-location', 'ShuttleLocationController@edit_shuttle_location');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');

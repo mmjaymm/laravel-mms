@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class Late extends Model
 {
-    protected $fillable = ['datetime_in', 'reason'];
+    protected $fillable = ['datetime_in', 'reason', 'attendances_id', 'users_id'];
 
     public function insert_data($data)
     {
-        return Late::create($data)->id;
+        return Late::create($data)->save();
     }
 
     public function update_data($id, $data)
@@ -32,8 +32,8 @@ class Late extends Model
             ->get();
     }
 
-    public function attendance()
-    {
-        return $this->hasOne('App\Attendance','status_id');
-    }
+    // public function attendance()
+    // {
+    //     return $this->hasOne('App\Attendance','status_id');
+    // }
 }
