@@ -17,31 +17,12 @@ Route::get('home', function () {
 Route::get('mms-login', function () {
     return view('login.login');
 });
-//failure login section
-Route::post('failure','FailureController@failure_insert');
-Route::get('failure-attendance','FailureController@failure_login_data');
-Route::put('update-attendance','FailureController@update_attendance');
-
-//undertime section
-Route::post('undertime','UndertimeController@insert_undertime');
-Route::get('undertime-details','UndertimeController@get_undertime_data');
-
-Route::get('token','FailureController@index');
-
-Route::resource('leave-credits','LeaveCreditsController');
-Route::resource('leave-types','LeaveTypesController');
-
-Route::resource('lates', 'LateController');
-Route::get('token', 'LateController@index');
-
-Route::get('attendances/hris_data', 'AttendanceController@show');
-Route::post('attendances/insert', 'AttendanceController@store');
-Route::get('attendances/today_mit', 'AttendanceController@today_mit');
 
 //shuttle sections
-Route::post('shuttle-location','ShuttleLocationController@add_shuttle_location');
-Route::get('all-location','ShuttleLocationController@show_shuttle_location');
-Route::put('update-location','ShuttleLocationController@edit_shuttle_location');
+Route::post('shuttles/insert','ShuttleLocationController@store');
+Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
+Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
+Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 
-Route::resource('overtime', 'OvertimeController');
+Route::get('token', 'ShuttleLocationController@index');
 
