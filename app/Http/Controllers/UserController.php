@@ -52,6 +52,7 @@ class UserController extends Controller
 
     public function users()
     {
-        return "Users";
+        return Auth::user();
+
     }
 }

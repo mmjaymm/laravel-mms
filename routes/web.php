@@ -20,7 +20,7 @@ Route::get('mms-login', function () {
 
 //failure login section
 
-Route::post('failures/insert','FailureController@create');
+Route::post('failures/','FailureController@create');
 Route::get('failures/{id}/edit','FailureController@edit');
 Route::patch('failures/{id}','FailureController@update');
 Route::delete('failures/{id}', 'FailureController@destroy');
@@ -28,14 +28,14 @@ Route::post('failures/all', 'FailureController@retrieve');
 Route::get('token','FailureController@index');
 
 //undertime section
-Route::post('undertimes/insert','UndertimeController@store');
+Route::post('undertimes/','UndertimeController@store');
 Route::get('undertimes/{id}/edit','UndertimeController@edit');
 Route::patch('undertimes/{id}','UndertimeController@update');
 Route::delete('undertimes/{id}', 'UndertimeController@destroy');
-Route::post('undertimes/all', 'UndertimeController@retrieve');
-Route::post('undertimes/deleted', 'UndertimeController@retrieve');
-Route::post('undertimes/not-deleted', 'UndertimeController@retrieve');
-Route::get('token', 'FailureController@index');
+Route::get('undertimes/all', 'UndertimeController@retrieve');
+Route::get('undertimes/deleted', 'UndertimeController@retrieve');
+Route::get('undertimes/not-deleted', 'UndertimeController@retrieve');
+
 
 //leave credits section
 Route::get('leave-credits','LeaveCreditsController@index');
@@ -54,9 +54,6 @@ Route::post('lates/all', 'LateController@retrieve');
 Route::post('lates/deleted', 'LateController@retrieve');
 Route::post('lates/not-deleted', 'LateController@retrieve');
 
-
-Route::get('token', 'LateController@mms_token');
-
 //attendance section
 Route::post('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
@@ -70,12 +67,10 @@ Route::get('attendances', 'AttendanceController@index');
 Route::resource('overtime', 'OvertimeController');
 
 //shuttle sections
-Route::post('shuttles/insert','ShuttleLocationController@store');
+Route::post('shuttles/','ShuttleLocationController@store');
 Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
 Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
-Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
-
-Route::get('token', 'ShuttleLocationController@index');
+Route::get('shuttles/all', 'ShuttleLocationController@retrieve');
 
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');

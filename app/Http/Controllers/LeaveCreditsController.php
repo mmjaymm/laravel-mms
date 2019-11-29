@@ -6,6 +6,7 @@ use App\LeaveCredits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 
 class LeaveCreditsController extends Controller
@@ -91,9 +92,10 @@ class LeaveCreditsController extends Controller
     public function retrieve_user()
     {
         // $users_id = Auth::user()->id;
-        $data= ['users_id'=> '5'];
+        $data= ['users_id'=> Auth::user()->id];
         $leave_credits = new LeaveCredits();
         return $leave_credits->retrieve($data);
+        // return $data;
 
     }
 
