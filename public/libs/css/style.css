@@ -2066,7 +2066,7 @@ Pageheader
     width: 100%;
     /*position: absolute; bottom: 0;*/
 }
-
+ 
 .footer-links {}
 
 .footer .footer-links a {
@@ -2607,7 +2607,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn {
     font-size: 14px;
     padding: 9px 16px;
-    border-radius: 2px;
+    border-radius: 6px;
 }
 
 .btn-wishlist {
@@ -2656,8 +2656,8 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-primary {
     color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #2db4e9;
+    border-color: #2db4e9;
 }
 
 .btn-primary:hover {
@@ -2693,30 +2693,30 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-secondary {
     color: #fff;
-    background-color: #ff407b;
-    border-color: #ff407b;
+    background-color: rgb(243, 91, 180);
+    border-color: rgb(255, 116, 197);
 }
 
 .btn-secondary:hover {
     color: #fff;
-    background-color: #f0346e;
-    border-color: #f0346e;
+    background-color: #ee2288;
+    border-color: #ee2288;
 }
 
 .btn-secondary.focus,
 .btn-secondary:focus {
     color: #fff;
-    background-color: #f0346e;
-    border-color: #f0346e;
-    box-shadow: 0 0 0 1px rgb(222, 17, 80);
+    background-color: rgb(255, 116, 197);
+    border-color: rgb(255, 116, 197);
+    box-shadow: 0 0 0 1px rgb(255, 116, 197);
 }
 
 .btn-secondary:not(:disabled):not(.disabled).active,
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show>.btn-secondary.dropdown-toggle {
     color: #fff;
-    background-color: #f0346e;
-    border-color: #f0346e;
+    background-color: #ee2288;
+    border-color:#ee2288;
 }
 
 

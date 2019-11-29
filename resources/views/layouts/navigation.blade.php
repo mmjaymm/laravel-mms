@@ -152,10 +152,10 @@
                                                 <div id="submenu-2-5" class="collapse submenu" style="">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="list_of_filed_undertime"><i class="fas fa-list-alt"></i>List of Filed Undertime</a>
+                                                            <a class="nav-link" href="list-filed-undertime"><i class="fas fa-list-alt"></i>List of Filed Undertime</a>
                                                         </li>
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="undertime_form"><i class="fas fa-file-alt"></i>Undertime Form</a>
+                                                            <a class="nav-link" href="undertime-form"><i class="fas fa-file-alt"></i>Undertime Form</a>
                                                         </li>
                                                     </ul>
                                                 </div>

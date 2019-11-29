@@ -47,9 +47,14 @@
                         <h5 class="mb-0">Data Tables - Print, Excel, CSV, PDF Buttons</h5>
                         
                     </div> --}}
+                    <div class="form-group row text-right">
+                        <div class="col col-sm-12 col-lg-12">
+                            <button class="btn btn-space btn-secondary"data-toggle="modal" data-target="#modal_file_late">File Late</button>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example" class="table table-striped table-bordered second" style="width:100%">
+                            <table id="tbl_list_of_filed_late" class="table table-striped table-bordered second" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
@@ -62,7 +67,7 @@
                                         <th>Reason</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbody_list_of_filed_late">
                                     <tr>
                                         <td>1</td>
                                         <td>185098</td>
@@ -105,26 +110,34 @@
         </div>
         
     </div>
+
+    <div id="modal_file_late" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">File Late Form</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="Late ime in">Time In</label>
+                        <input class="form-control form-control-lg" id="txt_late_time_in" type="time" placeholder="" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="Late Date">Date</label>
+                        <input class="form-control form-control-lg" id="txt_late_date" type="date" placeholder="" autocomplete="off">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="btn_save_filed_late">Save</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
 @endsection
 
-@section('custom_scripts')
-<script src="vendor/jquery/jquery-3.3.1.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
-<script src="vendor/slimscroll/jquery.slimscroll.js"></script>
-<script src="vendor/multi-select/js/jquery.multi-select.js"></script>
-<script src="libs/js/main-js.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
-<script src="vendor/datatables/js/buttons.bootstrap4.min.js"></script>
-<script src="vendor/datatables/js/data-table.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
-<script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
-@endsection

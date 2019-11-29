@@ -11,6 +11,7 @@
 </head>
 <body>
     @include('layouts.navigation')
+    
     @yield('content_page')
 
 
