@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ChangeShuttle;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangeShuttlePost;
 use Illuminate\Support\Facades\DB;
@@ -10,21 +11,25 @@ use Illuminate\Support\Carbon;
 class ChangeShuttleController extends Controller
 {
 
+    protected $control_number = "MIT0698";
+
     private function datas($data)
     {
+
+        $control_number = 'MIT0698';
         return [
             'users_id'              => $data->users_id,
-            'datetime_in'           => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
             //'reason' => $data->reason,
-            'date_schedule'         => $date->date_schedule,
+            'date_schedule'         => $data->date_schedule,
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
-            'control_number'        => $data->control_number,
+            'control_number'        => $control_number++,
             'created_at'            => Carbon::now(),
             'updated_at'            => Carbon::now()
             
         ];
     }
+
 
 
      /*
@@ -33,7 +38,7 @@ class ChangeShuttleController extends Controller
     */
     public function store(ChangeShuttlePost $input_request, ChangeShuttle $change)
     {
-        $shuttle = new ChangeShuttle();
+        
         $return = [];
 
         if ($input_request->validator->fails()) {
@@ -47,7 +52,8 @@ class ChangeShuttleController extends Controller
 
         try {
             //insert change shuttle
-            $shuttle->insert_data($this->datas($input_request));
+            $change = new ChangeShuttle();
+            $change->insert_data($this->datas($input_request));
             DB::commit();
 
             $return['result'] = true;
@@ -61,5 +67,6 @@ class ChangeShuttleController extends Controller
         
         return response()->json($return);
     }
+
 
 }

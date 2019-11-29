@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ChangeShuttle extends Model
 {
-    
-    protected $fillable = ['','','',''];
+
+    protected $fillable = ['users_id','date_schedule','shuttle_status','shuttle_location_id','control_number'];
     protected $guarded  = ['id'];
 
     public function insert_data($data)

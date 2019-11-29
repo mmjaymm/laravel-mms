@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LatePost extends FormRequest
+class ChangeShuttlePost extends FormRequest
 {
     public $validator = null;
     /**
@@ -26,10 +26,9 @@ class LatePost extends FormRequest
     {
         return [
             'users_id'              => 'required',
-            'datetime_schedule'     => 'required|date_format:Y/m/d H:i:s',
+            'date_schedule'     => 'required|date_format:Y/m/d',
             'shuttle_status'        => 'required',
-            'shuttle_location_id'   => 'required',
-            'control_number'        => 'required'
+            'shuttle_location_id'   => 'required'
         ];
     }
 
@@ -37,11 +36,10 @@ class LatePost extends FormRequest
     {
         return [
             'users_id.required'             => 'Changed Shuttle is required!',
-            'datetime_schedule.required'    => 'Date Time in is required!',
-            'datetime_schedule.date'        => 'Please insert valid time in format!',
+            'date_schedule.required'    => 'Date Time in is required!',
+            'date_schedule.date'        => 'Please insert valid time in format!',
             'shuttle_status.required'       => 'Status is required!',
-            'shuttle_location_id.required'  => 'Changed Shuttle is required!',
-            'control_number.required'       => 'Controlnumber is required!'
+            'shuttle_location_id.required'  => 'Changed Shuttle is required!'
         ];
     }
 
@@ -49,5 +47,4 @@ class LatePost extends FormRequest
     {
         $this->validator = $validator;
     }
-    
 }
