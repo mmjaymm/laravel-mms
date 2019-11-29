@@ -6,10 +6,7 @@ use Illuminate\Http\Request;
 
 class ChangeShuttleController extends Controller
 {
-<<<<<<< HEAD
-    //
-=======
-    
+
     public function change_shuttle_save(Request $request)
     {
 
@@ -42,6 +39,4 @@ class ChangeShuttleController extends Controller
         $data = new Failure();
         return $data->insert_failure_login($failure_data);
     }
-
->>>>>>> changeshuttle
 }
