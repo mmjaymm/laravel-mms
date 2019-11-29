@@ -1,32 +1,32 @@
 $(document).ready(function() {
-    UNDERTIME.load_undertime();
+    LATE.load_late_data();
 });
 
-const UNDERTIME = (() => {
+const LATE = (() => {
 
-    let this_undertime = {};
+    let this_late = {};
 
 
 
-    this_undertime.load_undertime = () => {
-        // alert(1)
+    this_late.load_late_data = () => {
+        alert(1)
 
         $.ajax({
-            url: 'undertimes/all',
+            url: 'lates/all',
             type: 'get',
             dataType: 'json',
             success: result => {
-                $('#tbl_list_of_filed_undertime').DataTable().destroy();
-                $('#tbody_list_of_filed_undertime').empty();
+                $('#tbl_list_of_filed_late').DataTable().destroy();
+                $('#tbody_list_of_filed_late').empty();
 
-                var undertime = '';
+                var late = '';
 
 
                 $.each(result, function() {
 
-                    undertime +=
+                    late +=
                     `<tr>
-                        <td align="center"><button data-id="btn_edit_undertime"  class="btn btn-sm btn-info" title= "Edit Undertime" onclick="UNDERTIME.btn_edit_undertime('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_undertime"  class="btn btn-sm btn-info" title= "Edit Undertime" onclick="UNDERTIME.btn_edit_undertime('${this.id}');" method="POST"DELETE</button></td>
+                        <td align="center"><button data-id="btn_edit_late"  class="btn btn-sm btn-info" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_late"  class="btn btn-sm btn-info" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}');" method="POST"DELETE</button></td>
                         <td align="center">${this.id}</td>
                         <td align="center">${this.employee_number}</td>
                         <td align="center">${this.first_name}</td>
@@ -37,9 +37,9 @@ const UNDERTIME = (() => {
                         <td align="center">${this.reason}</td>
 					</tr>`;
                 });
-                $('#tbody_list_of_filed_undertime').html(undertime);
+                $('#tbody_list_of_filed_late').html(late);
 
-                $('#tbl_list_of_filed_undertime').DataTable({
+                $('#tbl_list_of_filed_late').DataTable({
                     "paging": true,
                     "lengthChange": true,
                     "searching": true,
@@ -58,17 +58,17 @@ const UNDERTIME = (() => {
 
     }
 
-    this_undertime.save_file_undertime = () => {
+    this_late.save_file_late = () => {
         alert('saved!')
 
         $.ajax({
-            url: 'undertime',
+            url: 'late',
             type: 'post',
             data: '',
             success: data => {
 
                 
-                // $('#modal_file_undertime').hide();
+                // $('#modal_file_late').hide();
             
             },
             error: function(data) {
@@ -79,23 +79,23 @@ const UNDERTIME = (() => {
 
     }
 
-    this_undertime.btn_edit_undertime = () => {
+    this_late.btn_edit_late = () => {
         alert('EDIT!')     
-    $('#modal_edit_undertime').modal("show");
+    $('#modal_edit_late').modal("show");
 
     }
 
-    this_undertime.save_edit_undertime = () => {
+    this_late.save_edit_late = () => {
         alert('saved edit!')
 
         $.ajax({
-            url: 'undertime',
+            url: 'late',
             type: 'post',
             data: '',
             success: data => {
 
                 
-                // $('#modal_file_undertime').hide();
+                // $('#modal_file_late').hide();
             
             },
             error: function(data) {
@@ -108,6 +108,6 @@ const UNDERTIME = (() => {
 
 
 
-    return this_undertime;
+    return this_late;
 
 })();

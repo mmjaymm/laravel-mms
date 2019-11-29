@@ -36,7 +36,11 @@
         <!-- ============================================================== -->
         <!-- end pageheader -->
         <!-- ============================================================== -->
-        
+        <div class="form-group row text-right">
+            <div class="col col-sm-12 col-lg-12">
+                <button class="btn btn-space btn-secondary"data-toggle="modal" data-target="#modal_file_late">File Late</button>
+            </div>
+        </div>
         <div class="row">
             <!-- ============================================================== -->
             <!-- data table  -->
@@ -47,58 +51,21 @@
                         <h5 class="mb-0">Data Tables - Print, Excel, CSV, PDF Buttons</h5>
                         
                     </div> --}}
-                    <div class="form-group row text-right">
-                        <div class="col col-sm-12 col-lg-12">
-                            <button class="btn btn-space btn-secondary"data-toggle="modal" data-target="#modal_file_late">File Late</button>
-                        </div>
-                    </div>
+                    
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tbl_list_of_filed_late" class="table table-striped table-bordered second" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>No.</th>
                                         <th>Employee ID</th>
-                                        <th>Name</th>
-                                        <th>Section</th>
-                                        <th>Status</th>
                                         <th>Time in</th>
                                         <th>Date</th>
                                         <th>Reason</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbody_list_of_filed_late">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>185098</td>
-                                        <td>RACHELLE ANN MARIE TECON</td>
-                                        <td>MIT</td>
-                                        <td>Late</td>
-                                        <td>8:59</td>
-                                        <td>November 26, 2019</td>
-                                        <td>Traffic</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>1641136</td>
-                                        <td>ERIKA REFORMADO</td>
-                                        <td>MIT</td>
-                                        <td>Late</td>
-                                        <td>8:20</td>
-                                        <td>November 26, 2019</td>
-                                        <td>Traffic</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>190099</td>
-                                        <td>RUBIO EUGENE</td>
-                                        <td>MIT</td>
-                                        <td>Late</td>
-                                        <td>7:59</td>
-                                        <td>November 26, 2019</td>
-                                        <td>Woke Up Late</td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="tbody_list_of_filed_late"></tbody>
                             </table>
                         </div>
                     </div>
@@ -111,33 +78,78 @@
         
     </div>
 
+    {{-- file late modal --}}
+
     <div id="modal_file_late" class="modal fade" role="dialog">
         <div class="modal-dialog">
-      
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title">File Late Form</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              
+                <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">File Late Form</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="Late ime in">Time In</label>
+                            <input class="form-control form-control-lg" id="txt_late_time_in" type="time" placeholder="" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="Late Date">Date</label>
+                            <input class="form-control form-control-lg" id="txt_late_date" type="date" placeholder="" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="Late Date">Reason</label>
+                            <input class="form-control form-control-lg" id="txt_late_reason" type="date" placeholder="" autocomplete="off">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn_save_filed_late" onclick="LATE.save_file_late();">Save</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+              
+        </div>
+    </div>
+    {{-- end of file late modal --}}
+
+    {{-- edit late modal --}}
+
+        <div id="modal_edit_late" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">File Late Form</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Late ime in">Time In</label>
+                                <input class="form-control form-control-lg" id="txt_edit_late_time_in" type="time" placeholder="" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="Late Date">Date</label>
+                                <input class="form-control form-control-lg" id="txt_edit_late_date" type="date" placeholder="" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="Late Date">Reason</label>
+                                <input class="form-control form-control-lg" id="txt_edit_late_reason" type="date" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btn_save_edit_filed_late" onclick="LATE.save_edit_late();">Save</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
               
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="Late ime in">Time In</label>
-                        <input class="form-control form-control-lg" id="txt_late_time_in" type="time" placeholder="" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="Late Date">Date</label>
-                        <input class="form-control form-control-lg" id="txt_late_date" type="date" placeholder="" autocomplete="off">
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" id="btn_save_filed_late">Save</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-      
         </div>
-      </div>
+              {{-- end of edit late modal --}}
+@endsection
+
+@section('custom_scripts')
+    <script src="{{asset('scripts/attendance/late.js') }}"></script>
 @endsection
 

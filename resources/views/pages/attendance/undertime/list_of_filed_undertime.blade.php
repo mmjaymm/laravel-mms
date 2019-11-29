@@ -103,65 +103,53 @@
                 <div class="modal-body">
                     {{-- modal body --}}
                     <div class="form-group">
-                            <form class="needs-validation" novalidate>
-                                    <div class="form-row">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                            <label for="Select Type">Select Type</label>
-                                            <select class="form-control" name="slc_type" id="slc_type" required>
-                                                <option value="" selected disabled>-- Choose One --</option>
-                                                <option value="HD">Half Day</option>
-                                                <option value="UT">Undertime</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                            <label for="validationCustom04">Date</label>
-                                            <input type="date" class="form-control" id="validationCustom04" required> 
-                                        </div>
+                        <form class="needs-validation" novalidate>
+                                <div class="form-row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                                        <label for="Select Type">Select Type</label>
+                                        <select class="form-control" name="slc_type" id="slc_type" required>
+                                            <option value="" selected disabled>-- Choose One --</option>
+                                            <option value="HD">Half Day</option>
+                                            <option value="UT">Undertime</option>
+                                        </select>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                            <label for="validationCustom03">Name</label>
-                                            <input type="text" class="form-control" id="validationCustom03" placeholder="Name" required>
-                                            
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                            <label for="validationCustom04">Section</label>
-                                            <input type="text" class="form-control" id="validationCustom04" placeholder="MIT" required>
-                                            
-                                        </div>
-                            </div>
-                                    <div class="row">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="validationCustom01">Destination</label>
-                                            <input type="text" class="form-control" id="validationCustom01" placeholder="Input Destination"  required>
-                                            
-                                        </div>
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="validationCustom02">Purpose/Reason</label>
-                                            <input type="text" class="form-control" id="validationCustom02" placeholder="Input Your Purpose/Reason"  required>
-                                           
-                                        </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                                        <label for="File Date">Date</label>
+                                        <input type="date" class="form-control" id="txt_filed_date" required> 
                                     </div>
-                                    <div class="form-row">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                            <label for="validationCustom03">Scheduled Date</label>
-                                            <input type="date" class="form-control" id="validationCustom03" placeholder="City" required>
-                                            
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                            <label for="validationCustom04">Scheduled Time</label>
-                                            <input type="time" class="form-control" id="validationCustom04" placeholder="State" required>
-                                           
-                                        </div>
-                                        
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                        <label for="Destination">Destination</label>
+                                        <input type="text" class="form-control" id="txt_destination" placeholder="Input Destination"  required>
                                         
                                     </div>
-                                </form>     
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                        <label for="Purpose/Reason">Purpose/Reason</label>
+                                        <input type="text" class="form-control" id="txt_reason" placeholder="Input Your Purpose/Reason"  required>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                                        <label for="Scheduled date">Scheduled Date</label>
+                                        <input type="date" class="form-control" id="txt_scheduled_date" placeholder="City" required>
+                                        
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                                        <label for="Scheduled time">Scheduled Time</label>
+                                        <input type="time" class="form-control" id="txt_scheduled_time" placeholder="State" required>
+                                        
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </form>     
                                 
                     {{-- end modal body --}}
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="btn_save_filed_late" onclick="UNDERTIME.save_file_undertime()">Save</button>
+                <button type="button" class="btn btn-secondary" id="btn_save_filed_late" onclick="UNDERTIME.save_file_undertime();">Save</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -170,6 +158,53 @@
         </div>
     
         {{-- end of file undertime modal --}}
+
+    {{-- edit undertime modal --}}
+
+    <div id="modal_edit_undertime" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">File Undertime Form</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            <label for="Destination">Destination</label>
+                            <input type="text" class="form-control" id="txt_edit_destination" placeholder="Input Destination"  required>
+                            
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            <label for="Purpose">Purpose/Reason</label>
+                            <input type="text" class="form-control" id="txt_edit_reason" placeholder="Input Your Purpose/Reason"  required>
+                            
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                            <label for="Scheduled Date">Scheduled Date</label>
+                            <input type="date" class="form-control" id="txt_edit_scheduled_date" placeholder="City" required>
+                            
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                            <label for="Scheduled Time">Scheduled Time</label>
+                            <input type="time" class="form-control" id="txt_edit_scheduled_time" placeholder="State" required>
+                            
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn_save_edit_undertime" onclick="LATE.save_edit_undertime();">Save</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+          {{-- end of edit undertime modal --}}
+</div>s
 @endsection
 
 
