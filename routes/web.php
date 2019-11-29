@@ -19,10 +19,13 @@ Route::get('mms-login', function () {
 })->middleware('guest');
 
 //failure login section
-Route::post('failure/insert', 'FailureController@create');
-Route::put('failure/{$id}', 'FailureController@edit');
-Route::put('failure/{$id}', 'FailureController@update');
-Route::put('failure/{$id}', 'FailureController@delete');
+
+Route::post('failures/insert','FailureController@create');
+Route::get('failures/{id}/edit','FailureController@edit');
+Route::patch('failures/{id}','FailureController@update');
+Route::delete('failures/{id}', 'FailureController@destroy');
+Route::post('failures/all', 'FailureController@retrieve');
+Route::get('token','FailureController@index');
 
 //undertime section
 Route::post('undertime/insert', 'UndertimeController@store');
@@ -76,5 +79,6 @@ Route::get('users/normal-users', 'UserController@users');
 Route::get('leave','LeaveController@index');
 Route::get('leave-load-leave','LeaveController@load_leave');
 Route::post('leave','LeaveController@store');
+
 
 
