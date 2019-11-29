@@ -71,6 +71,9 @@ Route::post('shuttles/','ShuttleLocationController@store');
 Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
 Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
 Route::get('shuttles/all', 'ShuttleLocationController@retrieve');
+Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
+Route::get('token', 'ShuttleLocationController@index');
+
 
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
