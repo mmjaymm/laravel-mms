@@ -38,7 +38,7 @@ class UndertimeController extends Controller
         $attendances = new Attendance();
 
         $return = [];
-
+        
         if ($input_request->validator->fails()) {
             $return['result'] = FALSE;
             $return['messages'] = $input_request->validator->errors();
@@ -54,7 +54,7 @@ class UndertimeController extends Controller
             $attendance_data = [
                 'status' => 'UNDERTIME'
             ];
-            //update status in attendance
+
             $attendances->update_data($input_request->attendances_id, $attendance_data) ;
 
             DB::commit();
