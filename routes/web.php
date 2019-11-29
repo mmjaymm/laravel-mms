@@ -25,6 +25,7 @@ Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
 Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
 Route::post('change/shuttles/insert','ChangeShuttleController@store');
+Route::post('change/shuttles/display','ChangeShuttleController@latest_control_number');
 
 
 Route::get('token', 'ShuttleLocationController@index');

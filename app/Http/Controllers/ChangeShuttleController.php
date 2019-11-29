@@ -11,25 +11,30 @@ use Illuminate\Support\Carbon;
 class ChangeShuttleController extends Controller
 {
 
-    protected $control_number = "MIT0698";
 
     private function datas($data)
     {
 
-        $control_number = 'MIT0698';
         return [
             'users_id'              => $data->users_id,
             //'reason' => $data->reason,
             'date_schedule'         => $data->date_schedule,
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
-            'control_number'        => $control_number++,
+            'control_number'        => $data->control_number,
             'created_at'            => Carbon::now(),
             'updated_at'            => Carbon::now()
             
         ];
     }
 
+
+    public function latest_control_number()
+    {
+        $control_number = new ChangeShuttle();
+        return $control_number->retrieve_control();
+
+    }
 
 
      /*
