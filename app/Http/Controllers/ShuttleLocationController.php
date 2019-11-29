@@ -150,5 +150,15 @@ class ShuttleLocationController extends Controller
         return response()->json($result);
     }
 
+    public function retrieve_default_shuttle(ShuttleLocation $location)
+    {
+        $result = [];
 
+        $result = $location->default_location($location);
+ 
+        return response()->json($result);
+ 
+    }
+      
 }
+
