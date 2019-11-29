@@ -16,12 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+<<<<<<< HEAD
 
-//FAILURE SECTION
-Route::post('failure','FailureController@failure_insert');
-Route::put('update-attendance','FailureController@update_attendance');
-
-//UNDERTIME SECTION
-Route::post('undertime','UndertimeController@insert_undertime');
-Route::get('undertime-details','UndertimeController@get_undertime_data');
-
+=======
+>>>>>>> failureinsert

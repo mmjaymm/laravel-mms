@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LatePost extends FormRequest
+class OvertimePost extends FormRequest
 {
     public $validator = null;
     /**
@@ -24,22 +24,22 @@ class LatePost extends FormRequest
      */
     public function rules()
     {
-        return [
-            'attendances_id' => 'required',
-            'datetime_in' => 'required|date_format:Y/m/d H:i:s',
-            'reason' => 'required',
+         return [
             'users_id' => 'required',
+            'overtime_type' => 'required',
+            'datetime_out' => 'required|date_format:Y-m-d H:i:s',
+            'reason' => 'required',
         ];
     }
 
-    public function messages()
+     public function messages()
     {
         return [
-            'attendances_id.required' => 'Attendance record is required!',
-            'datetime_in.required' => 'Time in is required!',
-            'datetime_in.date' => 'Please insert valid time in format!',
+            'users_id.required' => 'User is required!',
+            'overtime_type.required' => 'Overtime type is required!',
+            'datetime_out.required' => 'Time out is required!',
+            'datetime_out.date' => 'Please insert valid time in format!',
             'reason.required' => 'Reason is required!',
-            'users_id.required' => 'Users ID is Required!',
         ];
     }
 

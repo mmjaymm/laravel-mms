@@ -24,21 +24,78 @@ Route::get('list-filed-late','PageController@view_list_filed_late');
 
 
 //failure login section
-Route::post('failure','FailureController@failure_insert');
-Route::get('failure-attendance','FailureController@failure_login_data');
-Route::put('update-attendance','FailureController@update_attendance');
 
-//undertime section
-Route::post('undertime','UndertimeController@insert_undertime');
-Route::get('undertime-details','UndertimeController@get_undertime_data');
-
+Route::post('failures/insert','FailureController@create');
+Route::get('failures/{id}/edit','FailureController@edit');
+Route::patch('failures/{id}','FailureController@update');
+Route::delete('failures/{id}', 'FailureController@destroy');
+Route::post('failures/all', 'FailureController@retrieve');
 Route::get('token','FailureController@index');
 
-Route::resource('leave-credits','LeaveCreditsController');
+//undertime section
+Route::post('undertimes/insert','UndertimeController@store');
+Route::get('undertimes/{id}/edit','UndertimeController@edit');
+Route::patch('undertimes/{id}','UndertimeController@update');
+Route::delete('undertimes/{id}', 'UndertimeController@destroy');
+Route::post('undertimes/all', 'UndertimeController@retrieve');
+Route::post('undertimes/deleted', 'UndertimeController@retrieve');
+Route::post('undertimes/not-deleted', 'UndertimeController@retrieve');
+Route::get('token', 'FailureController@index');
+
+//leave credits section
+Route::get('leave-credits','LeaveCreditsController@index');
+Route::post('leave-credits','LeaveCreditsController@store');
+Route::patch('leave-credits/{id}','LeaveCreditsController@update');
+Route::get('leave-credits/retrieve-user','LeaveCreditsController@retrieve_user');
+
 Route::resource('leave-types','LeaveTypesController');
 
-Route::resource('lates', 'LateController');
-Route::get('token', 'LateController@index');
-Route::get('attendances', 'AttendanceController@index');
+//late section
+Route::post('lates', 'LateController@store');
+Route::get('lates/{id}/edit', 'LateController@edit');
+Route::put('lates/{id}', 'LateController@update');
+Route::delete('lates/{id}', 'LateController@destroy');
+Route::post('lates/all', 'LateController@retrieve');
+Route::post('lates/deleted', 'LateController@retrieve');
+Route::post('lates/not-deleted', 'LateController@retrieve');
+
+
+Route::get('token', 'LateController@mms_token');
+
+//attendance section
+Route::post('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
+Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
+Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
+Route::get('attendances', 'AttendanceController@index');
+
+//shuttle swq'update-location', 'ShuttleLocationController@edit_shuttle_location');
+
+//overtime section
+Route::resource('overtime', 'OvertimeController');
+
+//shuttle sections
+Route::post('shuttles/insert','ShuttleLocationController@store');
+Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
+Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
+Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
+
+Route::get('token', 'ShuttleLocationController@index');
+
+
+Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
+
+//login-logout section
+Route::post('users/login_auth', 'UserController@login_auth');
+Route::get('users/sign_out', 'UserController@sign_out');
+Route::get('users/administrator', 'UserController@administrator');
+Route::get('users/normal-users', 'UserController@users');
+//leave section
+Route::get('leave','LeaveController@index');
+Route::get('leave-load-leave','LeaveController@load_leave');
+Route::post('leave','LeaveController@store');
+
+
+
+
 

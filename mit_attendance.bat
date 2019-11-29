@@ -1,0 +1,1 @@
+cmd /c start http://10.164.22.46/mit-mms/public/attendances/auto_mit_attendance

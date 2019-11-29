@@ -170,6 +170,6 @@ class Hris extends Model
                          on aa.userid = bb.userid AND aa.DATE_IN = bb.DATE_OUT)
                 ) as att
                 ON att.employeeid = emp.emp_pms_id
-                WHERE emp.section = 'MANUFACTURING INFORMATION TECHNOLOGY' and emp.emp_system_status = 'ACTIVE'");
+                WHERE emp.section = '{$where->section}' and emp.emp_system_status = 'ACTIVE'");
     }
 }

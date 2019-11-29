@@ -15,8 +15,12 @@ class CreateFailures extends Migration
     {
         Schema::create('failures', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->dateTime('datetime_in');
+            $table->dateTime('datetime_out');
+            $table->string('reason');
             $table->date('date_filed');
-            $table->timestamps();
+            $table->integer('attendances_id');
+            $table->integer('users_id');
         });
     }
 

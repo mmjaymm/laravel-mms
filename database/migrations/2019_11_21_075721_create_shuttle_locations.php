@@ -17,7 +17,6 @@ class CreateShuttleLocations extends Migration
             $table->bigIncrements('id');
             $table->string('shuttle_location');
             $table->timestamps();
-
         });
     }
 
