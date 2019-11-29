@@ -12,7 +12,7 @@ class Undertime extends Model
     protected $fillable = ['datetime_out','reason','attendances_id','users_id'];
     protected $guarded  = ['id'];
 
-    public function insert_data($data)
+    public function insert_undertime_data($data)
     {
         return DB::connection('pgsql')
                 ->table('undertimes')
@@ -33,6 +33,30 @@ class Undertime extends Model
                 ->table('undertimes')
                 ->where('id', $id)
                 ->get();
+    }
+
+    public function select_data($where)
+    {
+        $undertimes = DB::connection('pgsql')
+                    ->table('undertimes')
+                    ->select('*');
+         
+
+        if ($where['is_deleted'] === 1) {
+            $undertimes->where('is_deleted', 1);
+        }
+        
+        if ($where['is_deleted'] === 0) {
+            $undertimes->where('is_deleted', 0);
+        }
+
+        if ($where['is_deleted'] === 'x') {
+            
+            $undertimes->whereIn('is_deleted',[0,1]);
+        }
+    
+                
+        return $undertimes->get();
     }
 
 
