@@ -69,6 +69,14 @@ Route::get('attendances', 'AttendanceController@index');
 //overtime section
 Route::resource('overtime', 'OvertimeController');
 
+//shuttle sections
+Route::post('shuttles/insert','ShuttleLocationController@store');
+Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
+Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
+Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
+
+Route::get('token', 'ShuttleLocationController@index');
+
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 
