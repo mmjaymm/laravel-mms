@@ -67,4 +67,15 @@ class Attendance extends Model
     {
         return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
     }
+
+    public function retrieve_one($where)
+    {
+        // return DB::connection('pgsql')->table('attendances')
+        // ->select($select)
+        // ->where($where)
+        // ->get();
+        
+        return Attendance::where($where)
+        ->first();
+    }
 }

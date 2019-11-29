@@ -16,7 +16,7 @@ Route::get('home', function () {
 });
 Route::get('mms-login', function () {
     return view('login.login');
-});
+})->middleware('guest');
 
 //failure login section
 
@@ -35,8 +35,13 @@ Route::put('undertime/{id}', 'UndertimeController@update');
 
 Route::get('token', 'FailureController@index');
 
-Route::resource('leave-credits', 'LeaveCreditsController');
-Route::resource('leave-types', 'LeaveTypesController');
+//leave credits section
+Route::get('leave-credits','LeaveCreditsController@index');
+Route::post('leave-credits','LeaveCreditsController@store');
+Route::patch('leave-credits/{id}','LeaveCreditsController@update');
+Route::get('leave-credits/retrieve-user','LeaveCreditsController@retrieve_user');
+
+Route::resource('leave-types','LeaveTypesController');
 
 //late section
 Route::post('lates', 'LateController@store');
@@ -57,16 +62,23 @@ Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
 Route::get('attendances', 'AttendanceController@index');
 
-//shuttle sections
-Route::post('shuttle-location', 'ShuttleLocationController@add_shuttle_location');
-Route::get('all-location', 'ShuttleLocationController@show_shuttle_location');
-Route::put('update-location', 'ShuttleLocationController@edit_shuttle_location');
+//shuttle swq'update-location', 'ShuttleLocationController@edit_shuttle_location');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');
 
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
+
+//login-logout section
+Route::post('users/login_auth', 'UserController@login_auth');
+Route::get('users/sign_out', 'UserController@sign_out');
+Route::get('users/administrator', 'UserController@administrator');
+Route::get('users/normal-users', 'UserController@users');
+//leave section
+Route::get('leave','LeaveController@index');
+Route::get('leave-load-leave','LeaveController@load_leave');
+Route::post('leave','LeaveController@store');
 
 
 
