@@ -38,4 +38,9 @@ class User extends Authenticatable
     ];
 
     public $timestamps = true;
+
+    public function roles()
+    {
+        return $this->belongsTo('App\Role');
+    }
 }
