@@ -14,6 +14,7 @@ class UndertimeController extends Controller
 
     private function datas($data)
     {   
+        $data->except('_token');
         return [
             'datetime_out'      => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
             'reason'            => $data->reason,
@@ -33,9 +34,14 @@ class UndertimeController extends Controller
     */
     public function store(UndertimePost $input_request, Undertime $undertimes)
     {   
+<<<<<<< HEAD
         $undertimes = new Undertime();
         $attendances = new Attendance();
 
+=======
+        $attendaces = new Attendance();
+        $undertimes = new Undertime();
+>>>>>>> undertime
         $return = [];
 
         if ($input_request->validator->fails()) {
@@ -54,7 +60,11 @@ class UndertimeController extends Controller
                 'status' => 'UNDERTIME'
             ];
             //update status in attendance
+<<<<<<< HEAD
             $attendances->update_data($input_request->attendances_id, $attendance_data) ;
+=======
+            $attendaces->update_data($input_request->attendances_id, $attendance_data) ;
+>>>>>>> undertime
             DB::commit();
 
             $return['result'] = TRUE;
@@ -122,6 +132,53 @@ class UndertimeController extends Controller
         }
         
         return response()->json($return);
+    }
+
+    /*
+    * return @array
+    * request data required [ id]
+    */
+    public function destroy($id, Undertime $undertimes)
+    {
+        $delete_result = $undertimes->update_data($id, ['is_deleted' => 1]);
+
+        if ($delete_result) {
+            $return['result'] = true;
+            $return['messages'] = 'Deleted Successfully';
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Delete.';
+        }
+        
+        return response()->json($return);
+    }
+
+
+    public function retrieve(Request $request, Undertime $undertimes)
+    {
+        $result = [];
+   
+        if (request()->is('undertimes/deleted')) {
+            $where = [
+                'is_deleted' => 1
+            ];
+        }
+
+        if (request()->is('undertimes/not-deleted')) {
+            $where = [
+                'is_deleted' => 0
+            ];
+        }
+
+        if (request()->is('undertimes/all')) {
+            $where = [
+                'is_deleted' => 'x'
+            ];
+        }
+
+        $result = $undertimes->select_data($where);
+
+        return response()->json($result);
     }
 
 

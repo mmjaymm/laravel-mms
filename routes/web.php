@@ -28,11 +28,13 @@ Route::post('failures/all', 'FailureController@retrieve');
 Route::get('token','FailureController@index');
 
 //undertime section
-Route::post('undertime/insert', 'UndertimeController@store');
-Route::put('undertime/{id}', 'UndertimeController@edit');
-Route::put('undertime/{id}', 'UndertimeController@update');
-
-
+Route::post('undertimes/insert','UndertimeController@store');
+Route::get('undertimes/{id}/edit','UndertimeController@edit');
+Route::patch('undertimes/{id}','UndertimeController@update');
+Route::delete('undertimes/{id}', 'UndertimeController@destroy');
+Route::post('undertimes/all', 'UndertimeController@retrieve');
+Route::post('undertimes/deleted', 'UndertimeController@retrieve');
+Route::post('undertimes/not-deleted', 'UndertimeController@retrieve');
 Route::get('token', 'FailureController@index');
 
 //leave credits section
@@ -79,6 +81,8 @@ Route::get('users/normal-users', 'UserController@users');
 Route::get('leave','LeaveController@index');
 Route::get('leave-load-leave','LeaveController@load_leave');
 Route::post('leave','LeaveController@store');
+
+
 
 
 
