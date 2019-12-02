@@ -13,8 +13,11 @@ const UNDERTIME = (() => {
 
         $.ajax({
             url: 'undertimes/all',
-            type: 'get',
-            dataType: 'json',
+            type: 'post',
+            data:
+            {
+                _token: _TOKEN
+            },
             success: result => {
                 $('#tbl_list_of_filed_undertime').DataTable().destroy();
                 $('#tbody_list_of_filed_undertime').empty();

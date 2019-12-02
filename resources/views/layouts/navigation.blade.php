@@ -165,16 +165,16 @@
                                                 <div id="submenu-2-6" class="collapse submenu" style="">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="leave_monitoring_record"><i class="far fa-list-alt"></i>Leave Monitoring Record</a>
+                                                            <a class="nav-link" href="leave-monitoring-record"><i class="far fa-list-alt"></i>Leave Monitoring Record</a>
                                                         </li>
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="leave_form"><i class="fas fa-file-alt"></i>Leave Form</a>
+                                                            <a class="nav-link" href="leave-form"><i class="fas fa-file-alt"></i>Leave Form</a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="attendance_report"><i class="fas fa-chart-bar"></i>Reports</a>
+                                                <a class="nav-link" href="attendance-report"><i class="fas fa-chart-bar"></i>Reports</a>
                                             </li>
                                         </ul>
                                     </div>

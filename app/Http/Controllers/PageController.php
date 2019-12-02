@@ -35,10 +35,10 @@ class PageController extends Controller
         return view('pages.attendance.undertime.undertime_form');
     }
 
-// --------------------- Leace Module ------------
+// --------------------- Leave Module ------------
     public function view_list_filed_leave()
     {
-        return view('pages.attendance.undertime.list_of_filed_leave');
+        return view('pages.attendance.leave.leave_monitoring_record');
     }
     public function view_leave_form()
     {

@@ -1,45 +1,47 @@
 $(document).ready(function() {
-    LATE.load_late_data();
+    LEAVE.load_leave_data();
 });
 
-const LATE = (() => {
+const LEAVE = (() => {
 
-    let this_late = {};
+    let this_leave = {};
 
 
 
-    this_late.load_late_data = () => {
+    this_leave.load_leave_data = () => {
         alert(1)
 
         $.ajax({
-            url: 'lates/all',
-            type: 'post',
+            url: 'leave-credits',
+            type: 'get',
             data:
             {
                 _token: _TOKEN
             },
             success: result => {
-                $('#tbl_list_of_filed_late').DataTable().destroy();
-                $('#tbody_list_of_filed_late').empty();
+                $('#tbl_list_of_filed_leave').DataTable().destroy();
+                $('#tbody_list_of_filed_leave').empty();
 
-                var late = '';
+                var leave = '';
 
 
                 $.each(result, function() {
 
-                    late +=
+                    leave +=
                     `<tr>
-                        <td align="center"><button data-id="btn_edit_late"  class="btn btn-sm btn-info" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_late"  class="btn btn-sm btn-info" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}');" method="POST"DELETE</button></td>
+                        <td align="center"><button data-id="btn_edit_leave"  class="btn btn-sm btn-info" title= "Edit Leave" onclick="LEAVE.btn_edit_leave('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_leave"  class="btn btn-sm btn-info" title= "Edit Leave" onclick="LEAVE.btn_edit_leave('${this.id}');" method="POST"DELETE</button></td>
                         <td align="center">${this.id}</td>
                         <td align="center">${this.employee_number}</td>
-                        <td align="center">${this.datetime_in}</td>
-                        <td align="center">${this.reason}</td>
+                        <td align="center">${this.date_leave}</td>
+                        <td align="center">${this.leave_type}</td>
+                        <td align="center">${this.reviewed_datetime}</td>
+                        <td align="center">${this.remarks}</td>
                         <td align="center">${this.date_filed}</td>
 					</tr>`;
                 });
-                $('#tbody_list_of_filed_late').html(late);
+                $('#tbody_list_of_filed_leave').html(leave);
 
-                $('#tbl_list_of_filed_late').DataTable({
+                $('#tbl_list_of_filed_leave').DataTable({
                     "paging": true,
                     "lengthChange": true,
                     "searching": true,
@@ -58,17 +60,17 @@ const LATE = (() => {
 
     }
 
-    this_late.save_file_late = () => {
+    this_leave.save_file_leave = () => {
         alert('saved!')
 
         $.ajax({
-            url: 'lates',
+            url: 'leaves',
             type: 'post',
             data: '',
             success: data => {
 
                 
-                // $('#modal_file_late').hide();
+                // $('#modal_file_leave').hide();
             
             },
             error: function(data) {
@@ -79,23 +81,23 @@ const LATE = (() => {
 
     }
 
-    this_late.btn_edit_late = () => {
+    this_leave.btn_edit_leave = () => {
         alert('EDIT!')     
-    $('#modal_edit_late').modal("show");
+    $('#modal_edit_leave').modal("show");
 
     }
 
-    this_late.save_edit_late = () => {
+    this_leave.save_edit_leave = () => {
         alert('saved edit!')
 
         $.ajax({
-            url: 'late',
+            url: 'leave',
             type: 'post',
             data: '',
             success: data => {
 
                 
-                // $('#modal_file_late').hide();
+                // $('#modal_file_leave').hide();
             
             },
             error: function(data) {
@@ -108,6 +110,6 @@ const LATE = (() => {
 
 
 
-    return this_late;
+    return this_leave;
 
 })();
