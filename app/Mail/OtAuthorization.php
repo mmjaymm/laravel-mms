@@ -18,9 +18,9 @@ class OtAuthorization extends Mailable
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($ids)
     {
-        $this->overtime = Overtime::find($id);
+        $this->overtime = Overtime::find($ids);
     }
 
     /**

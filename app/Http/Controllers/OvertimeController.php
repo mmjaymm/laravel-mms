@@ -42,16 +42,9 @@ class OvertimeController extends Controller
         $insert_data = $this->datas($input_request);
         $insert_data = array_merge($insert_data, $this->filling_type($input_request));
 
-        $insert_id = $overtime->insert_data($insert_data);
-
-        if ($insert_data['filling_type'] === "LATE") {
-            //change email send to
-            $email_to = "markjay.mercado@ph.fujitsu.com";
-            $this->email_authorization($email_to, $insert_id);
-        }
-
+        $insert_result = $overtime->insert_data($insert_data);
         
-        if ($insert_id > 0) {
+        if ($insert_result) {
             $return['result'] = true;
             $return['messages'] = 'Inserted Successfully';
         } else {
@@ -78,9 +71,9 @@ class OvertimeController extends Controller
         ];
     }
     
-    private function email_authorization($email_to, $id)
+    private function email_authorization($email_to, $ids)
     {
-        Mail::to($email_to)->send(new OtAuthorization($id));
+        Mail::to($email_to)->send(new OtAuthorization($ids));
     }
     /**
      *
@@ -142,5 +135,61 @@ class OvertimeController extends Controller
         $result = $ovetimes->select_data($where);
 
         return (count($result) > 0) ? true : false;
+    }
+    /**
+     *
+     * @param  Request input [created_at, ot_status(optional), filling_type(optional)]
+     * @return \Illuminate\Http\Response
+     */
+    public function retrieve(Request $request, Overtime $overtimes)
+    {
+        $validator = Validator::make($request->all(), [
+            'created_at' => 'required|date_format:Y-m-d'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        if (!isset($request->filling_type) && !isset($request->ot_status)) {
+            $where = [['created_at', 'like', '%'.$request->created_at]];
+        } else {
+            //if no filling type
+            if (!isset($request->filling_type)) {
+                $where = [
+                    ['created_at', 'like', '%'.$request->created_at],
+                    ['ot_status', '=', $request->ot_status]
+                ];
+            //if no ot_status
+            } elseif (!isset($request->ot_status)) {
+                //filling type lng
+                $where = [
+                    ['created_at', 'like', '%'.$request->created_at],
+                    ['filling_type', '=', $request->filling_type]
+                ];
+            } else {
+                $where = [
+                    ['created_at', 'like', '%'.$request->created_at],
+                    ['ot_status', '=', $request->ot_status],
+                    ['filling_type', '=', $request->filling_type]
+                ];
+            }
+        }
+
+        $return = $overtimes->select_data($where);
+
+        return response()->json($return);
+    }
+
+    public function sending_email(Request $request)
+    {
+        if (is_array($request->overtime_ids)) {
+            $email_to = "markjay.mercado@ph.fujitsu.com";
+            $this->email_authorization($email_to, $overtime_ids);
+
+            return response()->json(['result' => true, 'message' => 'Email Sent.']);
+        } else {
+            return response()->json(['result' => false, 'message' => 'Please required Overtime id.']);
+        }
     }
 }
