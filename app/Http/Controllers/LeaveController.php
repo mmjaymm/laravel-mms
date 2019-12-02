@@ -92,7 +92,16 @@ class LeaveController extends Controller
                     if($code == 'SL' || $code == 'EL')
                     {
                         $attendance = $this->get_attendance_id($request->users_id,$date_leave); //get attendance id
-                        $input[] = [
+                        // return $attendance;
+                        if(is_null($attendance))
+                        {
+                            return response()->json(['result' => false, 'message' => 'Unable to get the attendance id.']);
+                            // exit;
+                        }
+                        else
+                        {
+                           
+                            $input[] = [
                             
                             'users_id' => $request->users_id
                             ,'leave_type_id' => $request->leave_type_id
@@ -101,8 +110,11 @@ class LeaveController extends Controller
                             ,'is_active' => $request->is_active
                             ,'attendances_id' => $attendance->id
                             ,'updated_at' => $now
-                            ,'created_at' => $now 
-                        ];
+                            ,'created_at' => $now];
+
+                        }
+
+                        
                         // return $input;
                        
                     }
@@ -144,13 +156,14 @@ class LeaveController extends Controller
     }
 
     public function get_attendance_id($users_id,$date_leave)
-    {
-       
+    {       
         $where = ['users_id' => $users_id, 'date' => $date_leave];
         $attendance = new Attendance();
         $id = $attendance->retrieve_one($where);
-        return $id;
 
+        return $id;
+      
+       
     }
 
     public function get_hris_details()

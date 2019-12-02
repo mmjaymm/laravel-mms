@@ -86,6 +86,7 @@ Route::get('users/normal-users', 'UserController@users');
 //leave section
 Route::get('leave','LeaveController@index');
 Route::get('leave-load-leave','LeaveController@load_leave');
+Route::get('leave-attendance','LeaveController@get_attendance_id');
 Route::post('leave','LeaveController@store');
 
 
