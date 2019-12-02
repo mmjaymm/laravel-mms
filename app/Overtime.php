@@ -5,15 +5,15 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Overtime extends Model
-{   
-    protected $table = 'over_time';
+{
+    protected $table = 'over_times';
 
     protected $fillable = [
-        'users_id', 'overtime_type', 'datetime_in', 'datetime_out', 'ot_status', 'reason'
+        'users_id', 'overtime_type', 'datetime_in', 'datetime_out', 'filling_type', 'reason'
     ];
 
     public function insert_data($data)
-    {   
+    {
         return Overtime::create($data)->id;
     }
 

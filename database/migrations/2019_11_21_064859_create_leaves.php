@@ -24,6 +24,7 @@ class CreateLeaves extends Migration
             $table->integer('reviewed_by')->nullable();
             $table->dateTime('reviewed_datetime')->nullable();
             $table->date('date_filed');
+            $table->string('reason')->nullable();
             $table->string('remarks')->nullable();
             $table->integer('attendances_id')->nullable();
             $table->foreign('attendances_id')->references('id')->on('attendances');
