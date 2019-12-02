@@ -21,6 +21,7 @@ class CreateFailures extends Migration
             $table->date('date_filed');
             $table->integer('attendances_id');
             $table->integer('users_id');
+            $table->integer('is_deleted')->default(0);
         });
     }
 
