@@ -21,9 +21,7 @@ class ChangeShuttleController extends Controller
             'date_schedule'         => $data->date_schedule,
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
-            'control_number'        => $data->control_number,
-            'created_at'            => Carbon::now(),
-            'updated_at'            => Carbon::now()
+            'control_number'        => $data->control_number
             
         ];
     }
@@ -31,8 +29,13 @@ class ChangeShuttleController extends Controller
 
     public function latest_control_number()
     {
+
+        $result = [];
+
         $control_number = new ChangeShuttle();
-        return $control_number->retrieve_control();
+        $result = $control_number->retrieve_control();
+
+        return json_decode($result);
 
     }
 

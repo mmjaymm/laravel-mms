@@ -16,7 +16,8 @@ class ChangeShuttle extends Model
         return DB::connection('pgsql')
                 ->table('change_shuttles')
                 ->select('control_number')
-                ->first();
+                ->where('id', \DB::raw("(select max(id) from change_shuttles)"))
+                ->get();
 
     }
 
