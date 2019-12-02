@@ -7,15 +7,15 @@ use DB;
 
 class Leave extends Model
 {
-    
     protected $fillable = ['users_id','leave_type_id','date_leave','status','reviewed_by','reviewed_datetime'
                         ,'date_filed','remarks','is_active'];
+                        
     protected $guard = ['id'];
 
     public function insert_leave($data)
     {
         return Leave::insert($data);
-    } 
+    }
 
     public function retrieve($where = [0])
     {
@@ -41,4 +41,8 @@ class Leave extends Model
     //     ->first();
     // }
 
+    public function cancelled($leave_ids, $updated_data)
+    {
+        return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
+    }
 }
