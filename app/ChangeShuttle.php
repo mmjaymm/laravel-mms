@@ -29,4 +29,14 @@ class ChangeShuttle extends Model
                     ->insert($data);
     }
 
+
+    public function retrieve_one()
+    {
+        return DB::connection('pgsql')
+                    ->table('change_shuttles')
+                    ->where('created_at',date('Y-m-d').' 00:00:00')
+                    ->select('*');
+
+    }
+
 }

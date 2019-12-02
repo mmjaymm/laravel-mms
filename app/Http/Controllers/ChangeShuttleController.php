@@ -17,8 +17,8 @@ class ChangeShuttleController extends Controller
 
         return [
             'users_id'              => $data->users_id,
-            //'reason' => $data->reason,
-            'date_schedule'         => $data->date_schedule,
+            'reason'                => $data->reason,
+            'datetime_schedule'     => $data->datetime_schedule,
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
             'control_number'        => $data->control_number
@@ -71,6 +71,31 @@ class ChangeShuttleController extends Controller
 
             $return['result'] = false;
             $return['messages'] = 'Unable to Insert';
+        }
+        
+        return response()->json($return);
+    }
+
+
+    public function retrieve_today(ChangeShuttle $change)
+    {
+        $result = [];
+
+        $result = $change->retrieve_one($change);
+ 
+        return response()->json($result);
+    }
+
+    public function destroy($id, ChangeShuttle $change)
+    {
+        $delete_result = $change->update_data($id, ['is_deleted' => 1]);
+
+        if ($delete_result) {
+            $return['result'] = true;
+            $return['messages'] = 'Deleted Successfully';
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Delete.';
         }
         
         return response()->json($return);

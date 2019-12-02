@@ -26,7 +26,8 @@ class ChangeShuttlePost extends FormRequest
     {
         return [
             'users_id'              => 'required',
-            'date_schedule'     => 'required|date_format:Y/m/d',
+            'datetime_schedule'     => 'required|date_format:Y/m/d',
+            'reason'                => 'required',
             'shuttle_status'        => 'required',
             'shuttle_location_id'   => 'required'
         ];
@@ -36,8 +37,9 @@ class ChangeShuttlePost extends FormRequest
     {
         return [
             'users_id.required'             => 'Changed Shuttle is required!',
-            'date_schedule.required'    => 'Date Time in is required!',
-            'date_schedule.date'        => 'Please insert valid time in format!',
+            'datetime_schedule.required'    => 'Date Time in is required!',
+            'datetime_schedule.date'        => 'Please insert valid time in format!',
+            'reason.required'               => 'Reason is required!',
             'shuttle_status.required'       => 'Status is required!',
             'shuttle_location_id.required'  => 'Changed Shuttle is required!'
         ];
