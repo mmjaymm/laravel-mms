@@ -8,10 +8,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Overtime;
 
-class OtAuthorization extends Mailable
+class OtInformation extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $overtime;
     /**
      * Create a new message instance.
@@ -30,6 +29,6 @@ class OtAuthorization extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ot_approver')->with(['overtime' => $this->overtime]);
+        return $this->markdown('emails.ot_information')->with(['overtime' => $this->overtime]);
     }
 }

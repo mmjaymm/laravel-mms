@@ -6,6 +6,7 @@ use App\Overtime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
 use App\Mail\OtAuthorization;
+use App\Mail\OtInformation;
 use Illuminate\Support\Facades\Validator;
 
 class OvertimeController extends Controller
@@ -181,15 +182,28 @@ class OvertimeController extends Controller
         return response()->json($return);
     }
 
+    /**
+     *
+     * @param  Request [overtime_ids = array()]
+     * @return \Illuminate\Http\Response
+     */
     public function sending_email(Request $request)
     {
         if (is_array($request->overtime_ids)) {
-            $email_to = "markjay.mercado@ph.fujitsu.com";
-            $this->email_authorization($email_to, $overtime_ids);
+            $email_approver = "markjay.mercado@ph.fujitsu.com";
+            $email_info = "markjay.mercado@ph.fujitsu.com";
+
+            $this->email_authorization($email_approver, $overtime_ids);
+            $this->email_information($email_info, $overtime_ids);
 
             return response()->json(['result' => true, 'message' => 'Email Sent.']);
         } else {
             return response()->json(['result' => false, 'message' => 'Please required Overtime id.']);
         }
+    }
+
+    private function email_information($email_to, $ids)
+    {
+        Mail::to($email_to)->send(new OtInformation($ids));
     }
 }
