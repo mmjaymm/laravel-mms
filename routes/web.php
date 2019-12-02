@@ -78,3 +78,4 @@ Route::get('users/normal-users', 'UserController@users');
 //leave section
 Route::get('leave', 'LeaveController@index');
 Route::post('leave', 'LeaveController@store');
+Route::patch('leave/cancel', 'LeaveController@cancelled');
