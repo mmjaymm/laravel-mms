@@ -35,6 +35,30 @@ class Undertime extends Model
                 ->get();
     }
 
+    public function select_data($where)
+    {
+        $undertimes = DB::connection('pgsql')
+                    ->table('undertimes')
+                    ->select('*');
+         
+
+        if ($where['is_deleted'] === 1) {
+            $undertimes->where('is_deleted', 1);
+        }
+        
+        if ($where['is_deleted'] === 0) {
+            $undertimes->where('is_deleted', 0);
+        }
+
+        if ($where['is_deleted'] === 'x') {
+            
+            $undertimes->whereIn('is_deleted',[0,1]);
+        }
+    
+                
+        return $undertimes->get();
+    }
+
 
 
        

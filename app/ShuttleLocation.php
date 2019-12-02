@@ -10,41 +10,57 @@ use Illuminate\Support\Facades\DB;
 class ShuttleLocation extends Model
 {
 
+    protected $connection = 'mysql';
+
     protected $fillable = ['shuttle_location'];
     protected $guarded      = ['id'];
     
-    public function insert_shuttle_location($shuttle_data)
+    public function insert_data($data)
     {
       
         return DB::connection('pgsql')
                     ->table('shuttle_locations')
-                    ->insert([
-                        'shuttle_location'   =>$shuttle_data['shuttle_location'],
-                        'created_at'         =>Carbon::now(),   
-                        'updated_at'         =>Carbon::now()   
-                    ]);
+                    ->insert($data);
 
     }
 
-    public function load_shuttle_location()
+
+    public function edit_data($id)
     {
         return DB::connection('pgsql')
-                    ->table('shuttle_locations')
-                    ->distinct()
-                    ->get();
-
+                ->table('shuttle_locations')
+                ->where('id', $id)->get();
     }
 
-    public function update_shuttle_location($shuttle_data,$id)
+    public function update_data($id, $data)
+    {
+        return DB::connection('pgsql')
+                ->table('shuttle_locations')
+                ->where('id', $id)->update($data);
+    }
+
+    public function select_data()
+    {
+        $location = DB::connection('pgsql')
+                    ->table('shuttle_locations')
+                    ->where('is_deleted', 0)
+                    ->select('*');
+
+        return $location->get();
+    }
+
+
+    public function default_location()
     {
 
-        return DB::connection('pgsql')
-                    ->table('shuttle_locations')
-                    ->where('id',$id)
-                    ->update([
-                        'shuttle_location'   =>$shuttle_data['shuttle_location'],  
-                        'updated_at'         =>Carbon::now()   
-                    ]);
+        $location = DB::connection('mysql')->table('hris.hrms_emp_masterlist')
+                ->where('section_code','MIT')
+                ->where('emp_system_status','ACTIVE')
+                ->selectRaw('emp_pms_id as employee_number,sh_destination as shuttle_destination');
 
+        return $location->get();
     }
+
+
+
 }

@@ -9,10 +9,8 @@ use App\Http\Requests\FailurePost;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
-
 class FailureController extends Controller
 {
-
     private function datas($data)
     {   
         $data->except('_token');
@@ -29,14 +27,16 @@ class FailureController extends Controller
     public function index()
     {
         return csrf_token();
+
     }
+
 
     /*
     * return @array
     * request data required [ id,datetime_out, datetime_in, reason, attendances_id]
     */
 
-    public function create(FailurePost $input_request, Failure $failures)
+    public function store(FailurePost $input_request, Failure $failures)
     {
 
         $failures = new Failure();
@@ -76,11 +76,10 @@ class FailureController extends Controller
         }
         
         return response()->json($return);
-
-
     }
 
-    /*
+
+     /*
     * return @array
     * request data required [ id]
     */
@@ -108,7 +107,7 @@ class FailureController extends Controller
     /*
     * return @array
     * _method PUT
-    * request data required [ id, datetime_in, reason, attendances_id]
+    * request data required [ id, datetime_in,datetime_out, reason,date_filed]
     */
     public function update($id, FailurePost $input_request, Failure $failures)
     {
@@ -118,7 +117,7 @@ class FailureController extends Controller
 
             return response()->json($return);
         }
-
+        
         $update_result = $failures->update_data($id, $this->datas($input_request));
 
         if($update_result)
@@ -135,28 +134,33 @@ class FailureController extends Controller
         return response()->json($return);
     }
 
+
     /*
     * return @array
     * request data required [ id]
     */
 
-    public function delete($id, Failure $failures)
+    public function destroy($id, Failure $failures)
     {
         $delete_result = $failures->update_data($id, ['is_deleted' => 1]);
 
-        if($delete_result)
-        {
-            $return['result'] = TRUE;
+        if ($delete_result) {
+            $return['result'] = true;
             $return['messages'] = 'Deleted Successfully';
-        }
-        else
-        {
-            $return['result'] = FALSE;
-            $return['messages'] = 'Unabled to Delete.';   
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Delete.';
         }
         
         return response()->json($return);
     }
 
+    public function retrieve(Failure $failures)
+    {
+        
+        $result = $failures->select_data($failures);
+
+        return response()->json($result);
+    }
+
 }
-  
