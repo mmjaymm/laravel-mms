@@ -16,13 +16,15 @@ class CreateChangeShuttles extends Migration
         Schema::create('change_shuttles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users');
-            $table->date('date_schedule');
+            $table->dateTime('datetime_schedule');
+            $table->longText('reason');
             $table->string('shuttle_status');
             $table->unsignedBigInteger('shuttle_location_id');
-            $table->foreign('shuttle_location_id')->references('id')->on('shuttle_locations');
             $table->string('control_number');
+            $table->integer('is_deleted')->default(0);
             $table->timestamps();
+            $table->foreign('users_id')->references('id')->on('users');
+            $table->foreign('shuttle_location_id')->references('id')->on('shuttle_locations');
         });
     }
 

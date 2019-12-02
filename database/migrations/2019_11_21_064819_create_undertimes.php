@@ -19,6 +19,7 @@ class CreateUndertimes extends Migration
             $table->string('reason');
             $table->integer('attendances_id');
             $table->integer('users_id');
+            $table->integer('is_deleted')->default(0);
         });
     }
 
