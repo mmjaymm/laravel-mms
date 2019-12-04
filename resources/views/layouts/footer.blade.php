@@ -29,6 +29,9 @@
         <!-- end main wrapper -->
         <!-- ============================================================== -->
         <!-- Optional JavaScript -->
+        <script>
+            const BASE_URL = "{{ URL::to('/') }}";
+        </script>
         <script src="vendor/jquery/jquery-3.3.1.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
         <script src="vendor/slimscroll/jquery.slimscroll.js"></script>
