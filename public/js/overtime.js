@@ -1,4 +1,7 @@
 $(document).ready(function ()
 {
-    $('#example').DataTable();
+    $('#date_from').datepicker();
+    $('#date_to').datepicker();
+
+    $('#tbl_overtime').DataTable();
 });

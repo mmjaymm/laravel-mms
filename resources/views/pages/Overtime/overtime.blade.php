@@ -1,5 +1,14 @@
 @extends('template')
 
+@section('custom_css')
+    <link href="{{ asset('../node_modules/gijgo/css/gijgo.min.css') }}" rel="stylesheet" type="text/css" />
+@endsection
+
+@section('custom_scripts')
+    <script src="{{ asset('../node_modules/gijgo/js/gijgo.min.js') }}" type="text/javascript"></script>
+    <script src="js/overtime.js"></script>
+@endsection
+
 @section('content_page')
     <!-- ============================================================== -->
     <!-- wrapper  -->
@@ -31,91 +40,60 @@
             <!-- ============================================================== -->
         </div>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h3 class="text-center">HOME</h3>
-                </div>
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="form-group">
-                        Date From : 
-                        <input class="form-control" type="text">
+            <div class="card">
+                <h4 class="card-header bg-primary text-white">OVERTIME</h4>
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="row">
+                                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                                        <div class="form-group">
+                                            Date From : 
+                                            <input class="form-control" id="date_from" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                                        <div class="form-group">
+                                            Date To : 
+                                            <input class="form-control" id="date_to" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                                        <button class="btn btn-block btn-success"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        Date To : 
-                        <input class="form-control" type="text">
+                    <div class="card-text">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <table id="tbl_overtime" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Type</th>
+                                            <th>Datetime IN</th>
+                                            <th>Datetime OUT</th>
+                                            <th>Reason</th>
+                                            <th>Filling Type</th>
+                                            <th>Status</th>
+                                            <th>Reviewer 1</th>
+                                            <th>Reviewer 2</th>
+                                            <th>Reviewer 3</th>
+                                            <th>Reviewer 4</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>2011/07/25</td>
-                                <td>$170,750</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>Junior Technical Author</td>
-                                <td>San Francisco</td>
-                                <td>66</td>
-                                <td>2009/01/12</td>
-                                <td>$86,000</td>
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>Senior Javascript Developer</td>
-                                <td>Edinburgh</td>
-                                <td>22</td>
-                                <td>2012/03/29</td>
-                                <td>$433,060</td>
-                            </tr>
-                            <tr>
-                                <td>Airi Satou</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>33</td>
-                                <td>2008/11/28</td>
-                                <td>$162,700</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                            </tr>
-                        </tfoot>
-                    </table>
                 </div>
             </div>
         </div>
         <hr>
-@endsection
-
-@section('custom_scripts')
-    <script src="js/overtime.js"></script>
 @endsection
