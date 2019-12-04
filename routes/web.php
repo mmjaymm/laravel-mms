@@ -65,6 +65,9 @@ Route::get('attendances', 'AttendanceController@index');
 
 //overtime section
 Route::resource('overtime', 'OvertimeController');
+Route::post('overtime/retrieve', 'OvertimeController@retrieve');
+Route::post('overtime/sending_email', 'OvertimeController@sending_email');
+
 
 //shuttle sections
 Route::post('shuttles/', 'ShuttleLocationController@store');
