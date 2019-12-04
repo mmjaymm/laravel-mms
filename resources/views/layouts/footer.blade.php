@@ -33,3 +33,6 @@
         <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
         <script src="vendor/slimscroll/jquery.slimscroll.js"></script>
         <script src="libs/js/main-js.js"></script>
+        <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+        

@@ -14,8 +14,7 @@ class Attendance extends Model
     
     public function insert_data($datas)
     {
-        //return Attendance::insert($datas);
-        return Attendance::create($datas);
+        return Attendance::insert($datas);
     }
 
     public function update_data($id, $data)

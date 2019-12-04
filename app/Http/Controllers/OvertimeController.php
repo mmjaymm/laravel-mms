@@ -26,7 +26,7 @@ class OvertimeController extends Controller
 
     public function index()
     {
-        return view('Overtime.overtime');
+        return view('pages.Overtime.overtime');
     }
     /*
     * return @array
