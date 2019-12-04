@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 class ChangeShuttle extends Model
 {
 
-    protected $fillable = ['users_id','date_schedule','shuttle_status','shuttle_location_id','control_number'];
-    protected $guarded  = ['id'];
+    protected $fillable = ['users_id','date_schedule','shuttle_status','shuttle_location_id'];
+    protected $guarded  = ['id','control_number'];
 
     public function retrieve_control()
     {
@@ -44,8 +44,8 @@ class ChangeShuttle extends Model
         }
         
     }
-
-    public function update_data($id, $data)
+    public function edit_data($id, $data)
+   
     {
         return DB::connection('pgsql')
                     ->table('change_shuttles')
@@ -53,7 +53,7 @@ class ChangeShuttle extends Model
     }
 
 
-    public function edit_data($id, $data)
+    public function update_data($id, $data)
     {
         return DB::connection('pgsql')
                     ->table('change_shuttles')
