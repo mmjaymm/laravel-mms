@@ -22,7 +22,7 @@ class ChangeShuttleController extends Controller
             'datetime_schedule'     => $data->datetime_schedule,
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
-            //'control_number'        => $data->control_number,
+            'control_number'        => $data->control_number,
             'created_at'            => Carbon::now(),
             'updated_at'            => Carbon::now()
             
@@ -63,9 +63,11 @@ class ChangeShuttleController extends Controller
         $input_request["control_number"] = "MIT".($lates_control_number+1);
 
         DB::beginTransaction();
+        
         try {
             //insert change shuttle
             $change = new ChangeShuttle();
+            $input_request->except('_token');
             $change->insert_data($this->datas($input_request));
             DB::commit();
 
