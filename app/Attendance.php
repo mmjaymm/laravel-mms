@@ -51,15 +51,17 @@ class Attendance extends Model
     public function select_with_users_data($select, $where)
     {
         return DB::connection('pgsql')->table('attendances as a')
-            ->leftJoin('users as b', 'b.employee_number', '=', 'a.users_id')
+            ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
             ->select($select)
             ->where($where)
             ->get();
     }
 
-    public function retrieve_users_present_leave($user_ids)
+    public function retrieve_users_present_leave($where, $user_ids)
     {
-        return DB::table('leaves')->whereIn('id', $user_ids)->select('*')->get();
+        return DB::table('leaves')
+            ->where($where)
+            ->whereIn('id', $user_ids)->select('*')->get();
     }
 
     public function cancelled_leave($leave_ids, $updated_data)

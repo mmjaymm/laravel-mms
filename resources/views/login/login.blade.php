@@ -32,35 +32,32 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-52 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form flex-sb flex-w" method="POST" action="{{ url('users/login_auth') }}">
+					@csrf
 					<span class="login100-form-title p-b-53">
 						MIT Management System
 					</span>
-
-					<!-- <a href="#" class="btn-face m-b-20">
-						<i class="fa fa-facebook-official"></i>
-						Facebook
-					</a>
-
-					<a href="#" class="btn-google m-b-20">
-						<img src="images/icons/icon-google.png" alt="GOOGLE">
-						Google
-					</a> -->
 					
 					<div class="p-t-31 p-b-9">
-						<span class="txt1">
-							Employee Number
-						</span>
+						<span class="txt1">Employee Number</span>
+						@if ($errors->has('txt_employee_number'))
+							<div class="alert alert-danger">
+								<strong>Required! </strong> {{ $errors->first('txt_employee_number') }}
+							</div>
+						@endif
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Username is required">
-						<input class="input100" type="text" name="txt_employee_number" id="txt_employee_number"  autocomplete="off">
+						<input class="input100" type="text" name="txt_employee_number" id="txt_employee_number" autocomplete="off">
 						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="p-t-13 p-b-9">
-						<span class="txt1">
-							Password
-						</span>
+						<span class="txt1">Password</span>
+						@if ($errors->has('txt_password'))
+							<div class="alert alert-danger">
+								<strong>Required! </strong> {{ $errors->first('txt_password') }}
+								</div>
+						@endif
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
 						<span class="btn-show-pass">
@@ -71,9 +68,7 @@
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
-							Sign In
-						</button>
+						<button class="login100-form-btn" type="submit">Sign In</button>
 					</div>
 					<br><br>
 					<span> Forgot Password? 

@@ -76,6 +76,15 @@ Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
 Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
 Route::get('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::get('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
+Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
+Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
+Route::post('change/shuttles/insert','ChangeShuttleController@store');
+Route::post('change/shuttles/display','ChangeShuttleController@latest_control_number');
+Route::patch('change/shuttles/{id}/update', 'ChangeShuttleController@update');
+Route::delete('change/shuttles/{id}', 'ChangeShuttleController@destroy');
+Route::post('shuttles/users/today', 'ChangeShuttleController@retrieve_today');
+Route::post('change/shuttles/location', 'ChangeShuttleController@retrieve');
+Route::post('change/shuttles/all', 'ChangeShuttleController@retrieve');
 Route::get('token', 'ShuttleLocationController@index');
 
 
@@ -93,3 +102,5 @@ Route::get('leave-load-leave', 'LeaveController@load_leave');
 Route::get('leave-attendance', 'LeaveController@get_attendance_id');
 Route::post('leave', 'LeaveController@store');
 Route::patch('leave/cancel', 'LeaveController@cancelled');
+Route::get('leave-get-all-remaining', 'LeaveController@get_all_remaining');
+Route::get('leave-get-users-remaining', 'LeaveController@get_users_remaining');

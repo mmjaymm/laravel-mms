@@ -188,4 +188,67 @@ class LeaveController extends Controller
             return response()->json(['result' => false, 'message' => 'Unable to cancel leave.']);
         }
     }
+
+    public function get_all_remaining()
+    {
+        $leave = new Leave();
+        $remaining_leave = $leave->get_all_remaining();
+        $hris_details = $this->get_hris_details();
+   
+
+        foreach ($remaining_leave as $load_key => $load_value) {
+            foreach ($hris_details as $hris_key => $hris_value) {
+                if ($load_value->employee_number == $hris_value->emp_pms_id) {
+                    $load_leave[] =[
+                        'employee_number' =>$hris_value->emp_pms_id,
+                        'last_name' => $hris_value->emp_last_name,
+                        'first_name' => $hris_value->emp_first_name,
+                        'middle_name' => $hris_value->emp_middle_name,
+                        'leave_code'=> $load_value->leave_type_code,
+                        'credits' => $load_value->credits,
+                        'leave_count' => $load_value->leave_count,
+                        'remaining' => $load_value->remaining_leave
+
+                    ];
+                }
+            }
+        }
+
+        return $load_leave;
+
+
+    }
+
+    public function get_users_remaining()
+    {
+        // $users_id = Auth::user()->id;
+        $where = (object) array(
+            'users_id' => 5,
+        );
+        $leave = new Leave();
+        $remaining_leave = $leave->get_users_remaining($where);
+        $hris_details = $this->get_hris_details();
+   
+
+        foreach ($remaining_leave as $load_key => $load_value) {
+            foreach ($hris_details as $hris_key => $hris_value) {
+                if ($load_value->employee_number == $hris_value->emp_pms_id) {
+                    $load_leave[] =[
+                        'employee_number' =>$hris_value->emp_pms_id,
+                        'last_name' => $hris_value->emp_last_name,
+                        'first_name' => $hris_value->emp_first_name,
+                        'middle_name' => $hris_value->emp_middle_name,
+                        'leave_code'=> $load_value->leave_type_code,
+                        'credits' => $load_value->credits,
+                        'leave_count' => $load_value->leave_count,
+                        'remaining' => $load_value->remaining_leave
+
+                    ];
+                }
+            }
+        }
+
+        return $load_leave;
+
+    }
 }
