@@ -6,13 +6,8 @@ use Illuminate\Http\Request;
 
 class ChangeShuttleController extends Controller
 {
-<<<<<<< HEAD
-    //
-=======
-    
     public function change_shuttle_save(Request $request)
     {
-
         $rules = array(
             'datetime_in'       => 'required',
             'datetime_out'      => 'required',
@@ -22,8 +17,7 @@ class ChangeShuttleController extends Controller
 
         $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
+        if ($error->fails()) {
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
@@ -42,6 +36,4 @@ class ChangeShuttleController extends Controller
         $data = new Failure();
         return $data->insert_failure_login($failure_data);
     }
-
->>>>>>> changeshuttle
 }
