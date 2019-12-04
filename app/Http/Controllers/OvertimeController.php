@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Hris;
 use App\Overtime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
@@ -159,17 +160,21 @@ class OvertimeController extends Controller
             $where = [
                 'date_from' => $request->txt_date_from,
                 'date_to' => $request->txt_date_to,
-                'condition' => [['users_id', '=', Auth::user()->id]]
+                'condition' => [['a.users_id', '=', Auth::user()->id]]
             ];
+
+            $return = ['level' => Auth::user()->roles->level, 'data' => $overtimes->select_data($where)];
         } else {
             $where = [
                 'date_from' => $request->txt_date_from,
                 'date_to' => $request->txt_date_to,
                 'condition' => []
             ];
+
+            $overtime_data = $overtimes->select_data($where);
+            $overtime_users = $this->combine_data_to_manpower($overtime_data);
+            $return = ['level' => Auth::user()->roles->level, 'data' => $overtime_users];
         }
-        
-        $return = $overtimes->select_data($where);
 
         return response()->json($return);
     }
@@ -185,8 +190,8 @@ class OvertimeController extends Controller
             $email_approver = "markjay.mercado@ph.fujitsu.com";
             $email_info = "markjay.mercado@ph.fujitsu.com";
 
-            $this->email_authorization($email_approver, $overtime_ids);
-            $this->email_information($email_info, $overtime_ids);
+            $this->email_authorization($email_approver, $request->overtime_ids);
+            $this->email_information($email_info, $request->overtime_ids);
 
             return response()->json(['result' => true, 'message' => 'Email Sent.']);
         } else {
@@ -197,5 +202,32 @@ class OvertimeController extends Controller
     private function email_information($email_to, $ids)
     {
         Mail::to($email_to)->send(new OtInformation($ids));
+    }
+
+    private function combine_data_to_manpower($data)
+    {
+        $result = [];
+        $hris = new Hris;
+        //getting man power of MIT in HRIS
+        $man_power_where = [
+            ['section_code', 'MIT'],
+            ['emp_system_status', 'ACTIVE']
+        ];
+        $man_power_result = $hris->man_power($man_power_where);
+
+        foreach ($data as $key => $value) {
+            foreach ($man_power_result as $man_key => $man_value) {
+                if ($value->employee_number == $man_value->emp_pms_id) {
+                    $man_data = [
+                        'last_name' => $man_value->emp_last_name,
+                        'first_name' => $man_value->emp_first_name,
+                        'middle_name' => $man_value->emp_middle_name,
+                    ];
+                    array_push($result, array_merge((array) $value, $man_data));
+                }
+            }
+        }
+
+        return $result;
     }
 }

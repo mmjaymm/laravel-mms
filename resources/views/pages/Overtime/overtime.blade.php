@@ -14,8 +14,6 @@
             $('#txt_date_from').datepicker({ format: 'yyyy-mm-dd' });
             $('#txt_date_to').datepicker({ format: 'yyyy-mm-dd' });
 
-            $('#tbl_overtime').DataTable();
-
             OVERTIME.get_data();
         });
     </script>
@@ -82,10 +80,13 @@
                     <div class="card-text">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <table id="tbl_overtime" class="table table-striped table-bordered" style="width:100%">
+                                <table id="tbl_overtime" class="compact table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Action</th>
+                                            @if (Auth::user()->roles->level === "ADMIN")
+                                            <th>Name</th>
+                                            @endif
                                             <th>Type</th>
                                             <th>Datetime IN</th>
                                             <th>Datetime OUT</th>
