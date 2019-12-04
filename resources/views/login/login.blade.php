@@ -42,7 +42,7 @@
 						<span class="txt1">Employee Number</span>
 						@if ($errors->has('txt_employee_number'))
 							<div class="alert alert-danger">
-								<strong>Required!</strong> {{ $errors->first('txt_employee_number') }}
+								<strong>Required! </strong> {{ $errors->first('txt_employee_number') }}
 							</div>
 						@endif
 					</div>
@@ -55,7 +55,7 @@
 						<span class="txt1">Password</span>
 						@if ($errors->has('txt_password'))
 							<div class="alert alert-danger">
-								<strong>Required!</strong> {{ $errors->first('txt_password') }}
+								<strong>Required! </strong> {{ $errors->first('txt_password') }}
 								</div>
 						@endif
 					</div>
