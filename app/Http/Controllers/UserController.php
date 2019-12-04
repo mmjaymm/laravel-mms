@@ -18,13 +18,16 @@ class UserController extends Controller
     public function login_auth(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'employee_number' => 'required',
-            'password' => 'required',
+            'txt_employee_number' => 'required',
+            'txt_password' => 'required',
+        ], [
+            'txt_employee_number.required' => 'The Employee Number is required!',
+            'txt_password.required' => 'The Password is required!',
         ]);
         
         $credentials = [
-            'employee_number' => $request->employee_number,
-            'password' => $request->password,
+            'employee_number' => $request->txt_employee_number,
+            'password' => $request->txt_password,
         ];
 
         if (Auth::attempt($credentials)) {
@@ -34,7 +37,7 @@ class UserController extends Controller
                 return redirect('users/normal-users');
             }
         } else {
-            return back();
+            return redirect()->back()->withErrors($validator->errors());
         }
     }
 
@@ -46,13 +49,13 @@ class UserController extends Controller
 
     public function administrator()
     {
-        return Auth::user();
+        // return Auth::user();
         return "Administrator";
     }
 
     public function users()
     {
-        return Auth::user();
-
+        // return Auth::user();
+        return "Users";
     }
 }
