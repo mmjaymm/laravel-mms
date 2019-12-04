@@ -26,7 +26,7 @@ class ChangeShuttlePost extends FormRequest
     {
         return [
             'users_id'              => 'required',
-            'datetime_schedule'     => 'required|date_format:Y/m/d',
+            //'datetime_schedule'     => 'required|date_format:Y/m/d',
             'reason'                => 'required',
             'shuttle_status'        => 'required',
             'shuttle_location_id'   => 'required'
