@@ -101,3 +101,5 @@ Route::get('leave-load-leave', 'LeaveController@load_leave');
 Route::get('leave-attendance', 'LeaveController@get_attendance_id');
 Route::post('leave', 'LeaveController@store');
 Route::patch('leave/cancel', 'LeaveController@cancelled');
+Route::get('leave-get-all-remaining', 'LeaveController@get_all_remaining');
+Route::get('leave-get-users-remaining', 'LeaveController@get_users_remaining');
