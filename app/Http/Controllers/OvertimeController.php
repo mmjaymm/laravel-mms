@@ -8,6 +8,7 @@ use App\Http\Requests\OvertimePost;
 use App\Mail\OtAuthorization;
 use App\Mail\OtInformation;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class OvertimeController extends Controller
 {
@@ -140,13 +141,14 @@ class OvertimeController extends Controller
     }
     /**
      *
-     * @param  Request input [created_at, ot_status(optional), filling_type(optional)]
+     * @param  Request input [txt_date_from, txt_date_to, ot_status(optional), filling_type(optional)]
      * @return \Illuminate\Http\Response
      */
     public function retrieve(Request $request, Overtime $overtimes)
     {
         $validator = Validator::make($request->all(), [
-            'created_at' => 'required|date_format:Y-m-d'
+            'txt_date_from' => 'required|date_format:Y-m-d',
+            'txt_date_to' => 'required|date_format:Y-m-d'
         ]);
         //check of failed
         if ($validator->fails()) {
@@ -154,30 +156,86 @@ class OvertimeController extends Controller
         }
 
         if (!isset($request->filling_type) && !isset($request->ot_status)) {
-            $where = [['created_at', 'like', '%'.$request->created_at]];
-        } else {
-            //if no filling type
-            if (!isset($request->filling_type)) {
+            if (Auth::user()->roles->level === "USER") {
                 $where = [
-                    ['created_at', 'like', '%'.$request->created_at],
-                    ['ot_status', '=', $request->ot_status]
-                ];
-            //if no ot_status
-            } elseif (!isset($request->ot_status)) {
-                //filling type lng
-                $where = [
-                    ['created_at', 'like', '%'.$request->created_at],
-                    ['filling_type', '=', $request->filling_type]
+                    'date_from' => $request->txt_date_from,
+                    'date_to' => $request->txt_date_to,
+                    'condition' => [['users_id', '=', Auth::user()->id]]
                 ];
             } else {
                 $where = [
-                    ['created_at', 'like', '%'.$request->created_at],
-                    ['ot_status', '=', $request->ot_status],
-                    ['filling_type', '=', $request->filling_type]
+                    'date_from' => $request->txt_date_from,
+                    'date_to' => $request->txt_date_to,
+                    'condition' => []
                 ];
             }
+        } else {
+            if (Auth::user()->roles->level === "USER") {
+                //if no filling type
+                if (!isset($request->filling_type)) {
+                    $where = [
+                        'date_from' => $request->txt_date_from,
+                        'date_to' => $request->txt_date_to,
+                        'condition' => [
+                            ['users_id', '=', Auth::user()->id],
+                            ['ot_status', '=', $request->ot_status]
+                        ]
+                    ];
+                //if no ot_status
+                } elseif (!isset($request->ot_status)) {
+                    //filling type lng
+                    $where = [
+                        'date_from' => $request->txt_date_from,
+                        'date_to' => $request->txt_date_to,
+                        'condition' => [
+                            ['users_id', '=', Auth::user()->id],
+                            ['filling_type', '=', $request->filling_type]
+                        ]
+                    ];
+                } else {
+                    $where = [
+                        'date_from' => $request->txt_date_from,
+                        'date_to' => $request->txt_date_to,
+                        'condition' => [
+                            ['users_id', '=', Auth::user()->id],
+                            ['ot_status', '=', $request->ot_status],
+                            ['filling_type', '=', $request->filling_type]
+                        ]
+                    ];
+                }
+            } else {
+                //if no filling type
+                if (!isset($request->filling_type)) {
+                    $where = [
+                        'date_from' => $request->txt_date_from,
+                        'date_to' => $request->txt_date_to,
+                        'condition' => [
+                            ['ot_status', '=', $request->ot_status]
+                        ]
+                    ];
+                //if no ot_status
+                } elseif (!isset($request->ot_status)) {
+                    //filling type lng
+                    $where = [
+                        'date_from' => $request->txt_date_from,
+                        'date_to' => $request->txt_date_to,
+                        'condition' => [
+                            ['filling_type', '=', $request->filling_type]
+                        ]
+                    ];
+                } else {
+                    $where = [
+                        'date_from' => $request->txt_date_from,
+                        'date_to' => $request->txt_date_to,
+                        'condition' => [
+                            ['ot_status', '=', $request->ot_status],
+                            ['filling_type', '=', $request->filling_type]
+                        ]
+                    ];
+                }
+            }
         }
-
+        
         $return = $overtimes->select_data($where);
 
         return response()->json($return);

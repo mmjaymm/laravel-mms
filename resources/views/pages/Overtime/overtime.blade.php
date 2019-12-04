@@ -6,6 +6,15 @@
 
 @section('custom_scripts')
     <script src="{{ asset('../node_modules/gijgo/js/gijgo.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#txt_date_from').datepicker({ format: 'yyyy-mm-dd' });
+            $('#txt_date_to').datepicker({ format: 'yyyy-mm-dd' });
+
+            $('#tbl_overtime').DataTable();
+        });
+    </script>
     <script src="js/overtime.js"></script>
 @endsection
 
@@ -50,13 +59,13 @@
                                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
                                         <div class="form-group">
                                             Date From : 
-                                            <input class="form-control" id="date_from" type="text">
+                                            <input class="form-control" value="{{ date('Y-m-01') }}" id="txt_date_from" type="text">
                                         </div>
                                     </div>
                                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
                                         <div class="form-group">
                                             Date To : 
-                                            <input class="form-control" id="date_to" type="text">
+                                            <input class="form-control" value="{{ date('Y-m-15') }}" id="txt_date_to" type="text">
                                         </div>
                                     </div>
                                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
