@@ -30,6 +30,9 @@
         <!-- end main wrapper -->
         <!-- ============================================================== -->
         <!-- Optional JavaScript -->
+        <script>
+            const BASE_URL = "{{ URL::to('/') }}";
+        </script>
         <script src="vendor/jquery/jquery-3.3.1.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
         <script src="vendor/slimscroll/jquery.slimscroll.js"></script>
@@ -54,5 +57,3 @@
         {{-- <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script> --}}
         {{-- <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script> --}}
         {{-- <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script> --}}
-    </body>
-</html>

@@ -29,6 +29,8 @@
         "datatables.net-buttons-dt": "^1.6.1",
         "font-awesome": "^4.7.0",
         "jszip": "^3.2.2",
-        "pdfmake": "^0.1.62"
+        "pdfmake": "^0.1.62",
+        "gijgo": "^1.9.13",
+        "moment": "^2.24.0"
     }
 }
