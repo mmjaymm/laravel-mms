@@ -100,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Late Date">Reason</label>
-                            <input class="form-control form-control-lg" id="txt_late_reason" type="date" placeholder="" autocomplete="off">
+                            <input class="form-control form-control-lg" id="txt_late_reason" type="text" placeholder="" autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -135,7 +135,7 @@
                         </div>
                         <div class="form-group">
                             <label for="Late Date">Reason</label>
-                                <input class="form-control form-control-lg" id="txt_edit_late_reason" type="date" placeholder="" autocomplete="off">
+                                <input class="form-control form-control-lg" id="txt_edit_late_reason" type="text" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer">

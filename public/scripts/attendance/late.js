@@ -9,7 +9,7 @@ const LATE = (() => {
 
 
     this_late.load_late_data = () => {
-        alert(1)
+        // alert(1)
 
         $.ajax({
             url: 'lates/all',
@@ -29,7 +29,7 @@ const LATE = (() => {
 
                     late +=
                     `<tr>
-                        <td align="center"><button data-id="btn_edit_late"  class="btn btn-sm btn-info" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_late"  class="btn btn-sm btn-info" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}');" method="POST"DELETE</button></td>
+                        <td align="center"><button data-id="btn_edit_late"  class="btn btn-sm btn-success" title= "Edit Late" onclick="LATE.btn_edit_late('${this.id}','${this.datetime_in}', '${this.reason}', '${this.date_filed}');" method="POST"><i class="fas fa-edit"></i></button> <button data-id="btn_edit_late"  class="btn btn-sm btn-danger" title= "Delete Late" onclick="LATE.btn_delete_filed_late('${this.id}');" method="POST"><i class="far fa-trash-alt"></i> </button></td>
                         <td align="center">${this.id}</td>
                         <td align="center">${this.employee_number}</td>
                         <td align="center">${this.datetime_in}</td>
@@ -105,6 +105,28 @@ const LATE = (() => {
         });
 
     }
+
+    this_late.btn_delete_filed_late = () => {
+        alert('Deleted!')
+
+        $.ajax({
+            url: 'late',
+            type: 'post',
+            data: '',
+            success: data => {
+
+                
+                // $('#modal_file_late').hide();
+            
+            },
+            error: function(data) {
+                // console.log(result)
+            }
+
+        });
+    }
+
+    
 
 
 
