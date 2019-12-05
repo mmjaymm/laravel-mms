@@ -5,12 +5,13 @@
 @endsection
 
 @section('custom_scripts')
+    <script src="{{ asset('../node_modules/moment/moment.js') }}" type="text/javascript"></script>
     <script src="{{ asset('../node_modules/gijgo/js/gijgo.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         const _TOKEN = "{{ csrf_token() }}";
 
         $(document).ready(function ()
-        {
+        {   
             $('#txt_date_from').datepicker({ format: 'yyyy-mm-dd' });
             $('#txt_date_to').datepicker({ format: 'yyyy-mm-dd' });
 
@@ -51,6 +52,39 @@
             <!-- ============================================================== -->
         </div>
         <div class="container-fluid">
+            @if (Auth::user()->roles->level === "USER")
+            <div class="card bg-primary" style="width:300px">
+                <div class="card-header text-center bg-primary">TOTAL OVERTIME HOURS</div>
+                <div class="card-body"><h2 class="text-center text-white" id="h1_total_overtime_hours">0</h2></div>
+            </div>
+            @endif
+            
+            @if (Auth::user()->roles->level === "ADMIN")
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                    <div class="card">
+                        <h4 class="card-header bg-primary text-white">OVERTIME SUMMARY</h4>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div class="row">
+                                    <table id="tbl_overtime_summary" class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>NAME</th>
+                                                <th>TOTAL HOURS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <div class="card">
                 <h4 class="card-header bg-primary text-white">OVERTIME</h4>
                 <div class="card-body">
@@ -71,7 +105,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
-                                        <button class="btn btn-block btn-success"><i class="fa fa-search"></i> Search</button>
+                                        <button type="button" onclick="OVERTIME.get_data()" class="btn btn-block btn-success"><i class="fa fa-search"></i> Search</button>
                                     </div>
                                 </div>
                             </div>

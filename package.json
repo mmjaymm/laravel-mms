@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "font-awesome": "^4.7.0",
-        "gijgo": "^1.9.13"
+        "gijgo": "^1.9.13",
+        "moment": "^2.24.0"
     }
 }
