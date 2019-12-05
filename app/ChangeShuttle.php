@@ -103,4 +103,20 @@ class ChangeShuttle extends Model
 
         return $change->get();
     }
+
+    public function load_all_data()
+    {
+
+        $email_change_shuttles = DB::connection('pgsql')
+                            ->table('users as a')
+                            ->join('attendances as b','a.id', '=', 'b.users_id')
+                            ->join('shuttle_locations as c','a.shuttle_locations_id','=','c.id')
+                            ->join('change_shuttles as d','a.id','=','d.users_id')
+                            ->join('change_shuttles as e','e.shuttle_location_id','=','c.id')
+                            ->where('b.date', date('Y-m-d'))
+                            ->select('*');
+
+       
+        return $email_change_shuttles->get();
+    }
 }

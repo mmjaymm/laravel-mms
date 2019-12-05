@@ -82,6 +82,7 @@ Route::delete('change/shuttles/{id}', 'ChangeShuttleController@destroy');
 Route::post('shuttles/users/today', 'ChangeShuttleController@retrieve_today');
 Route::post('change/shuttles/location', 'ChangeShuttleController@retrieve');
 Route::post('change/shuttles/all', 'ChangeShuttleController@retrieve');
+Route::post('change/shuttles/send', 'ChangeShuttleController@email_changeshuttle');
 
 
 Route::get('token', 'ShuttleLocationController@index');
