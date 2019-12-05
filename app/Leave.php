@@ -7,15 +7,15 @@ use DB;
 
 class Leave extends Model
 {
-    
     protected $fillable = ['users_id','leave_type_id','date_leave','status','reviewed_by','reviewed_datetime'
                         ,'date_filed','remarks','is_active'];
+                        
     protected $guard = ['id'];
 
     public function insert_leave($data)
     {
         return Leave::insert($data);
-    } 
+    }
 
     public function retrieve($where = [0])
     {
@@ -30,6 +30,31 @@ class Leave extends Model
 
     }
 
+    public function get_all_remaining()
+    {
+
+        $load = DB::connection('pgsql')->select("select  a.users_id, c.employee_number, a.leave_type_code,a.credits, COALESCE( b.leave_count, 0 ) as leave_count,COALESCE((a.credits - b.leave_count),a.credits) as remaining_leave
+        from
+
+        (select a.*, b.leave_type, b.leave_type_code 
+        from leave_credits as a
+        left join leave_types as b on a.leave_type_id = b.id)a 
+
+        left join      
+
+        (select count(*) as leave_count,leave_type_id,users_id from leaves group by leave_type_id,users_id) b        
+        on a.users_id = b.users_id and a.leave_type_id = b.leave_type_id
+        
+        left join
+	 
+	    (select employee_number,id from users)c
+	    on a.users_id = c.id");
+       
+
+        return $load;
+
+    }
+
     // public function get_leave_credits($users_id,$leave_type_id)
     // {
     //     return DB::table('leave_types')
@@ -41,4 +66,32 @@ class Leave extends Model
     //     ->first();
     // }
 
+    public function cancelled($leave_ids, $updated_data)
+    {
+        return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
+    }
+
+    public function get_users_remaining($where)
+    {
+        $load = DB::connection('pgsql')->select("select  a.users_id, c.employee_number, a.leave_type_code,a.credits, COALESCE( b.leave_count, 0 ) as leave_count,COALESCE((a.credits - b.leave_count),a.credits) as remaining_leave
+        from
+
+        (select a.*, b.leave_type, b.leave_type_code 
+        from leave_credits as a
+        left join leave_types as b on a.leave_type_id = b.id)a 
+
+        left join      
+
+        (select count(*) as leave_count,leave_type_id,users_id from leaves group by leave_type_id,users_id) b        
+        on a.users_id = b.users_id and a.leave_type_id = b.leave_type_id
+        
+        left join
+	 
+	    (select employee_number,id from users)c
+        on a.users_id = c.id
+        where a.users_id = '{$where->users_id}'");
+
+        return $load;
+
+    }
 }

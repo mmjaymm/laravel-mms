@@ -146,7 +146,7 @@ class UndertimeController extends Controller
     }
 
 
-    public function retrieve(Request $request, Undertime $undertimes)
+    public function retrieve(Undertime $undertimes)
     {
         $result = [];
    
