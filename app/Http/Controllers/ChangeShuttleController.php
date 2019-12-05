@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\ChangeShuttle;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangeShuttlePost;
+use App\Mail\EmailChangeShuttle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class ChangeShuttleController extends Controller
 {
@@ -182,5 +184,38 @@ class ChangeShuttleController extends Controller
         return response()->json($result);
     }
 
+    public function email_changeshuttle()
+    {
+        $result = [];
+
+        $change = new ChangeShuttle();
+        $result = $change->load_all_data();
+
+        $email_to = ['arniel.casile@ph.fujitsu.com',
+        ];
+
+        $this->email_to_ga($email_to, $result);
+
+    }
+
+    private function email_to_ga($email_to, $result)
+    {
+
+        Mail::to($email_to)->send(new EmailChangeShuttle($result));
+
+        // check for failures
+        if (Mail::failures()) 
+        {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Sent';
+        } 
+        else 
+        {
+            $return['result'] = true;
+            $return['messages'] = 'Successfully Sent';
+        }
+
+        return response()->json($return);
+    }
 }
 
