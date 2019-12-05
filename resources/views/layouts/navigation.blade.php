@@ -8,7 +8,7 @@
             <!-- ============================================================== -->
            <div class="dashboard-header">
                 <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                    <a class="navbar-brand" href="../index.html">MIT Management System</a>
+                    <a class="navbar-brand" href="home">MIT Management System</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -71,8 +71,7 @@
                                 <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
                                 <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                     <div class="nav-user-info">
-                                        <h5 class="mb-0 text-white nav-user-name">
-    John Abraham</h5>
+                                        <h5 class="mb-0 text-white nav-user-name">MMS</h5>
                                         <span class="status"></span><span class="ml-2">Available</span>
                                     </div>
                                     <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
@@ -140,7 +139,7 @@
                                                 <div id="submenu-2-4" class="collapse submenu" style="">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href=".list_of_filed_late"><i class="fas fa-list"></i>List of Filed Late</a>
+                                                            <a class="nav-link" href="list-filed-late"><i class="fas fa-list"></i>List of Filed Late</a>
                                                         </li>
                                                         <li class="nav-item">
                                                             <a class="nav-link" href="late_form"><i class="fas fa-file-alt"></i>Late Form</a>
@@ -153,10 +152,10 @@
                                                 <div id="submenu-2-5" class="collapse submenu" style="">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="list_of_filed_undertime"><i class="fas fa-list-alt"></i>List of Filed Undertime</a>
+                                                            <a class="nav-link" href="list-filed-undertime"><i class="fas fa-list-alt"></i>List of Filed Undertime</a>
                                                         </li>
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="undertime_form"><i class="fas fa-file-alt"></i>Undertime Form</a>
+                                                            <a class="nav-link" href="undertime-form"><i class="fas fa-file-alt"></i>Undertime Form</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -166,16 +165,16 @@
                                                 <div id="submenu-2-6" class="collapse submenu" style="">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="leave_monitoring_record"><i class="far fa-list-alt"></i>Leave Monitoring Record</a>
+                                                            <a class="nav-link" href="leave-monitoring-record"><i class="far fa-list-alt"></i>Leave Monitoring Record</a>
                                                         </li>
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="leave_form"><i class="fas fa-file-alt"></i>Leave Form</a>
+                                                            <a class="nav-link" href="leave-form"><i class="fas fa-file-alt"></i>Leave Form</a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="attendance_report"><i class="fas fa-chart-bar"></i>Reports</a>
+                                                <a class="nav-link" href="attendance-report"><i class="fas fa-chart-bar"></i>Reports</a>
                                             </li>
                                         </ul>
                                     </div>

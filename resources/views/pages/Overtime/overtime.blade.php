@@ -8,8 +8,6 @@
     <script src="{{ asset('../node_modules/moment/moment.js') }}" type="text/javascript"></script>
     <script src="{{ asset('../node_modules/gijgo/js/gijgo.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
-        const _TOKEN = "{{ csrf_token() }}";
-
         $(document).ready(function ()
         {   
             $('#txt_date_from').datepicker({ format: 'yyyy-mm-dd' });
