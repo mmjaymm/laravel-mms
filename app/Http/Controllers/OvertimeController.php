@@ -16,6 +16,11 @@ class OvertimeController extends Controller
     private $weekdays_cutoff = '11:00';
     private $weekends_cutoff = '10:00';
 
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index']]);
+    }
+
     private function datas($data)
     {
         return [
