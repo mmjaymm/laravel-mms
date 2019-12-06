@@ -10,6 +10,7 @@ use App\Mail\OtAuthorization;
 use App\Mail\OtInformation;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class OvertimeController extends Controller
 {
@@ -44,16 +45,32 @@ class OvertimeController extends Controller
         if ($input_request->validator->fails()) {
             $return['result'] = false;
             $return['messages'] = $input_request->validator->errors();
-
             return response()->json($return);
+        }
+
+        //required datetime_in if not weekdays
+        if ($input_request->overtime_type != 'WEEKDAYS') {
+            $valid = Validator::make($input_request->all(), [
+                'datetime_in' => 'required|date_format:Y-m-d H:i:s',
+            ]);
+            //check of failed
+            if ($valid->fails()) {
+                return response()->json($valid->errors());
+            }
         }
 
         $insert_data = $this->datas($input_request);
         $insert_data = array_merge($insert_data, $this->filling_type($input_request));
 
-        $insert_result = $overtime->insert_data($insert_data);
-        
-        if ($insert_result) {
+        $insert_id = $overtime->insert_data($insert_data);
+
+        if ($insert_id > 0) {
+
+            //sending email authorization
+            if ($insert_data['filling_type'] === "LATE") {
+                $this->email_authorization("markjay.mercado@ph.fujitsu.com", [$insert_id]);
+            }
+
             $return['result'] = true;
             $return['messages'] = 'Inserted Successfully';
         } else {
