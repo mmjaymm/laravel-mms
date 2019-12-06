@@ -12,7 +12,7 @@
 */
 
 // Route::get('home', function () {
-//     return view('home');
+//     return view('welcome');
 // });
 // Route::get('mms-login', function () {
 //     return view('login.login');

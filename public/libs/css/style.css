@@ -1944,7 +1944,8 @@ Container / Wrapper
     position: relative;
     left: 0;
     margin-left: 264px;
-    min-height: 870px !important;
+    /* margin-left: 8%; */
+    min-height: 87vh !important;
 }
 
 .dashboard-content {
