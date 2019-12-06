@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
 use App\Mail\OtAuthorization;
 use App\Mail\OtInformation;
+use App\Mail\OtCancellation;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -328,7 +329,9 @@ class OvertimeController extends Controller
         ]);
         //check of failed
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            $return['result'] = 'data-not-valid';
+            $return['request'] = $validator->errors();
+            return response()->json($return);
         }
 
         $update_data = [
@@ -348,5 +351,42 @@ class OvertimeController extends Controller
         }
         
         return response()->json($return);
+    }
+    /**
+     * @param  Request [overtime_ids = array()]
+     * @return \Illuminate\Http\Response
+     */
+    public function cancellation_email(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'overtime_ids' => 'required|array'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            $return['result'] = 'data-not-valid';
+            $return['request'] = $validator->errors();
+            return response()->json($return);
+        }
+
+        if (auth()->user()->roles->level === "ADMIN") {
+            $email_to = "markjay.mercado@ph.fujitsu.com";
+            $return = $this->email_cancellation($email_to, $request->overtime_ids);
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Need administrator permission to send this email.';
+        }
+
+        return response()->json($return);
+    }
+
+    private function email_cancellation($email_to, $ids)
+    {
+        Mail::to($email_to)->send(new OtCancellation($ids));
+
+        if (Mail::failures()) {
+            return ['result' => false, 'messages' => 'Email not sent!'];
+        } else {
+            return ['result' => true, 'messages' => 'Email sent successfully!'];
+        }
     }
 }

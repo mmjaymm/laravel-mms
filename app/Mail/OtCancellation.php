@@ -6,20 +6,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Overtime;
 
-class Attendance extends Mailable
+class OtCancellation extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $attendances;
+    public $overtime;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($attendances)
+    public function __construct($ids)
     {
-        $this->attendances = $attendances;
+        $this->overtime = Overtime::find($ids);
     }
 
     /**
@@ -29,7 +29,6 @@ class Attendance extends Mailable
      */
     public function build()
     {
-        return $this->markdown('Emails.attendance')->with(['attendances', $this->attendances]);
-        ;
+        return $this->markdown('Emails.ot_cancellation')->with(['overtime' => $this->overtime]);
     }
 }
