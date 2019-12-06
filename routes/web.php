@@ -18,13 +18,13 @@
 //     return view('login.login');
 // });
 
-Route::get('mms-login','PageController@view_login');
-Route::get('home','PageController@view_home');
-Route::get('list-filed-late','PageController@view_list_filed_late');
-Route::get('list-filed-undertime','PageController@view_list_filed_undertime');
-Route::get('undertime-form','PageController@view_undertime_form');
-Route::get('leave-monitoring-record','PageController@view_list_filed_leave');
-Route::get('leave-form','PageController@view_leave_form');
+Route::get('mms-login', 'PageController@view_login');
+Route::get('home', 'PageController@view_home');
+Route::get('list-filed-late', 'PageController@view_list_filed_late');
+Route::get('list-filed-undertime', 'PageController@view_list_filed_undertime');
+Route::get('undertime-form', 'PageController@view_undertime_form');
+Route::get('leave-monitoring-record', 'PageController@view_list_filed_leave');
+Route::get('leave-form', 'PageController@view_leave_form');
 
 
 //failure login section
@@ -74,10 +74,12 @@ Route::get('attendances', 'AttendanceController@index');
 
 //overtime section
 Route::post('overtime', 'OvertimeController@index');
-Route::resource('overtime', 'OvertimeController');
+Route::post('overtime/store', 'OvertimeController@store');
 Route::post('overtime/retrieve', 'OvertimeController@retrieve');
-Route::post('overtime/sending_email', 'OvertimeController@sending_email');
-
+Route::post('overtime/sending_email/{filling_type?}', 'OvertimeController@sending_email'); //filling_type = LATE/ADVANCE
+Route::post('overtime/approve', 'OvertimeController@approve');
+Route::post('overtime/cancel/{id}', 'OvertimeController@cancel');
+Route::post('overtime/cancellation_email', 'OvertimeController@cancellation_email');
 
 //shuttle sections
 Route::post('shuttles/', 'ShuttleLocationController@store');
@@ -87,8 +89,8 @@ Route::get('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::get('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
 Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
-Route::post('change/shuttles/insert','ChangeShuttleController@store');
-Route::post('change/shuttles/display','ChangeShuttleController@latest_control_number');
+Route::post('change/shuttles/insert', 'ChangeShuttleController@store');
+Route::post('change/shuttles/display', 'ChangeShuttleController@latest_control_number');
 Route::patch('change/shuttles/{id}/update', 'ChangeShuttleController@update');
 Route::delete('change/shuttles/{id}', 'ChangeShuttleController@destroy');
 Route::post('shuttles/users/today', 'ChangeShuttleController@retrieve_today');

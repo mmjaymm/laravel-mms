@@ -30,6 +30,6 @@ class OtAuthorization extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ot_approver')->with(['overtime' => $this->overtime]);
+        return $this->markdown('Emails.ot_authorization')->with(['overtime' => $this->overtime]);
     }
 }

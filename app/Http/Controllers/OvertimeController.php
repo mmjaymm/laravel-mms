@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
 use App\Mail\OtAuthorization;
 use App\Mail\OtInformation;
+use App\Mail\OtCancellation;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class OvertimeController extends Controller
 {
@@ -44,16 +46,34 @@ class OvertimeController extends Controller
         if ($input_request->validator->fails()) {
             $return['result'] = false;
             $return['messages'] = $input_request->validator->errors();
-
             return response()->json($return);
+        }
+
+        //required datetime_in if not weekdays
+        if ($input_request->overtime_type != 'WEEKDAYS') {
+            $valid = Validator::make($input_request->all(), [
+                'datetime_in' => 'required|date_format:Y-m-d H:i:s',
+            ]);
+            //check of failed
+            if ($valid->fails()) {
+                return response()->json($valid->errors());
+            }
         }
 
         $insert_data = $this->datas($input_request);
         $insert_data = array_merge($insert_data, $this->filling_type($input_request));
 
-        $insert_result = $overtime->insert_data($insert_data);
-        
-        if ($insert_result) {
+        $insert_id = $overtime->insert_data($insert_data);
+
+        if ($insert_id > 0) {
+            /**
+             * @description sending email authorization
+             * @request $insert_id = array()
+             */
+            if ($insert_data['filling_type'] === "LATE" && is_array($insert_id)) {
+                $this->email_authorization("markjay.mercado@ph.fujitsu.com", [$insert_id]);
+            }
+
             $return['result'] = true;
             $return['messages'] = 'Inserted Successfully';
         } else {
@@ -118,7 +138,7 @@ class OvertimeController extends Controller
             return response()->json($return);
         }
 
-        $update_ot = $ovetimes->update_data($id, $request);
+        $update_ot = $overtimes->update_data($id, $request);
         if ($update_ot > 0) {
             $return['result'] = true;
             $return['messages'] = "Updated Successfully.";
@@ -185,18 +205,19 @@ class OvertimeController extends Controller
     }
 
     /**
-     *
-     * @param  Request [overtime_ids = array()]
+     * @param  Request [filling_type = (optional)[LATE, ADVANCE], overtime_ids = array()]
      * @return \Illuminate\Http\Response
      */
-    public function sending_email(Request $request)
+    public function sending_email($filling_type = '', Request $request)
     {
         if (is_array($request->overtime_ids)) {
             $email_approver = "markjay.mercado@ph.fujitsu.com";
             $email_info = "markjay.mercado@ph.fujitsu.com";
 
-            $this->email_authorization($email_approver, $request->overtime_ids);
-            $this->email_information($email_info, $request->overtime_ids);
+            if ($filling_type === "LATE") {
+                $this->email_authorization($email_approver, $request->overtime_ids);
+                $this->email_information($email_info, $request->overtime_ids);
+            }
 
             return response()->json(['result' => true, 'message' => 'Email Sent.']);
         } else {
@@ -234,5 +255,138 @@ class OvertimeController extends Controller
         }
 
         return $result;
+    }
+
+    /**
+     * @param  Request [reviewer_column = "1/2/3/4", reviewer, overtime_ids = array()]
+     * @return \Illuminate\Http\Response
+     */
+    public function approve(Request $request, Overtime $overtimes)
+    {
+        $validator = Validator::make($request->all(), [
+            'overtime_ids' => 'required|array',
+            'reviewer' => 'required',
+            'reviewer_column' => 'required|integer'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $reviewer_column = $this->get_approver_column($request->reviewer_column);
+
+        $update_data = [
+            'ot_status' => 1,
+            $reviewer_column => auth()->user()->id,
+        ];
+
+        $update_result = $overtimes->update_multiple($request->overtime_ids, $update_data);
+        $return = [];
+
+        if ($update_result > 0) {
+            $return['result'] = true;
+            $return['messages'] = 'Approved Successfully';
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Approve.';
+        }
+        
+        return $return;
+    }
+
+    private function get_approver_column($column_num)
+    {
+        switch ($column_num) {
+            case 1:
+                return 'reviewer_1';
+                break;
+            
+            case 2:
+                return 'reviewer_2';
+                break;
+
+            case 3:
+                return 'reviewer_3';
+                break;
+            
+            case 4:
+                return 'reviewer_4';
+                break;
+
+            default:
+                return null;
+                break;
+        }
+    }
+    /**
+     * @param  Request [remarks]
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel($id, Request $request, Overtime $overtimes)
+    {
+        $validator = Validator::make($request->all(), [
+            'remarks' => 'required'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            $return['result'] = 'data-not-valid';
+            $return['request'] = $validator->errors();
+            return response()->json($return);
+        }
+
+        $update_data = [
+            'ot_status' => 3,
+            'remarks' => $request->remarks
+        ];
+
+        $cancel_ot = $overtimes->cancelled($id, $update_data);
+        $return = [];
+
+        if ($cancel_ot) {
+            $return['result'] = true;
+            $return['messages'] = 'Cancelled Successfully';
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Cancel.';
+        }
+        
+        return response()->json($return);
+    }
+    /**
+     * @param  Request [overtime_ids = array()]
+     * @return \Illuminate\Http\Response
+     */
+    public function cancellation_email(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'overtime_ids' => 'required|array'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            $return['result'] = 'data-not-valid';
+            $return['request'] = $validator->errors();
+            return response()->json($return);
+        }
+
+        if (auth()->user()->roles->level === "ADMIN") {
+            $email_to = "markjay.mercado@ph.fujitsu.com";
+            $return = $this->email_cancellation($email_to, $request->overtime_ids);
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Need administrator permission to send this email.';
+        }
+
+        return response()->json($return);
+    }
+
+    private function email_cancellation($email_to, $ids)
+    {
+        Mail::to($email_to)->send(new OtCancellation($ids));
+
+        if (Mail::failures()) {
+            return ['result' => false, 'messages' => 'Email not sent!'];
+        } else {
+            return ['result' => true, 'messages' => 'Email sent successfully!'];
+        }
     }
 }

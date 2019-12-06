@@ -29,6 +29,6 @@ class OtInformation extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ot_information')->with(['overtime' => $this->overtime]);
+        return $this->markdown('Emails.ot_information')->with(['overtime' => $this->overtime]);
     }
 }

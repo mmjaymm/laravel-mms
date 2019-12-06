@@ -15,12 +15,17 @@ class Overtime extends Model
 
     public function insert_data($data)
     {
-        return Overtime::create($data)->save();
+        return Overtime::create($data)->id;
     }
 
     public function update_data($id, $data)
     {
         return Overtime::where('id', $id)->update($data);
+    }
+
+    public function update_multiple($leave_ids, $updated_data)
+    {
+        return DB::table('over_times')->whereIn('id', $leave_ids)->update($updated_data);
     }
 
     public function select_data($where)
@@ -36,5 +41,11 @@ class Overtime extends Model
         }
         
         return $query->get();
+    }
+
+    public function cancelled($id, $data)
+    {
+        $query = Overtime::where('id', $id)->whereNotIn('ot_status', [1,2,3])->update($data);
+        return $query;
     }
 }

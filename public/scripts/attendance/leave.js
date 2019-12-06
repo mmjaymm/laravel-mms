@@ -29,7 +29,7 @@ const LEAVE = (() => {
 
                     leave +=
                     `<tr>
-                        <td align="center"><button data-id="btn_edit_leave"  class="btn btn-sm btn-info" title= "Edit Leave" onclick="LEAVE.btn_edit_leave('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_leave"  class="btn btn-sm btn-info" title= "Edit Leave" onclick="LEAVE.btn_edit_leave('${this.id}');" method="POST"DELETE</button></td>
+                        <td align="center"><button data-id="btn_edit_leave"  class="btn btn-sm btn-info" title= "Edit Leave" onclick="LEAVE.btn_edit_leave('${this.id}','${this.date_leave}', '${this.leave_type}', '${this.reason}', '${this.date_filed}');" method="POST"EDIT</button> &nbsp <button data-id="btn_delete_filed_leave"  class="btn btn-sm btn-info" title= "Delete Leave" onclick="LEAVE.btn_delete_filed_leave('${this.id}');" method="POST"DELETE</button></td>
                         <td align="center">${this.id}</td>
                         <td align="center">${this.employee_number}</td>
                         <td align="center">${this.date_leave}</td>
@@ -92,7 +92,7 @@ const LEAVE = (() => {
 
         $.ajax({
             url: 'leave',
-            type: 'post',
+            type: 'get',
             data: '',
             success: data => {
 
@@ -106,6 +106,26 @@ const LEAVE = (() => {
 
         });
 
+    }
+
+    this_late.btn_delete_filed_undertime = () => {
+        alert('Deleted!')
+
+        $.ajax({
+            url: 'undertimes/d',
+            type: 'delete',
+            data: '',
+            success: data => {
+
+                
+                // $('#modal_file_undertime').hide();
+            
+            },
+            error: function(data) {
+                // console.log(result)
+            }
+
+        });
     }
 
 
