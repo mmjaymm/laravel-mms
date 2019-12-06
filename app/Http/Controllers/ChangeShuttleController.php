@@ -191,7 +191,7 @@ class ChangeShuttleController extends Controller
         $change = new ChangeShuttle();
         $result = $change->load_all_data();
 
-        $email_to = ['arniel.casile@ph.fujitsu.com',
+        $email_to = ['arniel.casile@ph.fujitsu.com','eugene.rubio@ph.fujitsu.com'
         ];
 
         $this->email_to_ga($email_to, $result);
