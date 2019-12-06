@@ -16,7 +16,6 @@ class ChangeShuttleController extends Controller
 
     private function datas($data)
     {
-
         return [
             'users_id'              => $data->users_id,
             'reason'                => $data->reason,
@@ -53,7 +52,8 @@ class ChangeShuttleController extends Controller
         
         $return = [];
 
-        if ($input_request->validator->fails()) {
+        if ($input_request->validator->fails()) 
+        {
             $return['result'] = false;
             $return['messages'] = $input_request->validator->errors();
 
@@ -218,3 +218,4 @@ class ChangeShuttleController extends Controller
         return response()->json($return);
     }
 }
+
