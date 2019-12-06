@@ -41,10 +41,10 @@ Route::post('undertimes/', 'UndertimeController@store');
 Route::get('undertimes/{id}/edit', 'UndertimeController@edit');
 Route::patch('undertimes/{id}', 'UndertimeController@update');
 Route::delete('undertimes/{id}', 'UndertimeController@destroy');
+
 Route::get('undertimes/all', 'UndertimeController@retrieve');
 Route::get('undertimes/deleted', 'UndertimeController@retrieve');
 Route::get('undertimes/not-deleted', 'UndertimeController@retrieve');
-
 
 //leave credits section
 Route::get('leave-credits', 'LeaveCreditsController@index');
@@ -89,15 +89,13 @@ Route::get('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::get('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
 Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
-Route::post('change/shuttles/insert', 'ChangeShuttleController@store');
-Route::post('change/shuttles/display', 'ChangeShuttleController@latest_control_number');
-Route::patch('change/shuttles/{id}/update', 'ChangeShuttleController@update');
-Route::delete('change/shuttles/{id}', 'ChangeShuttleController@destroy');
-Route::post('shuttles/users/today', 'ChangeShuttleController@retrieve_today');
-Route::post('change/shuttles/location', 'ChangeShuttleController@retrieve');
-Route::post('change/shuttles/all', 'ChangeShuttleController@retrieve');
-Route::post('change/shuttles/send', 'ChangeShuttleController@email_changeshuttle');
-Route::get('token', 'ShuttleLocationController@index');
+
+Route::post('change-shuttles','ChangeShuttleController@store');
+Route::patch('change-shuttles/{id}', 'ChangeShuttleController@update');
+Route::delete('change-shuttles/{id}', 'ChangeShuttleController@destroy');
+Route::get('shuttles-users/today', 'ChangeShuttleController@retrieve_today');
+Route::post('change-shuttles/filter', 'ChangeShuttleController@retrieve'); //location and date/all
+Route::get('change-shuttles/send', 'ChangeShuttleController@email_changeshuttle');
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 

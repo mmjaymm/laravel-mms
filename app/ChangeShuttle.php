@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Carbon;
+
 class ChangeShuttle extends Model
 {
 
@@ -45,7 +47,6 @@ class ChangeShuttle extends Model
         
     }
     public function edit_data($id, $data)
-   
     {
         return DB::connection('pgsql')
                     ->table('change_shuttles')
@@ -61,7 +62,8 @@ class ChangeShuttle extends Model
                     ->update([
                         'datetime_schedule' =>$data['datetime_schedule'],
                         'reason'            =>$data['reason'],
-                        'shuttle_status'    =>$data['shuttle_status']
+                        'shuttle_status'    =>$data['shuttle_status'],
+                        'updated_at'         =>Carbon::now()
                     ]);
     }
 
@@ -71,8 +73,8 @@ class ChangeShuttle extends Model
         $todayshuttles = DB::connection('pgsql')
                             ->table('users as a')
                             ->join('shuttle_locations as b','a.shuttle_locations_id','=','b.id')
-                            ->join('attendances as c','a.id', '=', 'c.users_id')
-                            ->where('.date', date('Y-m-d'))
+                            ->join('attendances as c','a.id','=','c.users_id')
+                            ->where('c.date', date('Y-m-d'))
                             ->select('*');
 
        
@@ -81,24 +83,24 @@ class ChangeShuttle extends Model
 
     public function select_data($where)
     {
+        
         $change = DB::connection('pgsql')
                     ->table('users as a')
                     ->join('change_shuttles as b','a.id', '=', 'b.users_id')
                     ->join('shuttle_locations as c','b.shuttle_location_id','=','c.id')
-                    ->select('*');
+                    ->select('b.id','employee_number','datetime_schedule','reason','shuttle_status','control_number','shuttle_location');
 
-        
-        if ($where['is_deleted'] === 0) 
+        if (($where['is_deleted'] === 0) && ($where['location'] !== 'ALL')) 
         {
-            $change->where(\DB::raw('substr(cast(b.datetime_schedule as varchar), 0, 10)'), '=',$where['date_search'])
+            $change->where(\DB::raw('substr(cast(b.datetime_schedule as varchar), 0, 11)'), '=',$where['date_search'])
                    ->where('shuttle_location',$where['location'])
                    ->where('b.is_deleted', 0);
         }
 
-        if ($where['is_deleted'] === 'x') 
+        else if ($where['location'] === 'ALL') 
         {
-            $change->where(\DB::raw('substr(cast(b.datetime_schedule as varchar), 0, 10)'), '=',$where['date_search'])
-                   ->where('shuttle_location',$where['location']);
+            $change->where(\DB::raw('substr(cast(b.datetime_schedule as varchar), 0, 11)'), '=',$where['date_search'])
+                   ->where('b.is_deleted', 0);
         }
 
         return $change->get();
@@ -110,11 +112,11 @@ class ChangeShuttle extends Model
         $email_change_shuttles = DB::connection('pgsql')
                             ->table('users as a')
                             ->join('attendances as b','a.id', '=', 'b.users_id')
-                            ->join('shuttle_locations as c','a.shuttle_locations_id','=','c.id')
-                            ->join('change_shuttles as d','a.id','=','d.users_id')
-                            ->join('change_shuttles as e','e.shuttle_location_id','=','c.id')
-                            ->where('b.date', date('Y-m-d'))
-                            ->select('*');
+                            ->join('change_shuttles as c','a.id','=','c.users_id')
+                            ->join('shuttle_locations as d','c.shuttle_location_id','=','d.id')
+                            ->where(\DB::raw('substr(cast(c.datetime_schedule as varchar), 0, 11)'), '=','2019-12-02')
+                            ->where('c.is_deleted',0)
+                            ->select('c.id','employee_number','date','reason','shuttle_status','control_number','shuttle_location');
 
        
         return $email_change_shuttles->get();

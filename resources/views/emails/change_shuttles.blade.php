@@ -1,10 +1,9 @@
 
 {{-- Place your body here: --}}
 
-{{-- echo {{$result}} --}}
-
-
 {{-- TABLE HEADER HERE --}}
+
+
 
 <table border="1">
     <thead>
@@ -22,10 +21,20 @@
         </tr>
     </thead>
     <tbody>
-
-        <?
-
-        ?>
+        @foreach ($result as $details)
+            <tr>
+                <td>{{$details->control_number}}</td>
+                <td>{{$details->date}}</td>
+                {{-- <td>{{$details->last_name}},{{$details->first_name}}</td> --}}
+                <td></td>
+                <td>{{$details->shuttle_location}}</td>
+                <td>{{$details->shuttle_location}}</td>
+                <td></td>
+                <td></td>
+                {{-- <td>{{$details->time}}</td> --}}
+                {{-- <td>{{$details->users_id}}</td> --}}
+            </tr>
+        @endforeach
         
     </tbody> 
 </table>   
