@@ -78,6 +78,8 @@ Route::post('overtime/store', 'OvertimeController@store');
 Route::post('overtime/retrieve', 'OvertimeController@retrieve');
 Route::post('overtime/sending_email/{filling_type?}', 'OvertimeController@sending_email'); //filling_type = LATE/ADVANCE
 Route::post('overtime/approve', 'OvertimeController@approve');
+Route::post('overtime/cancel/{id}', 'OvertimeController@cancel');
+
 
 //shuttle sections
 Route::post('shuttles/', 'ShuttleLocationController@store');

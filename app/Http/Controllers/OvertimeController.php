@@ -137,7 +137,7 @@ class OvertimeController extends Controller
             return response()->json($return);
         }
 
-        $update_ot = $ovetimes->update_data($id, $request);
+        $update_ot = $overtimes->update_data($id, $request);
         if ($update_ot > 0) {
             $return['result'] = true;
             $return['messages'] = "Updated Successfully.";
@@ -316,5 +316,37 @@ class OvertimeController extends Controller
                 return null;
                 break;
         }
+    }
+    /**
+     * @param  Request [remarks]
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel($id, Request $request, Overtime $overtimes)
+    {
+        $validator = Validator::make($request->all(), [
+            'remarks' => 'required'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $update_data = [
+            'ot_status' => 3,
+            'remarks' => $request->remarks
+        ];
+
+        $cancel_ot = $overtimes->cancelled($id, $update_data);
+        $return = [];
+
+        if ($cancel_ot) {
+            $return['result'] = true;
+            $return['messages'] = 'Cancelled Successfully';
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Cancel.';
+        }
+        
+        return response()->json($return);
     }
 }
