@@ -20,12 +20,6 @@ class ShuttleLocationController extends Controller
         ];
     }
 
-    public function index()
-    {
-
-        return csrf_token();
-    }
-
 
     /*
     * return @array
@@ -145,7 +139,7 @@ class ShuttleLocationController extends Controller
     {
         $result = [];
 
-       $result = $location->select_data($location);
+       $result = $location->select_data();
 
         return response()->json($result);
     }
@@ -154,7 +148,7 @@ class ShuttleLocationController extends Controller
     {
         $result = [];
 
-        $result = $location->default_location($location);
+        $result = $location->default_location();
  
         return response()->json($result);
  

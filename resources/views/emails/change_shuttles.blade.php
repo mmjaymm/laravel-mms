@@ -3,6 +3,8 @@
 
 {{-- TABLE HEADER HERE --}}
 
+
+
 <table border="1">
     <thead>
         <tr bgcolor="#009999" style="color: white;" role="row">
@@ -19,17 +21,20 @@
         </tr>
     </thead>
     <tbody>
-        {{-- @foreach ($result as $details)
+        @foreach ($result as $details)
             <tr>
                 <td>{{$details->control_number}}</td>
                 <td>{{$details->date}}</td>
-                <td>{{$details->last_name}},{{$details->first_name}}</td>
-                <td>{{$details->sh_destination}}</td>
-                <td>{{$details->location}}</td>
-                <td>{{$details->time}}</td>
-                <td>{{$details->users_id}}</td>
+                {{-- <td>{{$details->last_name}},{{$details->first_name}}</td> --}}
+                <td></td>
+                <td>{{$details->shuttle_location}}</td>
+                <td>{{$details->shuttle_location}}</td>
+                <td></td>
+                <td></td>
+                {{-- <td>{{$details->time}}</td> --}}
+                {{-- <td>{{$details->users_id}}</td> --}}
             </tr>
-        @endforeach --}}
+        @endforeach
         
     </tbody> 
 </table>   
