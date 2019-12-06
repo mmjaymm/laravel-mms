@@ -25,9 +25,16 @@ class Overtime extends Model
 
     public function select_data($where)
     {
-        return DB::connection('pgsql')
-                    ->table('over_times')
-                    ->where($where)
-                    ->get();
+        $query = DB::connection('pgsql')
+                    ->table('over_times as a')
+                    ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
+                    ->select('a.*', 'b.employee_number')
+                    ->whereBetween('a.datetime_out', [$where['date_from'], $where['date_to']]);
+        
+        if (count($where['condition']) > 0) {
+            $query->where($where['condition']);
+        }
+        
+        return $query->get();
     }
 }

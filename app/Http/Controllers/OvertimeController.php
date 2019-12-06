@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Hris;
 use App\Overtime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OvertimePost;
 use App\Mail\OtAuthorization;
 use App\Mail\OtInformation;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class OvertimeController extends Controller
 {
     private $weekdays_cutoff = '11:00';
     private $weekends_cutoff = '10:00';
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index']]);
+    }
 
     private function datas($data)
     {
@@ -26,6 +33,7 @@ class OvertimeController extends Controller
 
     public function index()
     {
+        return view('pages.Overtime.overtime');
     }
     /*
     * return @array
@@ -139,45 +147,39 @@ class OvertimeController extends Controller
     }
     /**
      *
-     * @param  Request input [created_at, ot_status(optional), filling_type(optional)]
+     * @param  Request input [_token, txt_date_from, txt_date_to]
      * @return \Illuminate\Http\Response
      */
     public function retrieve(Request $request, Overtime $overtimes)
     {
         $validator = Validator::make($request->all(), [
-            'created_at' => 'required|date_format:Y-m-d'
+            'txt_date_from' => 'required|date_format:Y-m-d',
+            'txt_date_to' => 'required|date_format:Y-m-d'
         ]);
         //check of failed
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
 
-        if (!isset($request->filling_type) && !isset($request->ot_status)) {
-            $where = [['created_at', 'like', '%'.$request->created_at]];
-        } else {
-            //if no filling type
-            if (!isset($request->filling_type)) {
-                $where = [
-                    ['created_at', 'like', '%'.$request->created_at],
-                    ['ot_status', '=', $request->ot_status]
-                ];
-            //if no ot_status
-            } elseif (!isset($request->ot_status)) {
-                //filling type lng
-                $where = [
-                    ['created_at', 'like', '%'.$request->created_at],
-                    ['filling_type', '=', $request->filling_type]
-                ];
-            } else {
-                $where = [
-                    ['created_at', 'like', '%'.$request->created_at],
-                    ['ot_status', '=', $request->ot_status],
-                    ['filling_type', '=', $request->filling_type]
-                ];
-            }
-        }
+        if (Auth::user()->roles->level === "USER") {
+            $where = [
+                'date_from' => $request->txt_date_from,
+                'date_to' => $request->txt_date_to,
+                'condition' => [['a.users_id', '=', Auth::user()->id]]
+            ];
 
-        $return = $overtimes->select_data($where);
+            $return = ['level' => Auth::user()->roles->level, 'data' => $overtimes->select_data($where)];
+        } else {
+            $where = [
+                'date_from' => $request->txt_date_from,
+                'date_to' => $request->txt_date_to,
+                'condition' => []
+            ];
+
+            $overtime_data = $overtimes->select_data($where);
+            $overtime_users = $this->combine_data_to_manpower($overtime_data);
+            $return = ['level' => Auth::user()->roles->level, 'data' => $overtime_users];
+        }
 
         return response()->json($return);
     }
@@ -193,8 +195,8 @@ class OvertimeController extends Controller
             $email_approver = "markjay.mercado@ph.fujitsu.com";
             $email_info = "markjay.mercado@ph.fujitsu.com";
 
-            $this->email_authorization($email_approver, $overtime_ids);
-            $this->email_information($email_info, $overtime_ids);
+            $this->email_authorization($email_approver, $request->overtime_ids);
+            $this->email_information($email_info, $request->overtime_ids);
 
             return response()->json(['result' => true, 'message' => 'Email Sent.']);
         } else {
@@ -205,5 +207,32 @@ class OvertimeController extends Controller
     private function email_information($email_to, $ids)
     {
         Mail::to($email_to)->send(new OtInformation($ids));
+    }
+
+    private function combine_data_to_manpower($data)
+    {
+        $result = [];
+        $hris = new Hris;
+        //getting man power of MIT in HRIS
+        $man_power_where = [
+            ['section_code', 'MIT'],
+            ['emp_system_status', 'ACTIVE']
+        ];
+        $man_power_result = $hris->man_power($man_power_where);
+
+        foreach ($data as $key => $value) {
+            foreach ($man_power_result as $man_key => $man_value) {
+                if ($value->employee_number == $man_value->emp_pms_id) {
+                    $man_data = [
+                        'last_name' => $man_value->emp_last_name,
+                        'first_name' => $man_value->emp_first_name,
+                        'middle_name' => $man_value->emp_middle_name,
+                    ];
+                    array_push($result, array_merge((array) $value, $man_data));
+                }
+            }
+        }
+
+        return $result;
     }
 }
