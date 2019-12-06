@@ -23,6 +23,11 @@ class Overtime extends Model
         return Overtime::where('id', $id)->update($data);
     }
 
+    public function update_multiple($leave_ids, $updated_data)
+    {
+        return DB::table('over_times')->whereIn('id', $leave_ids)->update($updated_data);
+    }
+
     public function select_data($where)
     {
         $query = DB::connection('pgsql')

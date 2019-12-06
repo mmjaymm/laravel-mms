@@ -65,9 +65,11 @@ class OvertimeController extends Controller
         $insert_id = $overtime->insert_data($insert_data);
 
         if ($insert_id > 0) {
-
-            //sending email authorization
-            if ($insert_data['filling_type'] === "LATE") {
+            /**
+             * @description sending email authorization
+             * @request $insert_id = array()
+             */
+            if ($insert_data['filling_type'] === "LATE" && is_array($insert_id)) {
                 $this->email_authorization("markjay.mercado@ph.fujitsu.com", [$insert_id]);
             }
 
@@ -202,18 +204,19 @@ class OvertimeController extends Controller
     }
 
     /**
-     *
-     * @param  Request [overtime_ids = array()]
+     * @param  Request [filling_type = (optional)[LATE, ADVANCE], overtime_ids = array()]
      * @return \Illuminate\Http\Response
      */
-    public function sending_email(Request $request)
+    public function sending_email($filling_type = '', Request $request)
     {
         if (is_array($request->overtime_ids)) {
             $email_approver = "markjay.mercado@ph.fujitsu.com";
             $email_info = "markjay.mercado@ph.fujitsu.com";
 
-            $this->email_authorization($email_approver, $request->overtime_ids);
-            $this->email_information($email_info, $request->overtime_ids);
+            if ($filling_type === "LATE") {
+                $this->email_authorization($email_approver, $request->overtime_ids);
+                $this->email_information($email_info, $request->overtime_ids);
+            }
 
             return response()->json(['result' => true, 'message' => 'Email Sent.']);
         } else {
@@ -251,5 +254,67 @@ class OvertimeController extends Controller
         }
 
         return $result;
+    }
+
+    /**
+     * @param  Request [reviewer_column = "1/2/3/4", reviewer, overtime_ids = array()]
+     * @return \Illuminate\Http\Response
+     */
+    public function approve(Request $request, Overtime $overtimes)
+    {
+        $validator = Validator::make($request->all(), [
+            'overtime_ids' => 'required|array',
+            'reviewer' => 'required',
+            'reviewer_column' => 'required|integer'
+        ]);
+        //check of failed
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $reviewer_column = $this->get_approver_column($request->reviewer_column);
+
+        $update_data = [
+            'ot_status' => 1,
+            $reviewer_column => auth()->user()->id,
+        ];
+
+        $update_result = $overtimes->update_multiple($request->overtime_ids, $update_data);
+        $return = [];
+
+        if ($update_result > 0) {
+            $return['result'] = true;
+            $return['messages'] = 'Approved Successfully';
+        } else {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Approve.';
+        }
+        
+        return $return;
+    }
+
+    private function get_approver_column($column_num)
+    {
+        switch ($column_num) {
+            case 1:
+                return 'reviewer_1';
+                break;
+            
+            case 2:
+                return 'reviewer_2';
+                break;
+
+            case 3:
+                return 'reviewer_3';
+                break;
+            
+            case 4:
+                return 'reviewer_4';
+                break;
+
+            default:
+                return null;
+                break;
+        }
     }
 }
