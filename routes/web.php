@@ -21,6 +21,7 @@
 Route::get('mms-login','PageController@view_login');
 Route::get('home','PageController@view_home');
 Route::get('list-filed-late','PageController@view_list_filed_late');
+Route::get('list-filed-failure','PageController@view_list_filed_failure');
 Route::get('list-filed-undertime','PageController@view_list_filed_undertime');
 Route::get('undertime-form','PageController@view_undertime_form');
 Route::get('leave-monitoring-record','PageController@view_list_filed_leave');

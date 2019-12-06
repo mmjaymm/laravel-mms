@@ -126,7 +126,7 @@
                                                 <div id="submenu-2-3" class="collapse submenu" style="">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="list_of_filed_failure"><i class="fas fa-list-ul"></i>List of Filed Failure</a>
+                                                            <a class="nav-link" href="list-of-filed-failure"><i class="fas fa-list-ul"></i>List of Filed Failure</a>
                                                         </li>
                                                         <li class="nav-item">
                                                             <a class="nav-link" href="failure_form"><i class="fas fa-file-alt"></i>Failure Form</a>
