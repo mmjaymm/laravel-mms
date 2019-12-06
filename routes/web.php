@@ -84,10 +84,6 @@ Route::post('change/shuttles/location', 'ChangeShuttleController@retrieve');
 Route::post('change/shuttles/all', 'ChangeShuttleController@retrieve');
 Route::post('change/shuttles/send', 'ChangeShuttleController@email_changeshuttle');
 
-
-Route::get('token', 'ShuttleLocationController@index');
-
-
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 
 //login-logout section
