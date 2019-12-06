@@ -35,7 +35,6 @@ Route::delete('undertimes/{id}', 'UndertimeController@destroy');
 Route::post('undertimes/all', 'UndertimeController@retrieve');
 Route::post('undertimes/deleted', 'UndertimeController@retrieve');
 Route::post('undertimes/not-deleted', 'UndertimeController@retrieve');
-Route::get('token', 'FailureController@index');
 
 //leave credits section
 Route::get('leave-credits','LeaveCreditsController@index');
@@ -75,14 +74,15 @@ Route::get('shuttles/{id}/edit', 'ShuttleLocationController@edit');
 Route::patch('shuttles/{id}', 'ShuttleLocationController@update');
 Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
-Route::post('change/shuttles/insert','ChangeShuttleController@store');
-Route::post('change/shuttles/display','ChangeShuttleController@latest_control_number');
-Route::patch('change/shuttles/{id}/update', 'ChangeShuttleController@update');
-Route::delete('change/shuttles/{id}', 'ChangeShuttleController@destroy');
-Route::post('shuttles/users/today', 'ChangeShuttleController@retrieve_today');
-Route::post('change/shuttles/location', 'ChangeShuttleController@retrieve');
-Route::post('change/shuttles/all', 'ChangeShuttleController@retrieve');
-Route::post('change/shuttles/send', 'ChangeShuttleController@email_changeshuttle');
+
+
+
+Route::post('change-shuttles','ChangeShuttleController@store');
+Route::patch('change-shuttles/{id}', 'ChangeShuttleController@update');
+Route::delete('change-shuttles/{id}', 'ChangeShuttleController@destroy');
+Route::get('shuttles-users/today', 'ChangeShuttleController@retrieve_today');
+Route::post('change-shuttles/filter', 'ChangeShuttleController@retrieve'); //location and date/all
+Route::get('change-shuttles/send', 'ChangeShuttleController@email_changeshuttle');
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 
