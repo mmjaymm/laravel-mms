@@ -29,7 +29,7 @@ const UNDERTIME = (() => {
 
                     undertime +=
                     `<tr>
-                        <td align="center"><button data-id="btn_edit_undertime"  class="btn btn-sm btn-info" title= "Edit Undertime" onclick="UNDERTIME.btn_edit_undertime('${this.id}');" method="POST"EDIT</button> &nbsp <button data-id="btn_edit_undertime"  class="btn btn-sm btn-info" title= "Edit Undertime" onclick="UNDERTIME.btn_edit_undertime('${this.id}');" method="POST"DELETE</button></td>
+                        <td align="center"><button data-id="btn_edit_undertime"  class="btn btn-sm btn-info" title= "Edit Undertime" onclick="UNDERTIME.btn_edit_undertime('${this.id}','${this.date_time_out}', '${this.reason}');" method="POST"EDIT</button> &nbsp <button data-id="btn_delete_filed_undertime"  class="btn btn-sm btn-info" title= "Delete Undertime" onclick="UNDERTIME.btn_delete_filed_undertime('${this.id}');" method="POST"DELETE</button></td>
                         <td align="center">${this.id}</td>
                         <td align="center">${this.employee_number}</td>
                         <td align="center">${this.first_name}</td>
@@ -65,7 +65,7 @@ const UNDERTIME = (() => {
         alert('saved!')
 
         $.ajax({
-            url: 'undertime',
+            url: 'undertimes',
             type: 'post',
             data: '',
             success: data => {
@@ -92,8 +92,8 @@ const UNDERTIME = (() => {
         alert('saved edit!')
 
         $.ajax({
-            url: 'undertime',
-            type: 'post',
+            url: 'undertimes',
+            type: 'get',
             data: '',
             success: data => {
 
@@ -107,6 +107,26 @@ const UNDERTIME = (() => {
 
         });
 
+    }
+
+    this_late.btn_delete_filed_undertime = () => {
+        alert('Deleted!')
+
+        $.ajax({
+            url: 'undertimes/d',
+            type: 'delete',
+            data: '',
+            success: data => {
+
+                
+                // $('#modal_file_undertime').hide();
+            
+            },
+            error: function(data) {
+                // console.log(result)
+            }
+
+        });
     }
 
 
