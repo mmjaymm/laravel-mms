@@ -92,7 +92,7 @@ Route::get('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle
 Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
 
-Route::post('change-shuttles','ChangeShuttleController@store');
+Route::post('change-shuttles', 'ChangeShuttleController@store');
 Route::patch('change-shuttles/{id}', 'ChangeShuttleController@update');
 Route::delete('change-shuttles/{id}', 'ChangeShuttleController@destroy');
 Route::get('shuttles-users/today', 'ChangeShuttleController@retrieve_today');
@@ -106,6 +106,7 @@ Route::post('users/login_auth', 'UserController@login_auth');
 Route::get('users/sign_out', 'UserController@sign_out');
 Route::get('users/administrator', 'UserController@administrator');
 Route::get('users/normal-users', 'UserController@users');
+
 //leave section
 Route::get('leave', 'LeaveController@index');
 Route::get('leave-load-leave', 'LeaveController@load_leave');
