@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 class ChangeShuttleController extends Controller
 {
 
+    private $cutoff = "15:00:00";
+
     private function datas($data)
     {
         return [
@@ -48,6 +50,8 @@ class ChangeShuttleController extends Controller
     */
     public function store(ChangeShuttlePost $input_request, ChangeShuttle $change)
     {
+
+        $timenow = date('H:i:s');
         
         $return = [];
 
@@ -59,26 +63,40 @@ class ChangeShuttleController extends Controller
             return response()->json($return);
         }
 
-        $lates_control_number = str_replace("MIT","",$this->latest_control_number()->control_number);
-        $input_request["control_number"] = "MIT".($lates_control_number+1);
+        if($this->timenow = $timenow <= $this->cutoff)
+        {
 
-        DB::beginTransaction();
-        
-        try {
-            //insert change shuttle
-            $change = new ChangeShuttle();
-            $input_request->except('_token');
-            $change->insert_data($this->datas($input_request));
-            DB::commit();
+            $lates_control_number = str_replace("MIT","",$this->latest_control_number()->control_number);
+            $input_request["control_number"] = "MIT".($lates_control_number+1);
 
-            $return['result'] = true;
-            $return['messages'] = 'Inserted Successfully.';
-        } catch (\Throwable $th) {
-            DB::rollback();
+            DB::beginTransaction();
+            
+            try {
+                //insert change shuttle
+                $change = new ChangeShuttle();
+                $input_request->except('_token');
+                $change->insert_data($this->datas($input_request));
+                DB::commit();
+
+                $return['result'] = true;
+                $return['messages'] = 'Inserted Successfully.';
+            } catch (\Throwable $th) {
+                DB::rollback();
+
+                $return['result'] = false;
+                $return['messages'] = 'Unable to Insert';
+            }
+
+        }
+        else
+        {
 
             $return['result'] = false;
-            $return['messages'] = 'Unable to Insert';
+            $return['messages'] = 'Cut off time!!!';
+
         }
+
+        
         
         return response()->json($return);
     }
@@ -183,7 +201,7 @@ class ChangeShuttleController extends Controller
         $change = new ChangeShuttle();
         $result = $change->load_all_data();
 
-        $email_to = ['arniel.casile@ph.fujitsu.com'
+        $email_to = ['arniel.casile@ph.fujitsu.com','eugene.rubio@ph.fujitsu.com'
         ];
 
         return $this->email_to_ga($email_to, $result);
@@ -208,7 +226,7 @@ class ChangeShuttleController extends Controller
             $return['messages'] = 'Successfully Sent';
         }
 
-       return $return;
+        return response()->json($return);
        
     }
 }
