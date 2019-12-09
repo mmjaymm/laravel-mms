@@ -28,18 +28,11 @@ class Late extends Model
     {
         $late = DB::table('lates')->select('*');
 
-        if ($where['is_deleted'] === 1) {
-            $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59'])
-                ->where('is_deleted', 1);
-        }
-        
-        if ($where['is_deleted'] === 0) {
-            $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59'])
-            ->where('is_deleted', 0);
-        }
-
         if ($where['is_deleted'] === 'x') {
             $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59']);
+        } else {
+            $late->whereBetween('datetime_in', [$where['date_from'].' 00:00:00', $where['date_to'].' 23:59:59'])
+            ->where($where['where']);
         }
 
         return $late->get();

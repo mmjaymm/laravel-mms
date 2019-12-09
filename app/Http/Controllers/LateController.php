@@ -9,6 +9,7 @@ use App\Http\Requests\LatePost;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class LateController extends Controller
 {
@@ -150,31 +151,43 @@ class LateController extends Controller
         }
  
         if (request()->is('lates/deleted')) {
-            $where = [
-                'date_from' => $request->date_from,
-                'date_to' => $request->date_to,
-                'is_deleted' => 1
-            ];
+            $where = $this->_retrieve_where_user_permissions($request, 1);
         }
 
         if (request()->is('lates/not-deleted')) {
-            $where = [
-                'date_from' => $request->date_from,
-                'date_to' => $request->date_to,
-                'is_deleted' => 0
-            ];
+            $where = $this->_retrieve_where_user_permissions($request, 0);
         }
 
         if (request()->is('lates/all')) {
-            $where = [
-                'date_from' => $request->date_from,
-                'date_to' => $request->date_to,
-                'is_deleted' => 'x'
-            ];
+            $where = $this->_retrieve_where_user_permissions($request, 'x');
         }
 
         $result = $lates->select_data($where);
 
         return response()->json($result);
+    }
+
+    private function _retrieve_where_user_permissions($request, $is_deleted)
+    {
+        if (Auth::user()->roles->level === "USER") {
+            return [
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
+                'where' => [
+                    ['is_deleted', '=', $is_deleted],
+                    ['users_id', '=', auth()->user()->id]
+                ],
+                'is_deleted' => $is_deleted
+            ];
+        } else {
+            return [
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
+                'where' => [
+                    ['is_deleted', '=', $is_deleted]
+                ],
+                'is_deleted' => $is_deleted
+            ];
+        }
     }
 }
