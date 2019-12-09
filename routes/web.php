@@ -30,11 +30,11 @@ Route::get('leave-form','PageController@view_leave_form');
 
 //failure login section
 
-Route::post('failures/', 'FailureController@create');
+Route::post('failures/', 'FailureController@store');
 Route::get('failures/{id}/edit', 'FailureController@edit');
 Route::patch('failures/{id}', 'FailureController@update');
 Route::delete('failures/{id}', 'FailureController@destroy');
-Route::post('failures/all', 'FailureController@retrieve');
+Route::get('failures/all', 'FailureController@retrieve');
 Route::get('token', 'FailureController@index');
 
 //undertime section

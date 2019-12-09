@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/datatables/css/buttons.bootstrap4.css">
     <link rel="stylesheet" type="text/css" href="vendor/datatables/css/select.bootstrap4.css">
     <link rel="stylesheet" type="text/css" href="vendor/datatables/css/fixedHeader.bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="../node_modules/jquery-datetimepicker/jquery.datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
 @endsection
 
 @section('content_page')
@@ -21,13 +21,13 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="page-header">
-                    <h2 class="pageheader-title">List of Filed Failure LogIN/Out</h2>
+                    <h2 class="pageheader-title">List of Filed Failure LogIn/Out</h2>
                     <div class="page-breadcrumb">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Attendance</a></li>
                                 <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Failure</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">List of Filed Failure LogIN/Out</li>
+                                <li class="breadcrumb-item active" aria-current="page">List of Filed Failure LogIn/Out</li>
                             </ol>
                         </nav>
                     </div>
@@ -59,14 +59,16 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>No.</th>
-                                        <th>Employee ID</th>
+                                        @if (Auth::user()->roles->level === "ADMIN")
+                                        <th>Name</th>
+                                        @endif
                                         <th>DateTime in</th>
                                         <th>DateTime out</th>
                                         <th>Reason</th>
+                                        <th>Date Filed</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbody_list_of_filed_failure"></tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -93,19 +95,19 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="Failure DateTime in">DateTime In</label>
-                            <input class="form-control form-control-lg ToDateTime" id="txt_failure_datetime_in" placeholder="" autocomplete="off">
+                            <input type="text" class="form-control form-control-lg datetimepicker" id="txt_failure_datetime_in" placeholder="Date & Time..." autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="Late Date">DateTime Out</label>
-                            <input class="form-control form-control-lg ToDateTime" id="txt_failure_datetime_out" placeholder="" autocomplete="off">
+                            <input class="form-control form-control-lg datetimepicker" id="txt_failure_datetime_out" placeholder="Date & Time..." autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="Late Date">Reason</label>
-                            <input class="form-control form-control-lg" id="txt_failure_reason" type="text" placeholder="" autocomplete="off">
+                            <input class="form-control form-control-lg" id="txt_failure_reason" type="text" placeholder="Reason..." autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="btn_save_filed_failure" onclick="LATE.save_file_failure();">Save</button>
+                    <button type="button" class="btn btn-secondary" id="btn_save_filed_failure" onclick="FAILURE.save_file_failure();">Save</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -116,31 +118,31 @@
 
     {{-- edit late modal --}}
 
-        <div id="modal_edit_late" class="modal fade" role="dialog">
+        <div id="modal_edit_failure" class="modal fade" role="dialog">
             <div class="modal-dialog">
               
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">File Late Form</h4>
+                        <h4 class="modal-title">Update Failure Form</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="Late ime in">Time In</label>
-                                <input class="form-control form-control-lg" id="txt_edit_late_time_in" type="time" placeholder="" autocomplete="off">
+                            <label for="Failure DateTime in">DateTime In</label>
+                                <input type="text" class="form-control form-control-lg datetimepicker" id="txt_edit_failure_datetime_in" placeholder="Date & Time..." autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="Late Date">Date</label>
-                                <input class="form-control form-control-lg" id="txt_edit_late_date" type="date" placeholder="" autocomplete="off">
+                            <label for="Late Date">DateTime Out</label>
+                                <input class="form-control form-control-lg datetimepicker" id="txt_edit_failure_datetime_out" placeholder="Date & Time..." autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="Late Date">Reason</label>
-                                <input class="form-control form-control-lg" id="txt_edit_late_reason" type="text" placeholder="" autocomplete="off">
+                                <input class="form-control form-control-lg" id="txt_edit_failure_reason" type="text" placeholder="Reason..." autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="btn_save_edit_filed_late" onclick="LATE.save_edit_late();">Save</button>
+                        <button type="button" class="btn btn-secondary" id="btn_save_edit_filed_late" onclick="FAILURE.save_edit_late();">Save</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
