@@ -1626,6 +1626,7 @@
                 "uuid"
             ],
             "time": "2019-12-01T04:55:27+00:00"
+
         },
         {
             "name": "sabberworm/php-css-parser",

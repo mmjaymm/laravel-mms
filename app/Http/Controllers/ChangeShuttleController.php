@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\ChangeShuttle;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangeShuttlePost;
+use App\Mail\EmailChangeShuttle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class ChangeShuttleController extends Controller
 {
@@ -21,8 +23,7 @@ class ChangeShuttleController extends Controller
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
             'control_number'        => $data->control_number,
-            'created_at'            => Carbon::now(),
-            'updated_at'            => Carbon::now()
+            'created_at'            => Carbon::now()
             
         ];
     }
@@ -130,7 +131,7 @@ class ChangeShuttleController extends Controller
 
     public function destroy($id, ChangeShuttle $change)
     {
-        $delete_result = $change->update_data($id, ['is_deleted' => 1]);
+        $delete_result = $change->edit_data($id, ['is_deleted' => 1]);
 
         if ($delete_result) {
             $return['result'] = true;
@@ -156,31 +157,59 @@ class ChangeShuttleController extends Controller
             'date_search'    => 'required|date_format:Y-m-d',
             'location'       => 'required'
         ]);
+
+        //return $request;
         
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
+
+        $where = [
+            'location'       => $request->location,
+            'date_search'    => $request->date_search,
+            'is_deleted'     => 0
+        ];
+
  
-        if (request()->is('change/shuttles/location')) {
-            $where = [
-                'location'       => $request->location,
-                'date_search'    => $request->date_search,
-                'is_deleted'     => 0
-            ];
-        }
-
-        if (request()->is('change/shuttles/all')) {
-            $where = [
-                'location'      => $request->location,
-                'date_search'   => $request->date_search,
-                'is_deleted'    => 'x'
-            ];
-        }
-
         $result = $change->select_data($where);
 
         return response()->json($result);
     }
 
+    public function email_changeshuttle()
+    {
+        $result = [];
+
+        $change = new ChangeShuttle();
+        $result = $change->load_all_data();
+
+        $email_to = ['arniel.casile@ph.fujitsu.com'
+        ];
+
+        return $this->email_to_ga($email_to, $result);
+        
+
+    }
+
+    private function email_to_ga($email_to, $result)
+    {
+
+        Mail::to($email_to)->send(new EmailChangeShuttle($result));
+
+       // check for failures
+        if (Mail::failures()) 
+        {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Sent';
+        } 
+        else 
+        {
+            $return['result'] = true;
+            $return['messages'] = 'Successfully Sent';
+        }
+
+       return $return;
+       
+    }
 }
 
