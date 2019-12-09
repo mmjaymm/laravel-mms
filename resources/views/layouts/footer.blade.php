@@ -54,6 +54,11 @@
         <script src="../node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
         <script src="../node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
         <script src="../node_modules/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+        <script src="../node_modules/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+        <script>
+            $('.ToDateTime').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+        </script>
+            
         {{-- <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script> --}}
         {{-- <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script> --}}
         {{-- <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script> --}}

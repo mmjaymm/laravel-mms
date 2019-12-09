@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/datatables/css/buttons.bootstrap4.css">
     <link rel="stylesheet" type="text/css" href="vendor/datatables/css/select.bootstrap4.css">
     <link rel="stylesheet" type="text/css" href="vendor/datatables/css/fixedHeader.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/jquery-datetimepicker/jquery.datetimepicker.css">
 @endsection
 
 @section('content_page')
@@ -92,11 +93,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="Failure DateTime in">DateTime In</label>
-                            <input class="form-control form-control-lg" id="txt_failure_datetime_in" type="time" placeholder="" autocomplete="off">
+                            <input class="form-control form-control-lg ToDateTime" id="txt_failure_datetime_in" placeholder="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="Late Date">DateTime Out</label>
-                            <input class="form-control form-control-lg" id="txt_failure_datetime_out" type="date" placeholder="" autocomplete="off">
+                            <input class="form-control form-control-lg ToDateTime" id="txt_failure_datetime_out" placeholder="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="Late Date">Reason</label>
