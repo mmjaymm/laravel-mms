@@ -45,7 +45,8 @@ class Overtime extends Model
 
     public function cancelled($id, $data)
     {
-        $query = Overtime::where('id', $id)->whereNotIn('ot_status', [1,2,3])->update($data);
+        $query = Overtime::where('id', $id)->whereNotIn('ot_status', [1,2,3])
+            ->update($data);
         return $query;
     }
 }

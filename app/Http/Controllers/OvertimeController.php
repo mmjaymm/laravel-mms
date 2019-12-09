@@ -257,44 +257,7 @@ class OvertimeController extends Controller
         return $result;
     }
 
-    /**
-     * @param  Request [reviewer_column = "1/2/3/4", reviewer, overtime_ids = array()]
-     * @return \Illuminate\Http\Response
-     */
-    public function approve(Request $request, Overtime $overtimes)
-    {
-        $validator = Validator::make($request->all(), [
-            'overtime_ids' => 'required|array',
-            'reviewer' => 'required',
-            'reviewer_column' => 'required|integer'
-        ]);
-        //check of failed
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
-
-        $reviewer_column = $this->get_approver_column($request->reviewer_column);
-
-        $update_data = [
-            'ot_status' => 1,
-            $reviewer_column => auth()->user()->id,
-        ];
-
-        $update_result = $overtimes->update_multiple($request->overtime_ids, $update_data);
-        $return = [];
-
-        if ($update_result > 0) {
-            $return['result'] = true;
-            $return['messages'] = 'Approved Successfully';
-        } else {
-            $return['result'] = false;
-            $return['messages'] = 'Unabled to Approve.';
-        }
-        
-        return $return;
-    }
-
-    private function get_approver_column($column_num)
+    private function _get_approver_column($column_num)
     {
         switch ($column_num) {
             case 1:
@@ -387,6 +350,79 @@ class OvertimeController extends Controller
             return ['result' => false, 'messages' => 'Email not sent!'];
         } else {
             return ['result' => true, 'messages' => 'Email sent successfully!'];
+        }
+    }
+
+    /**
+     * @param  status = "approve","decline"
+     * @param  Request [remarks (for decline only), reviewer_column = 1/2/3/4, overtime_ids = array()]
+     * @return \Illuminate\Http\Response
+     */
+    public function authorization($status, Request $request, Overtime $overtimes)
+    {
+        $return = [];
+
+        if ($status == 'approve' || $status == 'decline') {
+            $validator = Validator::make($request->all(), [
+                'overtime_ids' => 'required|array',
+                'reviewer_column' => 'required|integer'
+            ]);
+            
+            if (isset($request->remarks)) {
+                $validator->after(function ($validator) {
+                    $validator->errors()->add('remarks', 'required');
+                });
+            }
+
+            //check of failed
+            if ($validator->fails()) {
+                $return['result'] = 'data-not-valid';
+                $return['request'] = $validator->errors();
+                return response()->json($return);
+            }
+
+            $data_status = $this->_get_authorization_status($status);
+            $reviewer_column = $this->_get_approver_column($request->reviewer_column);
+
+            $update_data = [
+                'ot_status' => $data_status['ot_status'],
+                $reviewer_column => auth()->user()->id,
+            ];
+
+            $update_result = $overtimes->update_multiple($request->overtime_ids, $update_data);
+
+            if ($update_result > 0) {
+                $reviewer_email = "markjay.mercado@ph.fujitsu.com";
+                $this->email_authorization($reviewer_email, $request->overtime_ids);
+
+                $return['result'] = true;
+                $return['messages'] =  "{$data_status['message_success']} Successfully";
+            } else {
+                $return['result'] = false;
+                $return['messages'] = "Unabled to {$data_status['message_error']}.";
+            }
+        } else {
+            $return['result'] = 'uri-not-valid';
+            $return['request'] = 'URI parameter for OT status is not available.';
+        }
+
+        return response()->json($return);
+    }
+
+    private function _get_authorization_status($status)
+    {
+        switch ($status) {
+            case 'approve':
+                return ['ot_status' => 1, 'message_success' => 'Approved', 'message_error' => 'Approve'];
+                break;
+            
+            case 'decline':
+                return ['ot_status' => 2, 'message_success' => 'Declined', 'message_error' => 'Decline'];
+                break;
+
+            default:
+                return null;
+                break;
         }
     }
 }

@@ -73,13 +73,15 @@ Route::get('attendances', 'AttendanceController@index');
 //shuttle swq'update-location', 'ShuttleLocationController@edit_shuttle_location');
 
 //overtime section
-Route::post('overtime', 'OvertimeController@index');
+Route::get('overtime', 'OvertimeController@index');
 Route::post('overtime/store', 'OvertimeController@store');
 Route::post('overtime/retrieve', 'OvertimeController@retrieve');
 Route::post('overtime/sending_email/{filling_type?}', 'OvertimeController@sending_email'); //filling_type = LATE/ADVANCE
-Route::post('overtime/approve', 'OvertimeController@approve');
 Route::post('overtime/cancel/{id}', 'OvertimeController@cancel');
 Route::post('overtime/cancellation_email', 'OvertimeController@cancellation_email');
+Route::post('overtime/authorization/{status}', 'OvertimeController@authorization'); //status = approve/decline
+
+
 
 //shuttle sections
 Route::post('shuttles/', 'ShuttleLocationController@store');
