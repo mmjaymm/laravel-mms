@@ -116,7 +116,7 @@ class ChangeShuttle extends Model
                             ->join('shuttle_locations as d','c.shuttle_location_id','=','d.id')
                             ->where(\DB::raw('substr(cast(c.datetime_schedule as varchar), 0, 11)'), '=','2019-12-02')
                             ->where('c.is_deleted',0)
-                            ->select('c.id','employee_number','date','reason','shuttle_status','control_number','shuttle_location');
+                            ->select('c.id','employee_number','date',\DB::raw('substr(cast(c.datetime_schedule as varchar), 11,6) as time'),'reason','shuttle_status','control_number','shuttle_location');
 
        
         return $email_change_shuttles->get();
