@@ -19,20 +19,16 @@ class Leave extends Model
 
     public function retrieve($where = [0])
     {
-        // return Leave::where($where)
-        //                     ->get();
         return DB::table('leaves as a')
-                ->leftjoin('users as b','b.id','=','a.users_id')
-                ->leftjoin('leave_types as c','c.id','=','a.leave_type_id')
-                ->select('a.*','b.employee_number','c.leave_type','c.leave_type_code')
+                ->leftjoin('users as b', 'b.id', '=', 'a.users_id')
+                ->leftjoin('leave_types as c', 'c.id', '=', 'a.leave_type_id')
+                ->select('a.*', 'b.employee_number', 'c.leave_type', 'c.leave_type_code')
                 ->where($where)
                 ->get();
-
     }
 
     public function get_all_remaining()
     {
-
         $load = DB::connection('pgsql')->select("select  a.users_id, c.employee_number, a.leave_type_code,a.credits, COALESCE( b.leave_count, 0 ) as leave_count,COALESCE((a.credits - b.leave_count),a.credits) as remaining_leave
         from
 
@@ -52,7 +48,6 @@ class Leave extends Model
        
 
         return $load;
-
     }
 
     // public function get_leave_credits($users_id,$leave_type_id)
@@ -68,7 +63,9 @@ class Leave extends Model
 
     public function cancelled($leave_ids, $updated_data)
     {
-        return DB::table('leaves')->whereIn('id', $leave_ids)->update($updated_data);
+        return DB::table('leaves')->whereIn('id', $leave_ids)
+            ->where('status', 2)
+            ->update($updated_data);
     }
 
     public function get_users_remaining($where)
@@ -92,6 +89,5 @@ class Leave extends Model
         where a.users_id = '{$where->users_id}'");
 
         return $load;
-
     }
 }
