@@ -29,10 +29,9 @@
                 <td></td>
                 <td>{{$details->shuttle_location}}</td>
                 <td>{{$details->shuttle_location}}</td>
+                <td>{{$details->time}}</td>
                 <td></td>
-                <td></td>
-                {{-- <td>{{$details->time}}</td> --}}
-                {{-- <td>{{$details->users_id}}</td> --}}
+                {{-- <td>{{Auth::$this->users_id}}</td> --}}
             </tr>
         @endforeach
         
