@@ -49,4 +49,14 @@ class Overtime extends Model
             ->update($data);
         return $query;
     }
+
+    public function getOtStatustAttribute($attribute)
+    {
+        return [
+            0 => 'Pending',
+            1 => 'Approved',
+            2 => 'Declined',
+            3 => 'Cancelled'
+        ][$attribute];
+    }
 }

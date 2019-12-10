@@ -227,7 +227,7 @@ class AttendanceController extends Controller
             foreach ($man_power_result as $man_key => $man_value) {
                 if ($value->employee_number == $man_value->emp_pms_id) {
                     $man_data = [
-                         'last_name' => $man_value->emp_last_name,
+                        'last_name' => $man_value->emp_last_name,
                         'first_name' => $man_value->emp_first_name,
                         'middle_name' => $man_value->emp_middle_name,
                         'emp_pms_id' => $man_value->emp_pms_id,
