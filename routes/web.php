@@ -68,7 +68,6 @@ Route::post('attendances/hris_data', 'AttendanceController@show');
 Route::post('attendances/insert', 'AttendanceController@store');
 Route::get('attendances/today/email_sent', 'AttendanceController@email_sent');
 Route::get('attendances/{from}/{to}', 'AttendanceController@get_data');
-Route::get('attendances', 'AttendanceController@index');
 
 //shuttle swq'update-location', 'ShuttleLocationController@edit_shuttle_location');
 

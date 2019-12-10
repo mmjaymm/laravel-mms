@@ -24,8 +24,11 @@ class Attendance extends Model
 
     public function today($today_date)
     {
-        $attendance = DB::connection('pgsql')->table('attendances')
-            ->select('*')->where('date', $today_date);
+        $attendance = DB::connection('pgsql')
+            ->table('attendances as a')
+            ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
+            ->select('a.*', 'b.employee_number')
+            ->where('date', $today_date);
 
         return $attendance->get();
     }
@@ -40,12 +43,19 @@ class Attendance extends Model
         // return $this->belongsTo('App\Late', 'status_id');
     }
 
-    public function select_data($from, $to)
+    public function select_data($where)
     {
-        $attendance = DB::connection('pgsql')->table('attendances')
-            ->select('*')->whereBetween('date', [$from , $to]);
+        $query = DB::connection('pgsql')
+                        ->table('attendances as a')
+                        ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
+                        ->select('a.*', 'b.employee_number')
+                        ->whereBetween('a.date', [$where['date_from'], $where['date_to']]);
 
-        return $attendance->get();
+        if (count($where['condition']) > 0) {
+            $query->where($where['condition']);
+        }
+        
+        return $query->get();
     }
     
     public function select_with_users_data($select, $where)
