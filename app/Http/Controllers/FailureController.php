@@ -175,11 +175,12 @@ class FailureController extends Controller
 
         if (Auth::user()->roles->level === "USER") 
         {
-            $return = ['level' => Auth::user()->roles->level, 'data' => $failures->select_data()];
+            $where = Auth::user()->id;
+            $return = ['level' => Auth::user()->roles->level, 'data' => $failures->select_data($where)];
         } 
         else 
         {
-            $failure_data = $failures->select_data($failures);
+            $failure_data = $failures->select_data_admin($failures);
             $failure_users = $this->combine_data_to_manpower($failure_data);
             $return = ['level' => Auth::user()->roles->level, 'data' => $failure_users];
         }
