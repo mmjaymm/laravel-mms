@@ -23,7 +23,7 @@
     <!-- ============================================================== -->
     <!-- wrapper  -->
     <!-- ============================================================== -->
-    <div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
         <div class="container-fluid dashboard-content">
             <!-- ============================================================== -->
             <!-- pageheader -->
@@ -48,34 +48,33 @@
             <!-- ============================================================== -->
             <!-- end pageheader -->
             <!-- ============================================================== -->
-        </div>
-        <div class="container-fluid">
+        <div class="row">
             @if (Auth::user()->roles->level === "USER")
-            <div class="card bg-primary" style="width:300px">
-                <div class="card-header text-center bg-primary">TOTAL OVERTIME HOURS</div>
-                <div class="card-body"><h2 class="text-center text-white" id="h1_total_overtime_hours">0</h2></div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <div class="card bg-primary" style="width:300px">
+                    <div class="card-header text-center bg-primary">TOTAL OVERTIME HOURS</div>
+                    <div class="card-body"><h2 class="text-center text-white" id="h1_total_overtime_hours">0</h2></div>
+                </div>
             </div>
             @endif
             
             @if (Auth::user()->roles->level === "ADMIN")
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                    <div class="card">
-                        <h4 class="card-header bg-primary text-white">OVERTIME SUMMARY</h4>
-                        <div class="card-body">
-                            <div class="card-text">
-                                <div class="row">
-                                    <table id="tbl_overtime_summary" class="table table-bordered table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>NAME</th>
-                                                <th>TOTAL HOURS</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <div class="card">
+                    <h4 class="card-header bg-primary text-white">OVERTIME SUMMARY</h4>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div class="row">
+                                <table id="tbl_overtime_summary" class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>NAME</th>
+                                            <th>TOTAL HOURS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -83,6 +82,7 @@
             </div>
             @endif
 
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
                 <h4 class="card-header bg-primary text-white">OVERTIME</h4>
                 <div class="card-body">
@@ -140,6 +140,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-        <hr>
+    </div>
 @endsection
