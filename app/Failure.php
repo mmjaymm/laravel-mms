@@ -51,6 +51,18 @@ class Failure extends Model
                     ->table('failures as a')
                     ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
                     ->where('is_deleted',0)
+                    ->where('a.users_id',$where)
+                    ->select('a.*', 'b.employee_number');
+
+        return $failures->get();
+    }
+
+    public function select_data_admin()
+    {
+        $failures = DB::connection('pgsql')
+                    ->table('failures as a')
+                    ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
+                    ->where('is_deleted',0)
                     ->select('a.*', 'b.employee_number');
 
         return $failures->get();
