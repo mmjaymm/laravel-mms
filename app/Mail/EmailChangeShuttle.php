@@ -7,19 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Attendance extends Mailable
+class EmailChangeShuttle extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $attendances;
+    public $result;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($attendances)
+    public function __construct($result)
     {
-        $this->attendances = $attendances;
+        $this->result = $result;
     }
 
     /**
@@ -29,7 +30,6 @@ class Attendance extends Mailable
      */
     public function build()
     {
-        return $this->markdown('Emails.attendance')->with(['attendances', $this->attendances]);
-        ;
+        return $this->subject('Change Shuttle')->view('emails/change_shuttles',[$this->result]);
     }
 }

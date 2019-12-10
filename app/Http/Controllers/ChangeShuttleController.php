@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\ChangeShuttle;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangeShuttlePost;
+use App\Mail\EmailChangeShuttle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class ChangeShuttleController extends Controller
 {
+
+    private $cutoff = "15:00:00";
 
     private function datas($data)
     {
@@ -21,8 +25,7 @@ class ChangeShuttleController extends Controller
             'shuttle_status'        => $data->shuttle_status,
             'shuttle_location_id'   => $data->shuttle_location_id,
             'control_number'        => $data->control_number,
-            'created_at'            => Carbon::now(),
-            'updated_at'            => Carbon::now()
+            'created_at'            => Carbon::now()
             
         ];
     }
@@ -47,6 +50,8 @@ class ChangeShuttleController extends Controller
     */
     public function store(ChangeShuttlePost $input_request, ChangeShuttle $change)
     {
+
+        $timenow = date('H:i:s');
         
         $return = [];
 
@@ -58,26 +63,40 @@ class ChangeShuttleController extends Controller
             return response()->json($return);
         }
 
-        $lates_control_number = str_replace("MIT","",$this->latest_control_number()->control_number);
-        $input_request["control_number"] = "MIT".($lates_control_number+1);
+        if($this->timenow = $timenow <= $this->cutoff)
+        {
 
-        DB::beginTransaction();
-        
-        try {
-            //insert change shuttle
-            $change = new ChangeShuttle();
-            $input_request->except('_token');
-            $change->insert_data($this->datas($input_request));
-            DB::commit();
+            $lates_control_number = str_replace("MIT","",$this->latest_control_number()->control_number);
+            $input_request["control_number"] = "MIT".($lates_control_number+1);
 
-            $return['result'] = true;
-            $return['messages'] = 'Inserted Successfully.';
-        } catch (\Throwable $th) {
-            DB::rollback();
+            DB::beginTransaction();
+            
+            try {
+                //insert change shuttle
+                $change = new ChangeShuttle();
+                $input_request->except('_token');
+                $change->insert_data($this->datas($input_request));
+                DB::commit();
+
+                $return['result'] = true;
+                $return['messages'] = 'Inserted Successfully.';
+            } catch (\Throwable $th) {
+                DB::rollback();
+
+                $return['result'] = false;
+                $return['messages'] = 'Unable to Insert';
+            }
+
+        }
+        else
+        {
 
             $return['result'] = false;
-            $return['messages'] = 'Unable to Insert';
+            $return['messages'] = 'Cut off time!!!';
+
         }
+
+        
         
         return response()->json($return);
     }
@@ -130,7 +149,7 @@ class ChangeShuttleController extends Controller
 
     public function destroy($id, ChangeShuttle $change)
     {
-        $delete_result = $change->update_data($id, ['is_deleted' => 1]);
+        $delete_result = $change->edit_data($id, ['is_deleted' => 1]);
 
         if ($delete_result) {
             $return['result'] = true;
@@ -156,31 +175,59 @@ class ChangeShuttleController extends Controller
             'date_search'    => 'required|date_format:Y-m-d',
             'location'       => 'required'
         ]);
+
+        //return $request;
         
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
+
+        $where = [
+            'location'       => $request->location,
+            'date_search'    => $request->date_search,
+            'is_deleted'     => 0
+        ];
+
  
-        if (request()->is('change/shuttles/location')) {
-            $where = [
-                'location'       => $request->location,
-                'date_search'    => $request->date_search,
-                'is_deleted'     => 0
-            ];
-        }
-
-        if (request()->is('change/shuttles/all')) {
-            $where = [
-                'location'      => $request->location,
-                'date_search'   => $request->date_search,
-                'is_deleted'    => 'x'
-            ];
-        }
-
         $result = $change->select_data($where);
 
         return response()->json($result);
     }
 
+    public function email_changeshuttle()
+    {
+        $result = [];
+
+        $change = new ChangeShuttle();
+        $result = $change->load_all_data();
+
+        $email_to = ['arniel.casile@ph.fujitsu.com','eugene.rubio@ph.fujitsu.com'
+        ];
+
+        return $this->email_to_ga($email_to, $result);
+        
+
+    }
+
+    private function email_to_ga($email_to, $result)
+    {
+
+        Mail::to($email_to)->send(new EmailChangeShuttle($result));
+
+       // check for failures
+        if (Mail::failures()) 
+        {
+            $return['result'] = false;
+            $return['messages'] = 'Unabled to Sent';
+        } 
+        else 
+        {
+            $return['result'] = true;
+            $return['messages'] = 'Successfully Sent';
+        }
+
+        return response()->json($return);
+       
+    }
 }
 

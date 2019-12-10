@@ -171,16 +171,20 @@ class LeaveController extends Controller
      */
     public function cancelled(Request $request, Leave $leave)
     {
-        $cancel_ids = [];
         $cancelled_result = 0;
 
-        if (is_array($request->leave_data)) {
-            foreach ($request->leave_data as $key => $value) {
-                array_push($cancel_ids, $value['id']);
-            }
-
-            $cancelled_result = $leave->cancelled($cancel_ids, ['status' => 3]);
+        $validator = Validator::make($request->all(), [
+            'leave_data' => 'required|array',
+        ]);
+        
+        //check of failed
+        if ($validator->fails()) {
+            $return['result'] = 'data-not-valid';
+            $return['request'] = $validator->errors();
+            return response()->json($return);
         }
+
+        $cancelled_result = $leave->cancelled($request->leave_data, ['status' => 3]);
 
         if ($cancelled_result > 0) {
             return response()->json(['result' => true, 'message' => 'Leave Cancelled Successfully.']);
@@ -215,8 +219,6 @@ class LeaveController extends Controller
         }
 
         return $load_leave;
-
-
     }
 
     public function get_users_remaining()
@@ -249,6 +251,5 @@ class LeaveController extends Controller
         }
 
         return $load_leave;
-
     }
 }

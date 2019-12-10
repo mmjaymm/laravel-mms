@@ -90,7 +90,7 @@ const LATE = (() => {
 
         $.ajax({
             url: 'late',
-            type: 'post',
+            type: 'get',
             data: '',
             success: data => {
 
@@ -111,7 +111,7 @@ const LATE = (() => {
 
         $.ajax({
             url: 'late',
-            type: 'post',
+            type: 'delete',
             data: '',
             success: data => {
 

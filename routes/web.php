@@ -21,6 +21,7 @@
 Route::get('mms-login','PageController@view_login');
 Route::get('home','PageController@view_home');
 Route::get('list-filed-late','PageController@view_list_filed_late');
+Route::get('list-filed-failure','PageController@view_list_filed_failure');
 Route::get('list-filed-undertime','PageController@view_list_filed_undertime');
 Route::get('undertime-form','PageController@view_undertime_form');
 Route::get('leave-monitoring-record','PageController@view_list_filed_leave');
@@ -29,11 +30,11 @@ Route::get('leave-form','PageController@view_leave_form');
 
 //failure login section
 
-Route::post('failures/', 'FailureController@create');
+Route::post('failures/', 'FailureController@store');
 Route::get('failures/{id}/edit', 'FailureController@edit');
 Route::patch('failures/{id}', 'FailureController@update');
 Route::delete('failures/{id}', 'FailureController@destroy');
-Route::post('failures/all', 'FailureController@retrieve');
+Route::get('failures/all', 'FailureController@retrieve');
 Route::get('token', 'FailureController@index');
 
 //undertime section
@@ -41,10 +42,10 @@ Route::post('undertimes/', 'UndertimeController@store');
 Route::get('undertimes/{id}/edit', 'UndertimeController@edit');
 Route::patch('undertimes/{id}', 'UndertimeController@update');
 Route::delete('undertimes/{id}', 'UndertimeController@destroy');
+
 Route::get('undertimes/all', 'UndertimeController@retrieve');
 Route::get('undertimes/deleted', 'UndertimeController@retrieve');
 Route::get('undertimes/not-deleted', 'UndertimeController@retrieve');
-
 
 //leave credits section
 Route::get('leave-credits', 'LeaveCreditsController@index');
@@ -73,9 +74,14 @@ Route::get('attendances', 'AttendanceController@index');
 //shuttle swq'update-location', 'ShuttleLocationController@edit_shuttle_location');
 
 //overtime section
-Route::resource('overtime', 'OvertimeController');
+Route::get('overtime', 'OvertimeController@index');
+Route::post('overtime/store', 'OvertimeController@store');
 Route::post('overtime/retrieve', 'OvertimeController@retrieve');
-Route::post('overtime/sending_email', 'OvertimeController@sending_email');
+Route::post('overtime/sending_email/{filling_type?}', 'OvertimeController@sending_email'); //filling_type = LATE/ADVANCE
+Route::post('overtime/cancel/{id}', 'OvertimeController@cancel');
+Route::post('overtime/cancellation_email', 'OvertimeController@cancellation_email');
+Route::post('overtime/authorization/{status}', 'OvertimeController@authorization'); //status = approve/decline
+
 
 
 //shuttle sections
@@ -86,16 +92,13 @@ Route::get('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::get('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
 Route::post('shuttles/all', 'ShuttleLocationController@retrieve');
 Route::post('shuttles/users', 'ShuttleLocationController@retrieve_default_shuttle');
-Route::post('change/shuttles/insert','ChangeShuttleController@store');
-Route::post('change/shuttles/display','ChangeShuttleController@latest_control_number');
-Route::patch('change/shuttles/{id}/update', 'ChangeShuttleController@update');
-Route::delete('change/shuttles/{id}', 'ChangeShuttleController@destroy');
-Route::post('shuttles/users/today', 'ChangeShuttleController@retrieve_today');
-Route::post('change/shuttles/location', 'ChangeShuttleController@retrieve');
-Route::post('change/shuttles/all', 'ChangeShuttleController@retrieve');
-Route::get('token', 'ShuttleLocationController@index');
 
-
+Route::post('change-shuttles', 'ChangeShuttleController@store');
+Route::patch('change-shuttles/{id}', 'ChangeShuttleController@update');
+Route::delete('change-shuttles/{id}', 'ChangeShuttleController@destroy');
+Route::get('shuttles-users/today', 'ChangeShuttleController@retrieve_today');
+Route::post('change-shuttles/filter', 'ChangeShuttleController@retrieve'); //location and date/all
+Route::get('change-shuttles/send', 'ChangeShuttleController@email_changeshuttle');
 
 Route::get('attendances/validate-leave', 'AttendanceController@validation_leaves');
 
@@ -104,6 +107,7 @@ Route::post('users/login_auth', 'UserController@login_auth');
 Route::get('users/sign_out', 'UserController@sign_out');
 Route::get('users/administrator', 'UserController@administrator');
 Route::get('users/normal-users', 'UserController@users');
+
 //leave section
 Route::get('leave', 'LeaveController@index');
 Route::get('leave-load-leave', 'LeaveController@load_leave');
