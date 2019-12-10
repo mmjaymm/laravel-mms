@@ -19,6 +19,27 @@
  {{-- <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script> --}}
  {{-- <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script> --}}
 
- <script> 
+      
+<script src="../node_modules/moment/min/moment.min.js"></script>
+<script src="../node_modules/bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script>
     const _TOKEN = $('#csrf-token').attr('content');
+    const BASE_URL = "{{ URL::to('/') }}";
+
+    $('.datetimepicker').datetimepicker({
+    // Formats
+    format: 'YYYY/MM/DD hh:mm:ss',
+
+    icons: {
+        time: 'fas fa-clock-o',
+        date: 'fa fa-calendar',
+        up: 'fa fa-chevron-up',
+        down: 'fa fa-chevron-down',
+        previous: 'fa fa-chevron-left',
+        next: 'fa fa-chevron-right',
+        today: 'fa fa-check',
+        clear: 'fa fa-trash',
+        close: 'fa fa-times'
+    }
+    });
 </script>
