@@ -2,25 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Hris;
 use App\Failure;
 use App\Attendance;
 use Illuminate\Http\Request;
 use App\Http\Requests\FailurePost;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FailureController extends Controller
 {
+    public function retrieve_attendance_id()
+    {
+        $users_id = Auth::user()->id;
+
+        $attedance_id = new Failure();
+        $result = $attedance_id->attendance_id_data($users_id);
+
+        return $result;
+    }
+
+
     private function datas($data)
     {   
         $data->except('_token');
+        $latest_attendance_id = $this->retrieve_attendance_id();
         return [
             'datetime_in'       => date("Y-m-d H:i:s", strtotime($data->datetime_in)),
             'datetime_out'      => date("Y-m-d H:i:s", strtotime($data->datetime_out)),
             'reason'            => $data->reason,
-            'date_filed'         => Carbon::now(),
-            'attendances_id'    => $data->attendances_id, 
-            'users_id'          => $data->users_id
+            'date_filed'        => Carbon::now(),
+            'users_id'          => Auth::user()->id,
+            'attendances_id'    => $latest_attendance_id->id
         ];
     }
 
@@ -29,6 +43,8 @@ class FailureController extends Controller
         return csrf_token();
 
     }
+
+    
 
 
     /*
@@ -56,13 +72,12 @@ class FailureController extends Controller
         try {
             //insert failures
             
- 
             $failures->insert_failure_data($this->datas($input_request));   
             $attendance_data = [
                 'status' => 'FAILURE'
             ];
             //update status in attendance
-            $attendances->update_data($input_request->attendances_id, $attendance_data) ;
+            $attendances->update_data($input_request->id, $attendance_data) ;
             DB::commit();
 
             $return['result'] = TRUE;
@@ -157,10 +172,46 @@ class FailureController extends Controller
 
     public function retrieve(Failure $failures)
     {
-        
-        $result = $failures->select_data($failures);
 
-        return response()->json($result);
+        if (Auth::user()->roles->level === "USER") 
+        {
+            $where = Auth::user()->id;
+            $return = ['level' => Auth::user()->roles->level, 'data' => $failures->select_data($where)];
+        } 
+        else 
+        {
+            $failure_data = $failures->select_data_admin($failures);
+            $failure_users = $this->combine_data_to_manpower($failure_data);
+            $return = ['level' => Auth::user()->roles->level, 'data' => $failure_users];
+        }
+        return response()->json($return);
+    }
+
+    private function combine_data_to_manpower($data)
+    {
+        $result = [];
+        $hris = new Hris;
+        //getting man power of MIT in HRIS
+        $man_power_where = [
+            ['section_code', 'MIT'],
+            ['emp_system_status', 'ACTIVE']
+        ];
+        $man_power_result = $hris->man_power($man_power_where);
+
+        foreach ($data as $key => $value) {
+            foreach ($man_power_result as $man_key => $man_value) {
+                if ($value->employee_number == $man_value->emp_pms_id) {
+                    $man_data = [
+                        'last_name' => $man_value->emp_last_name,
+                        'first_name' => $man_value->emp_first_name,
+                        'middle_name' => $man_value->emp_middle_name,
+                    ];
+                    array_push($result, array_merge((array) $value, $man_data));
+                }
+            }
+        }
+
+        return $result;
     }
 
 }

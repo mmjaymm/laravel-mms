@@ -24,6 +24,12 @@ class PageController extends Controller
         return view('pages.attendance.late.list_of_filed_late');
     }
 
+// --------------------- FALIURE Module ----------------
+ public function view_list_filed_failure()
+ {
+     return view('pages.attendance.failure.list_of_filed_failure');
+ }   
+
 
 // --------------------- Undertime Module ------------
     public function view_list_filed_undertime()

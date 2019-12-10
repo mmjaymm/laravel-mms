@@ -12,28 +12,29 @@
 */
 
 // Route::get('home', function () {
-//     return view('home');
+//     return view('welcome');
 // });
 // Route::get('mms-login', function () {
 //     return view('login.login');
 // });
 
-Route::get('mms-login', 'PageController@view_login');
-Route::get('home', 'PageController@view_home');
-Route::get('list-filed-late', 'PageController@view_list_filed_late');
-Route::get('list-filed-undertime', 'PageController@view_list_filed_undertime');
-Route::get('undertime-form', 'PageController@view_undertime_form');
-Route::get('leave-monitoring-record', 'PageController@view_list_filed_leave');
-Route::get('leave-form', 'PageController@view_leave_form');
+Route::get('mms-login','PageController@view_login');
+Route::get('home','PageController@view_home');
+Route::get('list-filed-late','PageController@view_list_filed_late');
+Route::get('list-filed-failure','PageController@view_list_filed_failure');
+Route::get('list-filed-undertime','PageController@view_list_filed_undertime');
+Route::get('undertime-form','PageController@view_undertime_form');
+Route::get('leave-monitoring-record','PageController@view_list_filed_leave');
+Route::get('leave-form','PageController@view_leave_form');
 
 
 //failure login section
 
-Route::post('failures/', 'FailureController@create');
+Route::post('failures/', 'FailureController@store');
 Route::get('failures/{id}/edit', 'FailureController@edit');
 Route::patch('failures/{id}', 'FailureController@update');
 Route::delete('failures/{id}', 'FailureController@destroy');
-Route::post('failures/all', 'FailureController@retrieve');
+Route::get('failures/all', 'FailureController@retrieve');
 Route::get('token', 'FailureController@index');
 
 //undertime section
