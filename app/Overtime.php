@@ -33,7 +33,18 @@ class Overtime extends Model
         $query = DB::connection('pgsql')
                     ->table('over_times as a')
                     ->leftJoin('users as b', 'b.id', '=', 'a.users_id')
-                    ->select('a.*', 'b.employee_number')
+                    ->leftJoin('users as c', 'c.id', '=', 'a.reviewer_1')
+                    ->leftJoin('users as d', 'd.id', '=', 'a.reviewer_2')
+                    ->leftJoin('users as e', 'e.id', '=', 'a.reviewer_3')
+                    ->leftJoin('users as f', 'f.id', '=', 'a.reviewer_4')
+                    ->select(
+                        'a.*',
+                        'b.employee_number',
+                        'c.employee_number as reviewer_id1',
+                        'd.employee_number as reviewer_id2',
+                        'e.employee_number as reviewer_id3',
+                        'f.employee_number as reviewer_id4'
+                    )
                     ->whereBetween('a.datetime_out', [$where['date_from'], $where['date_to']]);
         
         if (count($where['condition']) > 0) {

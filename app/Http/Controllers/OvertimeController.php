@@ -239,22 +239,61 @@ class OvertimeController extends Controller
             ['section_code', 'MIT'],
             ['emp_system_status', 'ACTIVE']
         ];
-        $man_power_result = $hris->man_power($man_power_where);
+        $man_power_result = (array) $hris->man_power($man_power_where);
+        $reviewer_name1 = null;
+        $a = 0;
+        $data = $data->toArray();
+        
+        // foreach ($data as $value) {
+        // foreach ($man_power_result as $man_key => $man_value) {
+        //     if ($value->reviewer_id1 == $man_value->emp_pms_id) {
+        //         $man_data = [
+        //             'reviewer_name1' => $man_value->emp_last_name.', '.$man_value->emp_first_name
+        //         ];
+                    
+        //         array_push($result, array_merge((array) $value, $man_data));
+        //     }
+        // }
 
-        foreach ($data as $key => $value) {
-            foreach ($man_power_result as $man_key => $man_value) {
-                if ($value->employee_number == $man_value->emp_pms_id) {
-                    $man_data = [
-                        'last_name' => $man_value->emp_last_name,
-                        'first_name' => $man_value->emp_first_name,
-                        'middle_name' => $man_value->emp_middle_name,
-                    ];
-                    array_push($result, array_merge((array) $value, $man_data));
-                }
+        // foreach ((array) $man_power_result as $man_key => $man_value) {
+        // if ($value[$key]['employee_number'] == $man_value[$man_key]['emp_pms_id']) {
+        // $man_data = [
+        //     'last_name' => $man_value[$man_key]['emp_last_name'],
+        //     'first_name' => $man_value[$man_key]['emp_first_name'],
+        //     'middle_name' => $man_value[$man_key]['emp_middle_name']
+        // ];
+                
+        // array_merge($value, $man_data);
+
+        // array_push($result, $a++);
+                    
+        // array_push($result, array_merge((array) $value, $man_data));
+        // }
+
+        // if ($value->reviewer_id1 == $man_value->emp_pms_id) {
+        //     $man_data = [
+        //             'reviewer_name1' => $man_value->emp_last_name.', '.$man_value->emp_first_name
+        //         ];
+                    
+        //     array_push($result, array_merge((array) $value, $man_data));
+        // }
+        // }
+        // }
+
+        return $data;
+    }
+
+    private function _get_reviewer_name($result, $value, $man_power_result)
+    {
+        foreach ($man_power_result as $man_key => $man_value) {
+            if ($value->reviewer_id1 == $man_value->emp_pms_id) {
+                $man_data = [
+                    'reviewer_name1' => $man_value->emp_last_name.', '.$man_value->emp_first_name
+                ];
+                    
+                array_push($result, array_merge((array) $value, $man_data));
             }
         }
-
-        return $result;
     }
 
     private function _get_approver_column($column_num)
